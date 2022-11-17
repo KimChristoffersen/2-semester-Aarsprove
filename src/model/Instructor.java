@@ -1,11 +1,11 @@
 package model;
 
 public class Instructor extends Person {
-	private String instructorId;
+	private int instructorId;
 	private boolean status;
 
 	public Instructor(String firstName, String lastName, String address, String postalCode, String city, String phone,
-			String email, String instructorId, boolean status) {
+			String email, int instructorId, boolean status) {
 
 		super(firstName, lastName, address, postalCode, city, phone, email);
 		this.instructorId = instructorId;
@@ -13,7 +13,7 @@ public class Instructor extends Person {
 	}
 
 	// GETTERS
-	public String getInstructorId() {
+	public int getInstructorId() {
 		return instructorId;
 	}
 
@@ -22,7 +22,7 @@ public class Instructor extends Person {
 	}
 
 	// SETTERS
-	public void setInstructorId(String instructorId) {
+	public void setInstructorId(int instructorId) {
 		this.instructorId = instructorId;
 	}
 

@@ -1,17 +1,17 @@
 package model;
 
 public class ShootingRange {
-	private String shootingRangeId;
+	private int shootingRangeId;
 	private boolean status;
 	
-	public ShootingRange(String shootingRangeId, boolean status) {
+	public ShootingRange(int shootingRangeId, boolean status) {
 		this.shootingRangeId = shootingRangeId;
 		this.status = status;
 	}
 
 	
 	//GETTERS
-	public String getShootingRangeId() {
+	public int getShootingRangeId() {
 		return shootingRangeId;
 	}
 
@@ -20,7 +20,7 @@ public class ShootingRange {
 	}
 
 	//SETTERS
-	public void setShootingRangeId(String shootingRangeId) {
+	public void setShootingRangeId(int shootingRangeId) {
 		this.shootingRangeId = shootingRangeId;
 	}
 

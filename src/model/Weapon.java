@@ -2,14 +2,14 @@ package model;
 
 public class Weapon {
 	
-private String weaponId;
+private int weaponId;
 private String weaponName;
 private String weaponType;
 private String ammunitionType;
 private boolean status;
 
 
-public Weapon(String weaponId, String weaponName, String weaponType, String ammunitionType, boolean status) {
+public Weapon(int weaponId, String weaponName, String weaponType, String ammunitionType, boolean status) {
 	this.weaponId = weaponId;
 	this.weaponName = weaponName;
 	this.weaponType = weaponType;
@@ -18,7 +18,7 @@ public Weapon(String weaponId, String weaponName, String weaponType, String ammu
 }
 
 //GETTERS
-public String getWeaponId() {
+public int getWeaponId() {
 	return weaponId;
 }
 
@@ -43,7 +43,7 @@ public boolean getStatus() {
 }
 
 //SETTERS
-public void setWeaponId(String weaponId) {
+public void setWeaponId(int weaponId) {
 	this.weaponId = weaponId;
 }
 

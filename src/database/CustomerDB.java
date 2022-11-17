@@ -16,10 +16,10 @@ public class CustomerDB implements CustomerDBIF {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 	}
 
-	public Customer findCustomerById(String id) throws DataAccessException, SQLException {
+	public Customer findCustomerById(int id) throws DataAccessException, SQLException {
 		Customer res = null;
 		try {
-			findByIdPS.setString(1, id);
+			findByIdPS.setInt(1, id);
 			ResultSet rs = findByIdPS.executeQuery();
 			if (rs.next()) {
 				res = buildObject(rs);
@@ -37,7 +37,7 @@ public class CustomerDB implements CustomerDBIF {
 //		return c;
 		Customer currentCustomer = new Customer();
 		try {
-			currentCustomer.setCustomerId(rs.getString("customer_Id"));
+			currentCustomer.setCustomerId(rs.getInt("customer_Id"));
 			currentCustomer.setFirstName(rs.getString("fName"));
 			currentCustomer.setLastName(rs.getString("lName"));
 			currentCustomer.setAddress(rs.getString("address"));

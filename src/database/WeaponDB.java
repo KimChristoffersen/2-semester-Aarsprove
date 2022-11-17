@@ -9,7 +9,7 @@ import model.Weapon;
 
 public class WeaponDB implements WeaponDBIF {
 
-	private static final String FIND_BY_ID_Q = "select * from instructor where instructor_id = ?";
+	private static final String FIND_BY_ID_Q = "select * from weapon where weapon_id = ?";
 
 	private PreparedStatement findByIdPS;
 

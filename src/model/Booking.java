@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 
 public class Booking {
 	
-	private Long bookingNumber;
+	private int bookingNumber;
 	private LocalDateTime creationDate;
 	private double priceTotal;
 	private LocalDateTime timeSlot;
 	
 	
-	public Booking(Long bookingNumber, LocalDateTime creationDate, double priceTotal, LocalDateTime timeSlot) {
+	public Booking(int bookingNumber, LocalDateTime creationDate, double priceTotal, LocalDateTime timeSlot) {
 		this.bookingNumber = bookingNumber;
 		this.creationDate = creationDate;
 		this.priceTotal = priceTotal;
@@ -18,7 +18,7 @@ public class Booking {
 	}
 
 //GETTERS
-	public Long getBookingNumber() {
+	public int getBookingNumber() {
 		return bookingNumber;
 	}
 
@@ -39,7 +39,7 @@ public class Booking {
 
 	
 	//SETTERS
-	public void setBookingNumber(Long bookingNumber) {
+	public void setBookingNumber(int bookingNumber) {
 		this.bookingNumber = bookingNumber;
 	}
 

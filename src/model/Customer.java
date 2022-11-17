@@ -2,25 +2,27 @@ package model;
 
 public class Customer extends Person {
 
-	private String customerId;
-	
+	private int customerId;
 
+	public Customer() {
+		super();
+	}
 
 	public Customer(String firstName, String lastName, String address, String postalCode, String city, String phone,
-			String email, String customerId) {
+			String email, int customerId) {
 		super(firstName, lastName, address, postalCode, city, phone, email);
-		
+
 		this.customerId = customerId;
 
 	}
 
 	// GETTERS
-	public String getCustomerId() {
+	public int getCustomerId() {
 		return customerId;
 	}
 
-	//SETTERS
-	public void setCustomerId(String customerId) {
+	// SETTERS
+	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
 	}
 

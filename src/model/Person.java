@@ -10,6 +10,9 @@ public class Person {
 	private String phone;
 	private String email;
 
+	public Person() {
+	}
+
 	public Person(String firstName, String lastName, String address, String postalCode, String city, String phone,
 			String email) {
 

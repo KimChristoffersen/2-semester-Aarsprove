@@ -26,7 +26,7 @@ public class CustomerDB implements CustomerDBIF {
 			}
 
 		} catch (SQLException e) {
-			throw new DataAccessException("Could not retrieve Customer", e);
+			throw new DataAccessException("Could not retrieve customer", e);
 		}
 
 		return res;
@@ -48,7 +48,7 @@ public class CustomerDB implements CustomerDBIF {
 
 		} catch (SQLException e) {
 
-			throw new DataAccessException("Could not retrieve Customer", e);
+			throw new DataAccessException("Could not retrieve customer", e);
 		}
 		return currentCustomer;
 

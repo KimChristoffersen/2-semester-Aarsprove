@@ -1,14 +1,18 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
 
 public class Price {
-	private LocalDateTime startDate;
+	private LocalDate startDate;
 	private double price;
 	
-	public Price(LocalDateTime startDate, double price) {
+	
+	public Price() {
+		
+	}
+	
+	public Price(LocalDate startDate, double price) {
 	
 		this.startDate = startDate;
 		this.price = price;
@@ -16,7 +20,7 @@ public class Price {
 
 	
 	//GETTERS
-	public LocalDateTime getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
@@ -26,7 +30,7 @@ public class Price {
 
 
 	//SETTERS
-	public void setStartDate(LocalDateTime startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 

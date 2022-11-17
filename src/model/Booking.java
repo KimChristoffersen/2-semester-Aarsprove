@@ -1,20 +1,26 @@
 package model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Booking {
 	
 	private int bookingNumber;
-	private LocalDateTime creationDate;
+	private LocalDate creationDate;
 	private double priceTotal;
-	private LocalDateTime timeSlot;
+	private LocalDate date;
+	private LocalTime time;
+	
+	public Booking() {}
 	
 	
-	public Booking(int bookingNumber, LocalDateTime creationDate, double priceTotal, LocalDateTime timeSlot) {
+	public Booking(int bookingNumber, LocalDate creationDate, double priceTotal, LocalDate date, LocalTime time) {
 		this.bookingNumber = bookingNumber;
 		this.creationDate = creationDate;
 		this.priceTotal = priceTotal;
-		this.timeSlot = timeSlot;
+		this.date = date;
+		this.time = time;
 	}
 
 //GETTERS
@@ -23,7 +29,7 @@ public class Booking {
 	}
 
 
-	public LocalDateTime getCreationDate() {
+	public LocalDate getCreationDate() {
 		return creationDate;
 	}
 
@@ -33,17 +39,22 @@ public class Booking {
 	}
 
 
-	public LocalDateTime getTimeSlot() {
-		return timeSlot;
+	public LocalDate getDate() {
+		return date;
+	}
+	
+	
+	public LocalTime getTime() {
+		return time;
 	}
 
-	
+
 	//SETTERS
 	public void setBookingNumber(int bookingNumber) {
 		this.bookingNumber = bookingNumber;
 	}
 
-	public void setCreationDate(LocalDateTime creationDate) {
+	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -51,12 +62,16 @@ public class Booking {
 		this.priceTotal = priceTotal;
 	}
 
-	public void setTimeSlot(LocalDateTime timeSlot) {
-		this.timeSlot = timeSlot;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
-	
-	
+
+	public void setTime(LocalTime time) {
+		this.time = time;
+	}
+
+
 	
 	
 }

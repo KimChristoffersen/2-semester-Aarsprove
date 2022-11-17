@@ -3,6 +3,10 @@ package model;
 public class Instructor extends Person {
 	private int instructorId;
 	private boolean status;
+	
+	public Instructor() {
+		super();
+	}
 
 	public Instructor(String firstName, String lastName, String address, String postalCode, String city, String phone,
 			String email, int instructorId, boolean status) {

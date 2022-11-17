@@ -4,6 +4,10 @@ public class ShootingRange {
 	private int shootingRangeId;
 	private boolean status;
 	
+	public ShootingRange() {
+		
+	}
+	
 	public ShootingRange(int shootingRangeId, boolean status) {
 		this.shootingRangeId = shootingRangeId;
 		this.status = status;

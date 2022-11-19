@@ -20,13 +20,16 @@ public class PriceDB implements PriceDBIF {
 	public Price findPriceById(int id) throws DataAccessException, SQLException {
 		Price res = null;
 		try {
+			DBConnection.getInstance().startTransaction();
 			findByIdPS.setInt(1, id);
 			ResultSet rs = findByIdPS.executeQuery();
 			if (rs.next()) {
 				res = buildObject(rs);
 			}
+			DBConnection.getInstance().commitTransaction();
 
 		} catch (SQLException e) {
+			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Could not retrieve price", e);
 		}
 

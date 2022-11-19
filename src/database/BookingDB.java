@@ -30,13 +30,16 @@ public class BookingDB implements BookingDBIF {
 	public Booking findBookingByNumber(int id) throws DataAccessException, SQLException {
 		Booking res = null;
 		try {
+			DBConnection.getInstance().startTransaction();
 			findByIdPS.setInt(1, id);
 			ResultSet rs = findByIdPS.executeQuery();
 			if (rs.next()) {
 				res = buildObject(rs);
 			}
+			DBConnection.getInstance().commitTransaction();
 
 		} catch (SQLException e) {
+			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Could not retrieve booking", e);
 		}
 
@@ -68,21 +71,18 @@ public class BookingDB implements BookingDBIF {
 	public Booking createBooking(Booking booking) throws DataAccessException {
 		
 		try {
+			DBConnection.getInstance().startTransaction();
 			insertPS.setInt(1, booking.getBookingNumber());
 			insertPS.setDate(2, Date.valueOf(booking.getCreationDate()));
 			insertPS.setDouble(3, booking.getPriceTotal());
 			insertPS.setDate(4, Date.valueOf(booking.getDate()));
 			insertPS.setTime(5, Time.valueOf(booking.getTime()));
-						
-			
-		} catch (SQLException e) {
-			
-			throw new DataAccessException("Booking could not be created", e);
-		}
-		try {
 			insertPS.executeUpdate();
-		} catch (SQLException e) {
-			
+		
+		DBConnection.getInstance().commitTransaction();
+	}
+		catch (SQLException e) {
+			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Booking could not be created", e);
 		}
 

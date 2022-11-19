@@ -45,6 +45,8 @@ public class DBConnection {
 		return dbConnection;
 	}
 
+	
+	
 	public void startTransaction() throws DataAccessException {
 		try {
 			connection.setAutoCommit(false);
@@ -81,6 +83,20 @@ public class DBConnection {
 		}
 	}
 
+
+
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void disconnect() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 //	INSERT WITH IDENTITY
 //	public int executeInsertWithIdentity(String sql) throws DataAccessException {
 //		System.out.println("DBConnection, Inserting: " + sql);
@@ -116,16 +132,4 @@ public class DBConnection {
 //		}
 //		return res;
 //	}
-
-	public Connection getConnection() {
-		return connection;
-	}
-
-	public void disconnect() {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 }

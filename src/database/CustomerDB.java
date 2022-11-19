@@ -19,13 +19,16 @@ public class CustomerDB implements CustomerDBIF {
 	public Customer findCustomerById(int id) throws DataAccessException, SQLException {
 		Customer res = null;
 		try {
+			DBConnection.getInstance().startTransaction();
 			findByIdPS.setInt(1, id);
 			ResultSet rs = findByIdPS.executeQuery();
 			if (rs.next()) {
 				res = buildObject(rs);
 			}
+			DBConnection.getInstance().commitTransaction();
 
 		} catch (SQLException e) {
+			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Could not retrieve customer", e);
 		}
 

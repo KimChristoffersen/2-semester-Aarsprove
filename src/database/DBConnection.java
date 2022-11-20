@@ -16,7 +16,7 @@ public class DBConnection {
 	private static final String dbName = "DMA-CSD-V221_10434668";
 	private static final String serverAddress = "hildur.ucn.dk";
 	private static final int serverPort = 1433;
-	private static final String userName = "DMA-CSD-V221_10142287";
+	private static final String userName = "DMA-CSD-V221_10434668";
 	private static final String password = "Password1!";
 	private static final String encryption = "encrypt=false";
 

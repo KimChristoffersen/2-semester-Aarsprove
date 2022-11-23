@@ -5,11 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import database.DataAccessException;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.sql.SQLException;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -90,7 +94,7 @@ public class MainUI extends JFrame {
 		panelCenterStart.add(start, BorderLayout.CENTER);
 	}
 	
-	public void bookingWithInstructorAndLentWeapon() {
+	public void bookingWithInstructorAndLentWeapon() throws SQLException, DataAccessException {
 		//
 		panelSouth.setLayout(new GridLayout(0, 3, 10, 10));
 		panelSouth.add(btnStatusWeapon);

@@ -10,8 +10,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
+
+import database.DataAccessException;
 
 public class Start extends JPanel {
 	private MainUI mainUI;
@@ -75,7 +78,17 @@ public class Start extends JPanel {
 		
 		JButton btnBooking_BookingWithInstructorAndLentWeapon = new JButton("<html><center><font size=\"4\"><b>BOOKING AF BANE</b><br></font> med instrukt\u00F8r <br> og l\u00E5nev\u00E5ben  </center></html>");
 		btnBooking_BookingWithInstructorAndLentWeapon.setFocusable(false);
-		btnBooking_BookingWithInstructorAndLentWeapon.addActionListener(e -> bookingWithInstructorAndWeapon());
+		btnBooking_BookingWithInstructorAndLentWeapon.addActionListener(e -> {
+			try {
+				bookingWithInstructorAndWeapon();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (DataAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		btnBooking_BookingWithInstructorAndLentWeapon.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnBooking_BookingWithInstructorAndLentWeapon.setForeground(Color.WHITE);
 		btnBooking_BookingWithInstructorAndLentWeapon.setBackground(new Color(0, 94, 150));
@@ -97,7 +110,7 @@ public class Start extends JPanel {
 
 	}
 
-	private void bookingWithInstructorAndWeapon() {
+	private void bookingWithInstructorAndWeapon() throws SQLException, DataAccessException {
 		mainUI.bookingWithInstructorAndLentWeapon();
 	}
 }

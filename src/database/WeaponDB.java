@@ -3,18 +3,36 @@ package database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Weapon;
 
 public class WeaponDB implements WeaponDBIF {
 
-	private static final String FIND_BY_ID_Q = "select * from weapon where weapon_id = ?";
+	private static final String FIND_BY_ID_Q = "select weaponid, weaponname, weapontype, ammunitiontype, status from weapon, weapontype, ammunitiontype";
+	private static final String FIND_ALL_Q = "select weaponid, weaponname, weapontype, ammunitiontype, status from weapon, weapontype, ammunitiontype where status = 1";
 
 	private PreparedStatement findByIdPS;
+	private PreparedStatement findAll;
 
 	public WeaponDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
+		findAll = DBConnection.getInstance().getConnection().prepareStatement(FIND_ALL_Q);
+	}
+
+	public List<Weapon> findAll() throws DataAccessException, SQLException {
+		ResultSet rs;
+		try {
+			DBConnection.getInstance().startTransaction();
+			rs = findAll.executeQuery();
+			DBConnection.getInstance().commitTransaction();
+		} catch (SQLException e) {
+			DBConnection.getInstance().rollbackTransaction();
+			throw new DataAccessException("Could not retrieve any weapons", e);
+		}
+		List<Weapon> weapons = buildObjects(rs);
+		return weapons;
 	}
 
 	public Weapon findWeaponById(int id) throws DataAccessException, SQLException {
@@ -27,17 +45,14 @@ public class WeaponDB implements WeaponDBIF {
 				res = buildObject(rs);
 			}
 			DBConnection.getInstance().commitTransaction();
-
 		} catch (SQLException e) {
 			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Could not retrieve weapon", e);
 		}
-
 		return res;
 	}
 
-	public Weapon buildObject(ResultSet rs) throws DataAccessException {
-
+	private Weapon buildObject(ResultSet rs) throws DataAccessException {
 		Weapon currentWeapon = new Weapon();
 		try {
 			currentWeapon.setWeaponId(rs.getInt("weaponId"));
@@ -45,14 +60,23 @@ public class WeaponDB implements WeaponDBIF {
 			currentWeapon.setWeaponType(rs.getString("weaponType"));
 			currentWeapon.setAmmunitionType(rs.getString("ammunitionType"));
 			currentWeapon.setStatus(rs.getBoolean("status"));
+//			boolean weaponStatus = false;
+//			if(rs.getInt("status") == 1) weaponStatus = true; 
+//			currentWeapon.setStatus(weaponStatus);
 			
-
 		} catch (SQLException e) {
 
 			throw new DataAccessException("Could not retrieve weapon", e);
 		}
 		return currentWeapon;
+	}
 
+	private List<Weapon> buildObjects(ResultSet rs) throws SQLException, DataAccessException {
+		List<Weapon> weapons = new ArrayList<>();
+		while (rs.next()) {
+			weapons.add(buildObject(rs));
+		}
+		return weapons;
 	}
 
 }

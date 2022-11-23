@@ -1,11 +1,11 @@
 package database;
 
-import java.sql.ResultSet;
-
+import java.sql.SQLException;
+import java.util.List;
 
 import model.Weapon;
 
 public interface WeaponDBIF {
-	
-	Weapon buildObject(ResultSet rs) throws DataAccessException;		
+	Weapon findWeaponById(int id) throws DataAccessException, SQLException;
+	List<Weapon> findAll() throws DataAccessException, SQLException;
 }

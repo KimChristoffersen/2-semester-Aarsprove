@@ -111,6 +111,7 @@ public class Start extends JPanel {
 	}
 
 	private void bookingWithInstructorAndWeapon() throws SQLException, DataAccessException {
-		mainUI.bookingWithInstructorAndLentWeapon();
+		mainUI.createBookingWithWeaponAndInstructor();
+		
 	}
 }

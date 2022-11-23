@@ -16,7 +16,11 @@ public class WeaponController {
 		weaponDB = new WeaponDB();
 	}
 	
-	public List<Weapon> getWeapons() throws DataAccessException, SQLException{
+	public List<Weapon> findAll() throws DataAccessException, SQLException{
 		return weaponDB.findAll();
+	}
+
+	public Weapon findById(int weaponId) throws DataAccessException, SQLException {
+		return weaponDB.findWeaponById(weaponId);
 	}
 }

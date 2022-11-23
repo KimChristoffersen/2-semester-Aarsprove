@@ -5,51 +5,75 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Booking {
-	
+
 	private int bookingNumber;
 	private LocalDate creationDate;
 	private double priceTotal;
 	private LocalDate date;
 	private LocalTime time;
-	
-	public Booking() {}
-	
-	
-	public Booking(int bookingNumber, LocalDate creationDate, double priceTotal, LocalDate date, LocalTime time) {
+	private Customer customer;
+	private ShootingRange shootingRange;
+	private Weapon weapon;
+	private Instructor instructor;
+
+	public Booking() {
+	}
+
+	public Booking(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Booking(int bookingNumber, LocalDate creationDate, double priceTotal, LocalDate date, LocalTime time,
+			Customer customer, ShootingRange shootingRange, Weapon weapon, Instructor instructor) {
 		this.bookingNumber = bookingNumber;
 		this.creationDate = creationDate;
 		this.priceTotal = priceTotal;
 		this.date = date;
 		this.time = time;
+		this.customer = customer;
+		this.shootingRange = shootingRange;
+		this.weapon = weapon;
+		this.instructor = instructor;
 	}
 
-//GETTERS
+	// GETTERS
 	public int getBookingNumber() {
 		return bookingNumber;
 	}
-
 
 	public LocalDate getCreationDate() {
 		return creationDate;
 	}
 
-
 	public double getPriceTotal() {
 		return priceTotal;
 	}
 
-
 	public LocalDate getDate() {
 		return date;
 	}
-	
-	
+
 	public LocalTime getTime() {
 		return time;
 	}
 
+	public Customer getCustomer() {
+		return customer;
+	}
 
-	//SETTERS
+	public ShootingRange getShootingRange() {
+		return shootingRange;
+	}
+
+	public Weapon getWeapon() {
+		return weapon;
+	}
+
+	public Instructor getInstructor() {
+		return instructor;
+	}
+
+	// SETTERS
 	public void setBookingNumber(int bookingNumber) {
 		this.bookingNumber = bookingNumber;
 	}
@@ -66,12 +90,24 @@ public class Booking {
 		this.date = date;
 	}
 
-
 	public void setTime(LocalTime time) {
 		this.time = time;
 	}
 
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
-	
-	
+	public void setShootingRange(ShootingRange shootingRange) {
+		this.shootingRange = shootingRange;
+	}
+
+	public void setWeapon(Weapon weapon) {
+		this.weapon = weapon;
+	}
+
+	public void setInstructor(Instructor instructor) {
+		this.instructor = instructor;
+	}
+
 }

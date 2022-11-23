@@ -2,10 +2,8 @@ package ui;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
-import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
@@ -91,7 +89,8 @@ public class WeaponChoice extends JPanel {
 	private void selectWeapon() throws DataAccessException, SQLException {
 		int selectedWeapon = table.getSelectedRow();
 		if (selectedWeapon != -1) {
-			mainUI.timeChoice();
+			int weaponId = Integer.parseInt((String) table.getValueAt(selectedWeapon, 4));
+			mainUI.addWeapon(weaponId);
 			updateTable();
 		} else {
 			JOptionPane.showMessageDialog(panelCenter, "Intet våben valgt");
@@ -106,9 +105,9 @@ public class WeaponChoice extends JPanel {
 	private void updateTable() throws DataAccessException, SQLException {
 		WeaponTableModel wtm = new WeaponTableModel(weaponController);
 		this.table.setModel(wtm);
-		List<Weapon> data = weaponController.getWeapons();
+		List<Weapon> data = weaponController.findAll();
 		wtm.setData(data);
-		setTableAlign(); // se kode fra semesterprojekt 1
+		setTableAlign();
 	}
 
 	private void setTableAlign() {
@@ -121,6 +120,7 @@ public class WeaponChoice extends JPanel {
 		table.getColumnModel().getColumn(1).setHeaderRenderer(headerLeftRenderer);
 		table.getColumnModel().getColumn(2).setHeaderRenderer(headerLeftRenderer);
 		table.getColumnModel().getColumn(3).setHeaderRenderer(headerLeftRenderer);
+		table.getColumnModel().getColumn(4).setHeaderRenderer(headerLeftRenderer);
 
 		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
 		leftRenderer.setHorizontalAlignment(JLabel.LEFT);
@@ -129,6 +129,6 @@ public class WeaponChoice extends JPanel {
 		table.getColumnModel().getColumn(1).setCellRenderer(leftRenderer);
 		table.getColumnModel().getColumn(2).setCellRenderer(leftRenderer);
 		table.getColumnModel().getColumn(3).setCellRenderer(leftRenderer);
+		table.getColumnModel().getColumn(4).setCellRenderer(leftRenderer);
 	}
-
 }

@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.BookingController;
 import database.DataAccessException;
+import model.Customer;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -33,6 +35,8 @@ public class MainUI extends JFrame {
 	private BookingConfirmation bookingConfirmation;
 	private JPanel panelCenterBooking;
 	private JPanel panelSouth;
+	private BookingController bookingController;
+
 	/**
 	 * Launch the application.
 	 */
@@ -51,8 +55,10 @@ public class MainUI extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws DataAccessException 
+	 * @throws SQLException 
 	 */
-	public MainUI() {
+	public MainUI() throws SQLException, DataAccessException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
@@ -60,47 +66,54 @@ public class MainUI extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panelNorth = new JPanel();
 		panelNorth.setPreferredSize(new Dimension(10, 50));
 		contentPane.add(panelNorth, BorderLayout.NORTH);
 		panelNorth.setLayout(new GridLayout(0, 1, 0, 0));
-		
+
 		JLabel lblNewLabel = new JLabel("\u00D8STJYSK V\u00C5BENHANDEL BOOKINGSYSTEM");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		panelNorth.add(lblNewLabel);
-		
+
 		panelSouth = new JPanel();
 		contentPane.add(panelSouth, BorderLayout.SOUTH);
-		
+
 		btnStatusWeapon = new JButton("V\u00E5benvalg");
 		btnStatusWeapon.setPreferredSize(new Dimension(180, 40));
 		btnStatusWeapon.setFont(new Font("Tahoma", Font.BOLD, 18));
-		
+
 		btnStatusTime = new JButton("Tidsvalg");
 		btnStatusTime.setPreferredSize(new Dimension(180, 40));
 		btnStatusTime.setFont(new Font("Tahoma", Font.BOLD, 18));
-		
+
 		btnStatusConfirmation = new JButton("Godkend");
 		btnStatusConfirmation.setPreferredSize(new Dimension(180, 40));
 		btnStatusConfirmation.setFont(new Font("Tahoma", Font.BOLD, 18));
-		
+
 		panelCenterStart = new JPanel();
 		contentPane.add(panelCenterStart, BorderLayout.CENTER);
 		panelCenterStart.setLayout(new GridLayout(1, 0, 0, 0));
-		
+
 		start = new Start(this);
 		panelCenterStart.add(start, BorderLayout.CENTER);
+		
+		init();
 	}
-	
-	public void bookingWithInstructorAndLentWeapon() throws SQLException, DataAccessException {
+
+	private void init() throws SQLException, DataAccessException {
+		bookingController = new BookingController();
+		
+	}
+
+	public void createBookingWithWeaponAndInstructor() throws SQLException, DataAccessException {
 		//
 		panelSouth.setLayout(new GridLayout(0, 3, 10, 10));
 		panelSouth.add(btnStatusWeapon);
 		panelSouth.add(btnStatusTime);
 		panelSouth.add(btnStatusConfirmation);
-	
+
 		panelCenterStart.hide();
 		panelCenterWeapon = new JPanel();
 		contentPane.add(panelCenterWeapon, BorderLayout.CENTER);
@@ -108,9 +121,13 @@ public class MainUI extends JFrame {
 		weaponChoice = new WeaponChoice(this);
 		panelCenterWeapon.add(weaponChoice, BorderLayout.CENTER);
 		btnStatusWeapon.setBackground(Color.GREEN);
+		
+		Customer customer = new Customer();	// HARDCODE CUSTOMER
+		customer.setFirstName("Lasse");		// MAYBE REMOVE??
+		bookingController.createBooking(customer);	
 	}
-	
-	public void timeChoice() {
+
+	public void addWeapon(int weaponId) throws DataAccessException, SQLException {
 		panelCenterWeapon.hide();
 		panelCenterTime = new JPanel();
 		contentPane.add(panelCenterTime, BorderLayout.CENTER);
@@ -119,8 +136,10 @@ public class MainUI extends JFrame {
 		panelCenterTime.add(timeChoice, BorderLayout.CENTER);
 		btnStatusWeapon.setEnabled(true);
 		btnStatusTime.setBackground(Color.GREEN);
+
+		bookingController.addWeapon(weaponId);
 	}
-	
+
 	public void bookingConfirmation() {
 		panelCenterTime.disable();
 		panelCenterBooking = new JPanel();

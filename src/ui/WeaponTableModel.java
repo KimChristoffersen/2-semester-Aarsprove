@@ -14,7 +14,7 @@ public class WeaponTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	private List<Weapon> data;
 	private WeaponController weaponController;
-	private static final String[] NAMES = {"Navn", "Type"};
+	private static final String[] NAMES = {"Navn", "Type", "Våbentype", "Ammunitionstype"};
 	
 	public WeaponTableModel(WeaponController weaponController) {
 		data = new ArrayList<>();
@@ -48,6 +48,8 @@ public class WeaponTableModel extends AbstractTableModel{
 		switch(col) {
 			case 0: return weapon.getWeaponName();
 			case 1: return weapon.getWeaponType();
+			case 2: return weapon.getWeaponType();
+			case 3: return weapon.getAmmunitionType();
 			default: return "Something went odd in the pipe";
 		}
 	}

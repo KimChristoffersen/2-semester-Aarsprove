@@ -98,7 +98,6 @@ public class BookingDB implements BookingDBIF {
 	public List<Integer> getAvailableShootingRangeIds(LocalDate date, int time) throws DataAccessException { 
 		List<Integer> availShootingRanges = new LinkedList<>();
 		try {
-			DBConnection.getInstance().startTransaction();
 			Date sqlDate = Date.valueOf(date);
 			findAvailableShootingRanges.setDate(1, sqlDate);
 			findAvailableShootingRanges.setInt(2, time);
@@ -107,10 +106,7 @@ public class BookingDB implements BookingDBIF {
 				int shootingRange_Id = 0;
 				availShootingRanges.add(rs.getInt("shootingRange_Id"));
 			}
-			DBConnection.getInstance().commitTransaction();
-
 		} catch (SQLException e) {
-			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Could not retrieve shootingRanges", e);
 		}
 		

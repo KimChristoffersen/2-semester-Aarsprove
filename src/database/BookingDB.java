@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 
 import model.Booking;
 
@@ -14,15 +16,19 @@ public class BookingDB implements BookingDBIF {
 
 	private static final String FIND_BY_ID_Q = "select * from booking where bookingnumber = ?";
 	private static final String INSERT_Q = "insert into booking (bookingNumber, creationDate, priceTotal, date, time) values (?, ?, ?, ?, ?)";
-	
+	private static final String FINDAVAILABLESHOOTINGRANGES_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
+
 
 	private PreparedStatement findByIdPS;
 	private PreparedStatement insertPS;
-	
+	private PreparedStatement findAvailableShootingRanges;
+
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q);
+		findAvailableShootingRanges = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
+
 	}
 
 	
@@ -89,6 +95,28 @@ public class BookingDB implements BookingDBIF {
 		return booking;
 	}
 	
+	public List<Integer> getAvailableShootingRangeIds(LocalDate date, int time) throws DataAccessException { 
+		List<Integer> availShootingRanges = new LinkedList<>();
+		try {
+			DBConnection.getInstance().startTransaction();
+			Date sqlDate = Date.valueOf(date);
+			findAvailableShootingRanges.setDate(1, sqlDate);
+			findAvailableShootingRanges.setInt(2, time);
+			ResultSet rs = findAvailableShootingRanges.executeQuery();
+			while (rs.next()) {
+				int shootingRange_Id = 0;
+				availShootingRanges.add(rs.getInt("shootingRange_Id"));
+			}
+			DBConnection.getInstance().commitTransaction();
+
+		} catch (SQLException e) {
+			DBConnection.getInstance().rollbackTransaction();
+			throw new DataAccessException("Could not retrieve shootingRanges", e);
+		}
+		
+		return availShootingRanges;
+	}
+
 	
 
 }

@@ -277,8 +277,8 @@ public class TimeChoice extends JPanel {
 		for (CalendarButton cb : calendarButtons) {
 			panelCenter.add(cb);
 			cb.setDate(firstDayOfThisWeek.plusDays(cb.getDayOfWeek()));
-			// cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(),
-			// cb.getTime()));
+			cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(),
+			cb.getTime()));
 			if (cb.getDayOfWeek() != -1) {
 				cb.addActionListener(e -> {
 					try {
@@ -309,8 +309,8 @@ public class TimeChoice extends JPanel {
 	// updates the status of the buttons
 	private synchronized void updateStatus() throws DataAccessException {
 		for (CalendarButton cb : calendarButtons) {
-			// cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(),
-			// cb.getTime()));
+			cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(),
+			cb.getTime()));
 			if (!checkForDatePast(cb.getDayOfWeek(), cb) || (!checkAvailability(cb))) {
 				cb.setEnabled(false);
 			}

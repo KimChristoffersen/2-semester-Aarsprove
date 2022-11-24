@@ -40,4 +40,10 @@ public class BookingController {
 	public List<Integer> getAvailableShootingRanges(LocalDate date, int time) throws DataAccessException {
 		return bookingDB.getAvailableShootingRangeIds(date, time);
 	}
+
+	public List<Integer> getAvailableInstructors(LocalDate date, int time) throws DataAccessException {
+		return bookingDB.getAvailableInstructors(date, time);
+	}
+
+
 }

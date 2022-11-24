@@ -17,18 +17,20 @@ public class BookingDB implements BookingDBIF {
 	private static final String FIND_BY_ID_Q = "select * from booking where bookingnumber = ?";
 	private static final String INSERT_Q = "insert into booking (bookingNumber, creationDate, priceTotal, date, time) values (?, ?, ?, ?, ?)";
 	private static final String FINDAVAILABLESHOOTINGRANGES_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
+	private static final String FINDAVAILABLEINSTRUCTORS_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
 
 
 	private PreparedStatement findByIdPS;
 	private PreparedStatement insertPS;
 	private PreparedStatement findAvailableShootingRanges;
+	private PreparedStatement findAvailableInstructors;
 
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q);
 		findAvailableShootingRanges = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
-
+		findAvailableInstructors = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
 	}
 
 	
@@ -113,6 +115,25 @@ public class BookingDB implements BookingDBIF {
 		return availShootingRanges;
 	}
 
+	public List<Integer> getAvailableInstructors(LocalDate date, int time) throws DataAccessException { 
+		List<Integer> availableInstructors = new LinkedList<>();
+		try {
+			Date sqlDate = Date.valueOf(date);
+			findAvailableInstructors.setDate(1, sqlDate);
+			findAvailableInstructors.setInt(2, time);
+			ResultSet rs = findAvailableInstructors.executeQuery();
+			while (rs.next()) {
+				int shootingRange_Id = 0;
+				availableInstructors.add(rs.getInt("shootingRange_Id"));
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException("Could not retrieve shootingRanges", e);
+		}
+		
+		return availableInstructors;
+	}
+
+	
 	
 
 }

@@ -37,7 +37,6 @@ public class WeaponChoice extends JPanel {
 	 */
 	public WeaponChoice(MainUI mainUI) throws SQLException, DataAccessException {
 		setBounds(new Rectangle(0, 0, 800, 500));
-		this.mainUI = mainUI;
 		setLayout(new BorderLayout(0, 0));
 
 		panelCenter = new JPanel();
@@ -83,7 +82,13 @@ public class WeaponChoice extends JPanel {
 		btnChoose.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panelSouth.add(btnChoose);
 
-		init();
+		init(mainUI);
+	}
+
+	private void init(MainUI mainUI) throws SQLException, DataAccessException {
+		this.mainUI = mainUI;
+		weaponController = new WeaponController();
+		updateTable();
 	}
 
 	private void selectWeapon() throws DataAccessException, SQLException {
@@ -95,11 +100,6 @@ public class WeaponChoice extends JPanel {
 		} else {
 			JOptionPane.showMessageDialog(panelCenter, "Intet våben valgt");
 		}
-	}
-
-	private void init() throws SQLException, DataAccessException {
-		weaponController = new WeaponController();
-		updateTable();
 	}
 
 	private void updateTable() throws DataAccessException, SQLException {

@@ -14,7 +14,7 @@ public class WeaponTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	private List<Weapon> data;
 	private WeaponController weaponController;
-	private static final String[] NAMES = {"Navn", "Type", "Våbentype", "Ammunitionstype", "Serienummer"};
+	private static final String[] NAMES = {"Navn", "Type", "V\u00E5bentype", "Ammunitionstype", "Serienummer"};
 	
 	public WeaponTableModel(WeaponController weaponController) {
 		data = new ArrayList<>();

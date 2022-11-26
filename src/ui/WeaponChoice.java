@@ -57,7 +57,7 @@ public class WeaponChoice extends JPanel {
 		panelTop.setBackground(Color.GRAY);
 		add(panelTop, BorderLayout.NORTH);
 
-		JLabel lblChooseWeapon = new JLabel("Vælg våben");
+		JLabel lblChooseWeapon = new JLabel("V\u00E6lg v\u00E5ben");
 		lblChooseWeapon.setHorizontalAlignment(SwingConstants.CENTER);
 		lblChooseWeapon.setForeground(Color.WHITE);
 		lblChooseWeapon.setFont(new Font("Tahoma", Font.BOLD, 18));

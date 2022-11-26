@@ -105,7 +105,7 @@ public class TimeChoice extends JPanel {
 		panelTop.setBackground(Color.GRAY);
 		add(panelTop, BorderLayout.NORTH);
 
-		lblTimeChoice = new JLabel("Vælg tid");
+		lblTimeChoice = new JLabel("V\u00E6lg tid");
 		lblTimeChoice.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeChoice.setForeground(Color.WHITE);
 		lblTimeChoice.setFont(new Font("Tahoma", Font.BOLD, 18));

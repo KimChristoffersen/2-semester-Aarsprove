@@ -15,6 +15,7 @@ import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,6 @@ public class TimeChoice extends JPanel {
 		add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		
 		panelWeekChooser = new JPanel();
 		panelWeekChooser.setBackground(UIManager.getColor("EditorPane.disabledBackground"));
 		panelWeekChooser.setLayout(null);
@@ -100,18 +100,17 @@ public class TimeChoice extends JPanel {
 		panelCalendar.setBackground(Color.WHITE);
 		panel.add(panelCalendar, BorderLayout.CENTER);
 		panelCalendar.setLayout(new GridLayout(8, 6, 6, 3));
-		
+
 		panelTop = new JPanel();
 		panelTop.setBackground(Color.GRAY);
 		add(panelTop, BorderLayout.NORTH);
-		
+
 		lblTimeChoice = new JLabel("Vælg tid");
 		lblTimeChoice.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeChoice.setForeground(Color.WHITE);
 		lblTimeChoice.setFont(new Font("Tahoma", Font.BOLD, 18));
 		panelTop.add(lblTimeChoice);
-		
-	
+
 		createCalendarButtons();
 
 	}
@@ -292,7 +291,8 @@ public class TimeChoice extends JPanel {
 	private void addButtonsFromList() throws DataAccessException {
 		for (CalendarButton cb : calendarButtons) {
 			panelCalendar.add(cb);
-			cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(), cb.getTime()));
+			// cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(),
+			// cb.getTime()));
 			if (cb.getButtonType() != "headerButton") {
 				cb.addActionListener(e -> {
 					try {
@@ -309,13 +309,12 @@ public class TimeChoice extends JPanel {
 		}
 		updateStatus();
 	}
-	
+
 	// Gets buttons date and time when a button is clicked
 	private void selectDate(LocalDate date, int time, CalendarButton button) throws DataAccessException {
 		// button.getAvailableShootingRanges().get(0));
 		mainUI.gotoBookingConfirmation();
 	}
-	
 
 	// Checks if buttons date is before current date
 	private boolean checkForDatePast(CalendarButton button) {
@@ -330,15 +329,32 @@ public class TimeChoice extends JPanel {
 
 	// updates the status of the buttons
 	private synchronized void updateStatus() throws DataAccessException {
+		// create a list with this weeks timeslots
+		List<LocalDateTime> weekTimeSlots = new ArrayList<>();
+
+		// loop though all the buttons
 		for (CalendarButton cb : calendarButtons) {
-			cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(), cb.getTime()));
-			if (!checkForDatePast(cb) || (!checkAvailability(cb))) {
+
+			if (checkForDatePast(cb)) {
+				// convert localDate and time to localDateTime
+				LocalDate buttonDate = cb.getDate();
+				LocalDateTime dateTime = buttonDate.atTime(cb.getTime(), 00);
+
+				// add the buttons dates and time to list
+				weekTimeSlots.add(dateTime);
+			}
+		}
+		// send the list to bookingcontroller and receive a list of available timeSlots
+		List<LocalDateTime> availabilityList = bookingController.getAvailability(weekTimeSlots);
+		// loop thought the buttons to check for availability
+		for (CalendarButton cb : calendarButtons) {
+			LocalDate buttonDate = cb.getDate();
+			LocalDateTime dateTime = buttonDate.atTime(cb.getTime(), 00);
+			if (!availabilityList.contains(dateTime)) {
 				cb.setEnabled(false);
 			}
 		}
 	}
-
-
 
 	// Shows last weeks buttons, displays first day, last day and year
 	private void dateBackward() throws DataAccessException {
@@ -376,14 +392,5 @@ public class TimeChoice extends JPanel {
 		panelCalendar.removeAll();
 		createCalendarButtons();
 		updateStatus();
-	}
-
-	// Check if button contains required ressourses
-	private boolean checkAvailability(CalendarButton button) {
-		boolean available = true;
-		if (button.getAvailableShootingRanges().size() == 0) {
-			available = false;
-		}
-		return available;
 	}
 }

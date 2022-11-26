@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import database.BookingDB;
@@ -45,5 +46,7 @@ public class BookingController {
 		return bookingDB.getAvailableInstructors(date, time);
 	}
 
-
+	public List<LocalDateTime> getAvailability(List<LocalDateTime> weeksTimeSlots) throws DataAccessException {
+		return bookingDB.getAvailabilityList(weeksTimeSlots);
+	}
 }

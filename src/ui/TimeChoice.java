@@ -99,7 +99,7 @@ public class TimeChoice extends JPanel {
 		panelCalendar = new JPanel();
 		panelCalendar.setBackground(Color.WHITE);
 		panel.add(panelCalendar, BorderLayout.CENTER);
-		panelCalendar.setLayout(new GridLayout(8, 6, 6, 3));
+		panelCalendar.setLayout(new GridLayout(7, 5, 6, 3));
 
 		panelTop = new JPanel();
 		panelTop.setBackground(Color.GRAY);
@@ -154,10 +154,6 @@ public class TimeChoice extends JPanel {
 				firstDayOfThisWeek.plusDays(0), "headerButton");
 		calendarButtons.add(btnFriday);
 
-		CalendarButton btnSaturday = new CalendarButton("<html><center><b>L\u00D8RDAG<br></b>"
-				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(5)) + "</center></html>",
-				firstDayOfThisWeek.plusDays(0), "headerButton");
-		calendarButtons.add(btnSaturday);
 
 		CalendarButton btnMon10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(0), 10, "timeButton");
 		calendarButtons.add(btnMon10);
@@ -174,9 +170,6 @@ public class TimeChoice extends JPanel {
 		CalendarButton btnFri10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(4), 10, "timeButton");
 		calendarButtons.add(btnFri10);
 
-		CalendarButton btnSat10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(5), 10, "timeButton");
-		calendarButtons.add(btnSat10);
-
 		CalendarButton btnMon11 = new CalendarButton("11:00-12:00", firstDayOfThisWeek.plusDays(0), 11, "timeButton");
 		calendarButtons.add(btnMon11);
 
@@ -191,9 +184,6 @@ public class TimeChoice extends JPanel {
 
 		CalendarButton btnFri11 = new CalendarButton("11:00-12:00", firstDayOfThisWeek.plusDays(4), 11, "timeButton");
 		calendarButtons.add(btnFri11);
-
-		CalendarButton btnSat11 = new CalendarButton("11:00-12:00", firstDayOfThisWeek.plusDays(5), 11, "timeButton");
-		calendarButtons.add(btnSat11);
 
 		CalendarButton btnMon12 = new CalendarButton("12:00-13:00", firstDayOfThisWeek.plusDays(0), 12, "timeButton");
 		calendarButtons.add(btnMon12);
@@ -210,9 +200,6 @@ public class TimeChoice extends JPanel {
 		CalendarButton btnFri12 = new CalendarButton("12:00-13:00", firstDayOfThisWeek.plusDays(4), 12, "timeButton");
 		calendarButtons.add(btnFri12);
 
-		CalendarButton btnSat12 = new CalendarButton("12:00-13:00", firstDayOfThisWeek.plusDays(5), 12, "timeButton");
-		calendarButtons.add(btnSat12);
-
 		CalendarButton btnMon13 = new CalendarButton("13:00-14:00", firstDayOfThisWeek.plusDays(0), 13, "timeButton");
 		calendarButtons.add(btnMon13);
 
@@ -227,9 +214,6 @@ public class TimeChoice extends JPanel {
 
 		CalendarButton btnFri13 = new CalendarButton("13:00-14:00", firstDayOfThisWeek.plusDays(4), 13, "timeButton");
 		calendarButtons.add(btnFri13);
-
-		CalendarButton btnSat13 = new CalendarButton("13:00-14:00", firstDayOfThisWeek.plusDays(5), 13, "timeButton");
-		calendarButtons.add(btnSat13);
 
 		CalendarButton btnMon14 = new CalendarButton("14:00-15:00", firstDayOfThisWeek.plusDays(0), 14, "timeButton");
 		calendarButtons.add(btnMon14);
@@ -246,9 +230,6 @@ public class TimeChoice extends JPanel {
 		CalendarButton btnFri14 = new CalendarButton("14:00-15:00", firstDayOfThisWeek.plusDays(4), 14, "timeButton");
 		calendarButtons.add(btnFri14);
 
-		CalendarButton btnSat14 = new CalendarButton("", firstDayOfThisWeek.plusDays(5), 14, "timeButton");
-		calendarButtons.add(btnSat14);
-
 		CalendarButton btnMon15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(0), 15, "timeButton");
 		calendarButtons.add(btnMon15);
 
@@ -264,26 +245,6 @@ public class TimeChoice extends JPanel {
 		CalendarButton btnFri15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(4), 15, "timeButton");
 		calendarButtons.add(btnFri15);
 
-		CalendarButton btnSat15 = new CalendarButton("", firstDayOfThisWeek.plusDays(5), 15, "timeButton");
-		calendarButtons.add(btnSat15);
-
-		CalendarButton btnMon16 = new CalendarButton("16:00-17:00", firstDayOfThisWeek.plusDays(0), 16, "timeButton");
-		calendarButtons.add(btnMon16);
-
-		CalendarButton btnTue16 = new CalendarButton("16:00-17:00", firstDayOfThisWeek.plusDays(1), 16, "timeButton");
-		calendarButtons.add(btnTue16);
-
-		CalendarButton btnWed16 = new CalendarButton("16:00-17:00", firstDayOfThisWeek.plusDays(2), 16, "timeButton");
-		calendarButtons.add(btnWed16);
-
-		CalendarButton btnThu16 = new CalendarButton("16:00-17:00", firstDayOfThisWeek.plusDays(3), 16, "timeButton");
-		calendarButtons.add(btnThu16);
-
-		CalendarButton btnFri16 = new CalendarButton("16:00-17:00", firstDayOfThisWeek.plusDays(4), 16, "timeButton");
-		calendarButtons.add(btnFri16);
-
-		CalendarButton btnSat16 = new CalendarButton("", firstDayOfThisWeek.plusDays(5), 16, "timeButton");
-		calendarButtons.add(btnSat16);
 
 		addButtonsFromList();
 	}

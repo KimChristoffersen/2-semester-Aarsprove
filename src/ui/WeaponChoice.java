@@ -98,7 +98,7 @@ public class WeaponChoice extends JPanel {
 			mainUI.addWeapon(weaponId);
 			updateTable();
 		} else {
-			JOptionPane.showMessageDialog(panelCenter, "Intet våben valgt");
+			JOptionPane.showMessageDialog(panelCenter, "Intet v\u00E5ben valgt");
 		}
 	}
 

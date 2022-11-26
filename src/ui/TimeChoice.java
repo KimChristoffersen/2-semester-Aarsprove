@@ -19,11 +19,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.BorderLayout;
+import javax.swing.border.LineBorder;
+import javax.swing.UIManager;
 
 public class TimeChoice extends JPanel {
 
-	private JPanel panelCenter;
-	private JPanel panelTop;
+	private JPanel panelCalendar;
+	private JPanel panelWeekChooser;
 	private JButton btnDateBackward;
 	private List<CalendarButton> calendarButtons;
 	private JLabel lblDateFromTo;
@@ -34,6 +36,9 @@ public class TimeChoice extends JPanel {
 	private BookingController bookingController;
 	private MainUI mainUI;
 	private JButton btnDateForward;
+	private JPanel panel;
+	private JPanel panelTop;
+	private JLabel lblTimeChoice;
 
 	/**
 	 * Create the panel.
@@ -42,18 +47,20 @@ public class TimeChoice extends JPanel {
 	 * @throws SQLException
 	 */
 	public TimeChoice(MainUI mainUI) throws SQLException, DataAccessException {
-		this.mainUI = mainUI;
-		init();
-
-		JButton btnNewButton = new JButton("TIMECHOICE");
-		btnNewButton.addActionListener(e -> TimeChoice());
+		init(mainUI);
 		setLayout(new BorderLayout(0, 0));
-		add(btnNewButton);
 
-		panelTop = new JPanel();
-		panelTop.setLayout(null);
-		panelTop.setPreferredSize(new Dimension(10, 50));
-		add(panelTop, BorderLayout.NORTH);
+		panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(255, 255, 255), 10));
+		add(panel, BorderLayout.CENTER);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		
+		panelWeekChooser = new JPanel();
+		panelWeekChooser.setBackground(UIManager.getColor("EditorPane.disabledBackground"));
+		panelWeekChooser.setLayout(null);
+		panelWeekChooser.setPreferredSize(new Dimension(400, 50));
+		panel.add(panelWeekChooser, BorderLayout.NORTH);
 
 		btnDateBackward = new JButton("Tilbage");
 		btnDateBackward.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -67,14 +74,14 @@ public class TimeChoice extends JPanel {
 			}
 		});
 		btnDateBackward.setBounds(10, 10, 90, 30);
-		panelTop.add(btnDateBackward);
+		panelWeekChooser.add(btnDateBackward);
 
 		lblDateFromTo = new JLabel();
 		lblDateFromTo.setText("21. Nov til 26. Nov 2022");
 		lblDateFromTo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDateFromTo.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDateFromTo.setBounds(99, 10, 174, 30);
-		panelTop.add(lblDateFromTo);
+		lblDateFromTo.setBounds(100, 10, 174, 30);
+		panelWeekChooser.add(lblDateFromTo);
 
 		btnDateForward = new JButton("Frem");
 		btnDateForward.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -87,23 +94,30 @@ public class TimeChoice extends JPanel {
 			}
 		});
 		btnDateForward.setBounds(283, 10, 90, 30);
-		panelTop.add(btnDateForward);
+		panelWeekChooser.add(btnDateForward);
 
-		JButton btnClose = new JButton("Luk");
-		btnClose.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnClose.setBounds(590, 10, 90, 30);
-		panelTop.add(btnClose);
-
-		panelCenter = new JPanel();
-		panelCenter.setBackground(Color.WHITE);
-		add(panelCenter, BorderLayout.CENTER);
-		panelCenter.setLayout(new GridLayout(8, 6, 6, 3));
-
+		panelCalendar = new JPanel();
+		panelCalendar.setBackground(Color.WHITE);
+		panel.add(panelCalendar, BorderLayout.CENTER);
+		panelCalendar.setLayout(new GridLayout(8, 6, 6, 3));
+		
+		panelTop = new JPanel();
+		panelTop.setBackground(Color.GRAY);
+		add(panelTop, BorderLayout.NORTH);
+		
+		lblTimeChoice = new JLabel("Vælg tid");
+		lblTimeChoice.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTimeChoice.setForeground(Color.WHITE);
+		lblTimeChoice.setFont(new Font("Tahoma", Font.BOLD, 18));
+		panelTop.add(lblTimeChoice);
+		
+	
 		createCalendarButtons();
 
 	}
 
-	private void init() throws SQLException, DataAccessException {
+	private void init(MainUI mainUI) throws SQLException, DataAccessException {
+		this.mainUI = mainUI;
 		firstDayOfThisWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 		dayMontFormat = DateTimeFormatter.ofPattern("dd. MMM");
 		yearFormat = DateTimeFormatter.ofPattern("u");
@@ -281,7 +295,7 @@ public class TimeChoice extends JPanel {
 
 	private void addButtonsFromList() throws DataAccessException {
 		for (CalendarButton cb : calendarButtons) {
-			panelCenter.add(cb);
+			panelCalendar.add(cb);
 			cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(), cb.getTime()));
 			if (cb.getButtonType() != "headerButton") {
 				cb.addActionListener(e -> {
@@ -340,7 +354,7 @@ public class TimeChoice extends JPanel {
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(5)) + " " + yearFormat.format(firstDayOfThisWeek));
 		// removes all buttons from the center panel, creates buttons anew and updates
 		// status of the buttons
-		panelCenter.removeAll();
+		panelCalendar.removeAll();
 		createCalendarButtons();
 		updateStatus();
 	}
@@ -359,7 +373,7 @@ public class TimeChoice extends JPanel {
 
 		// removes all buttons from the center panel, creates buttons anew and updates
 		// status of the buttons
-		panelCenter.removeAll();
+		panelCalendar.removeAll();
 		createCalendarButtons();
 		updateStatus();
 	}

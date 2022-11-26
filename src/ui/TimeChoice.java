@@ -29,6 +29,7 @@ public class TimeChoice extends JPanel {
 	private JButton btnDateBackward;
 	private List<CalendarButton> calendarButtons;
 	private JLabel lblDateFromTo;
+	private JLabel lblTimeChoice;
 	private DateTimeFormatter dayMontFormat;
 	private DateTimeFormatter yearFormat;
 	private static final int WAIT_LENGTH = 1000; // 1 second
@@ -38,7 +39,6 @@ public class TimeChoice extends JPanel {
 	private JButton btnDateForward;
 	private JPanel panel;
 	private JPanel panelTop;
-	private JLabel lblTimeChoice;
 
 	/**
 	 * Create the panel.
@@ -123,10 +123,6 @@ public class TimeChoice extends JPanel {
 		yearFormat = DateTimeFormatter.ofPattern("u");
 		calendarButtons = new ArrayList<>();
 		bookingController = new BookingController();
-	}
-
-	private void TimeChoice() {
-		mainUI.bookingConfirmation();
 	}
 
 	// Create all the buttons and adds them to a button list
@@ -313,6 +309,13 @@ public class TimeChoice extends JPanel {
 		}
 		updateStatus();
 	}
+	
+	// Gets buttons date and time when a button is clicked
+	private void selectDate(LocalDate date, int time, CalendarButton button) throws DataAccessException {
+		// button.getAvailableShootingRanges().get(0));
+		mainUI.gotoBookingConfirmation();
+	}
+	
 
 	// Checks if buttons date is before current date
 	private boolean checkForDatePast(CalendarButton button) {
@@ -335,10 +338,7 @@ public class TimeChoice extends JPanel {
 		}
 	}
 
-	// Gets buttons date and time when a button is clicked
-	private void selectDate(LocalDate date, int time, CalendarButton button) throws DataAccessException {
-		// button.getAvailableShootingRanges().get(0));
-	}
+
 
 	// Shows last weeks buttons, displays first day, last day and year
 	private void dateBackward() throws DataAccessException {

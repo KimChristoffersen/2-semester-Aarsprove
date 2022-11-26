@@ -81,16 +81,16 @@ public class MainUI extends JFrame {
 		contentPane.add(panelSouth, BorderLayout.SOUTH);
 
 		btnStatusWeapon = new JButton("V\u00E5benvalg");
-		btnStatusWeapon.setPreferredSize(new Dimension(180, 40));
-		btnStatusWeapon.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnStatusWeapon.setPreferredSize(new Dimension(180, 20));
+		btnStatusWeapon.setFont(new Font("Tahoma", Font.BOLD, 1));
 
 		btnStatusTime = new JButton("Tidsvalg");
-		btnStatusTime.setPreferredSize(new Dimension(180, 40));
-		btnStatusTime.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnStatusTime.setPreferredSize(new Dimension(180, 20));
+		btnStatusTime.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		btnStatusConfirmation = new JButton("Godkend");
-		btnStatusConfirmation.setPreferredSize(new Dimension(180, 40));
-		btnStatusConfirmation.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnStatusConfirmation.setPreferredSize(new Dimension(180, 20));
+		btnStatusConfirmation.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		panelCenterStart = new JPanel();
 		contentPane.add(panelCenterStart, BorderLayout.CENTER);
@@ -109,10 +109,10 @@ public class MainUI extends JFrame {
 
 	public void createBookingWithWeaponAndInstructor() throws SQLException, DataAccessException {
 		//
-		panelSouth.setLayout(new GridLayout(0, 3, 10, 10));
-		panelSouth.add(btnStatusWeapon);
-		panelSouth.add(btnStatusTime);
-		panelSouth.add(btnStatusConfirmation);
+//		panelSouth.setLayout(new GridLayout(0, 3, 10, 10));
+//		panelSouth.add(btnStatusWeapon);
+//		panelSouth.add(btnStatusTime);
+//		panelSouth.add(btnStatusConfirmation);
 
 		panelCenterStart.hide();
 		panelCenterWeapon = new JPanel();
@@ -140,8 +140,8 @@ public class MainUI extends JFrame {
 		bookingController.addWeapon(weaponId);
 	}
 
-	public void bookingConfirmation() {
-		panelCenterTime.disable();
+	public void gotoBookingConfirmation() {
+		panelCenterTime.hide();
 		panelCenterBooking = new JPanel();
 		contentPane.add(panelCenterBooking, BorderLayout.CENTER);
 		panelCenterBooking.setLayout(new GridLayout(1, 0, 0, 0));

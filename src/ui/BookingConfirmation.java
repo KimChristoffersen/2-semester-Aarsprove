@@ -26,7 +26,7 @@ public class BookingConfirmation extends JPanel {
 		panelTop.setBackground(Color.GRAY);
 		add(panelTop, BorderLayout.NORTH);
 		
-		JLabel lblBookingConfirmation = new JLabel("Bekræft booking");
+		JLabel lblBookingConfirmation = new JLabel("Bekr\u00E6ft booking");
 		lblBookingConfirmation.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBookingConfirmation.setForeground(Color.WHITE);
 		lblBookingConfirmation.setFont(new Font("Tahoma", Font.BOLD, 18));

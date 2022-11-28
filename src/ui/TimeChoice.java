@@ -8,7 +8,12 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import controller.BookingController;
+import controller.InstructorController;
+import controller.ShootingRangeController;
 import database.DataAccessException;
+import model.Booking;
+import model.Instructor;
+import model.ShootingRange;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -36,6 +41,8 @@ public class TimeChoice extends JPanel {
 	private static final int WAIT_LENGTH = 1000; // 1 second
 	private LocalDate firstDayOfThisWeek;
 	private BookingController bookingController;
+	private ShootingRangeController shootingRangeController;
+	private InstructorController instructorController;
 	private MainUI mainUI;
 	private JButton btnDateForward;
 	private JPanel panel;
@@ -68,7 +75,7 @@ public class TimeChoice extends JPanel {
 		btnDateBackward.addActionListener(e -> {
 			try {
 				dateBackward();
-			} catch (DataAccessException e1) {
+			} catch (DataAccessException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -88,7 +95,7 @@ public class TimeChoice extends JPanel {
 		btnDateForward.addActionListener(e -> {
 			try {
 				dateForward();
-			} catch (DataAccessException e1) {
+			} catch (DataAccessException | SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -112,7 +119,22 @@ public class TimeChoice extends JPanel {
 		panelTop.add(lblTimeChoice);
 
 		createCalendarButtons();
+		getShootingRanges();
+		// getInstructors();
+	}
 
+	private List<Instructor> getInstructors() throws DataAccessException, SQLException {
+		return instructorController.findAll();
+	}
+
+	private List<ShootingRange> getShootingRanges() throws DataAccessException, SQLException {
+		return shootingRangeController.FindAll();
+	}
+
+	private List<Booking> getWeeksBookings() throws DataAccessException, SQLException {
+		LocalDate startDate = firstDayOfThisWeek;
+		LocalDate endDate = firstDayOfThisWeek.plusDays(4);
+		return bookingController.getWeekBookings(startDate, endDate);
 	}
 
 	private void init(MainUI mainUI) throws SQLException, DataAccessException {
@@ -122,10 +144,12 @@ public class TimeChoice extends JPanel {
 		yearFormat = DateTimeFormatter.ofPattern("u");
 		calendarButtons = new ArrayList<>();
 		bookingController = new BookingController();
+		shootingRangeController = new ShootingRangeController();
+		instructorController = new InstructorController();
 	}
 
 	// Create all the buttons and adds them to a button list
-	public void createCalendarButtons() throws DataAccessException {
+	public void createCalendarButtons() throws DataAccessException, SQLException {
 		// Clear buttonlist
 		calendarButtons.clear();
 
@@ -153,7 +177,6 @@ public class TimeChoice extends JPanel {
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(4)) + "</center></html>",
 				firstDayOfThisWeek.plusDays(0), "headerButton");
 		calendarButtons.add(btnFriday);
-
 
 		CalendarButton btnMon10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(0), 10, "timeButton");
 		calendarButtons.add(btnMon10);
@@ -245,16 +268,16 @@ public class TimeChoice extends JPanel {
 		CalendarButton btnFri15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(4), 15, "timeButton");
 		calendarButtons.add(btnFri15);
 
-
 		addButtonsFromList();
 	}
 
-	private void addButtonsFromList() throws DataAccessException {
+	private void addButtonsFromList() throws DataAccessException, SQLException {
+		List<ShootingRange> shootingRanges = getShootingRanges();
 		for (CalendarButton cb : calendarButtons) {
 			panelCalendar.add(cb);
-			// cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(),
-			// cb.getTime()));
 			if (cb.getButtonType() != "headerButton") {
+				cb.setShootingRanges(shootingRanges);
+				// cb.setInstructors(getInstructors());
 				cb.addActionListener(e -> {
 					try {
 						selectDate(cb.getDate(), cb.getTime(), cb);
@@ -264,7 +287,6 @@ public class TimeChoice extends JPanel {
 					}
 				});
 			} else {
-
 				cb.setText(cb.getLabel());
 			}
 		}
@@ -289,36 +311,37 @@ public class TimeChoice extends JPanel {
 	}
 
 	// updates the status of the buttons
-	private synchronized void updateStatus() throws DataAccessException {
-		// create a list with this weeks timeslots
-		List<LocalDateTime> weekTimeSlots = new ArrayList<>();
+	private synchronized void updateStatus() throws DataAccessException, SQLException {
+		
 
-		// loop though all the buttons
-		for (CalendarButton cb : calendarButtons) {
-
-			if (checkForDatePast(cb)) {
-				// convert localDate and time to localDateTime
-				LocalDate buttonDate = cb.getDate();
-				LocalDateTime dateTime = buttonDate.atTime(cb.getTime(), 00);
-
-				// add the buttons dates and time to list
-				weekTimeSlots.add(dateTime);
+		
+		
+		
+		
+		// gets this weeks bookings
+		List<Booking> weekBookings = getWeeksBookings();
+		if (weekBookings != null) {
+			// loop thought the buttons to check for availability
+			for (int i = 0; i < calendarButtons.size(); i++) {
+				for (int j = 0; j < calendarButtons.get(i).getShootingRanges().size(); j++) {
+					for (int k = 0; k < weekBookings.size(); k++) {
+						if (calendarButtons.get(i).getShootingRanges().get(j).getShootingRangeId() == weekBookings
+								.get(k).getShootingRange().getShootingRangeId()) {
+							calendarButtons.get(i).removeShootingRange(j);
+						}
+					}
+				}
 			}
 		}
-		// send the list to bookingcontroller and receive a list of available timeSlots
-		List<LocalDateTime> availabilityList = bookingController.getAvailability(weekTimeSlots);
-		// loop thought the buttons to check for availability
-		for (CalendarButton cb : calendarButtons) {
-			LocalDate buttonDate = cb.getDate();
-			LocalDateTime dateTime = buttonDate.atTime(cb.getTime(), 00);
-			if (!availabilityList.contains(dateTime)) {
+		for (CalendarButton cb : calendarButtons)
+			if (cb.getShootingRanges().size() == 0 || cb.getShootingRanges() == null) {
 				cb.setEnabled(false);
 			}
-		}
+
 	}
 
 	// Shows last weeks buttons, displays first day, last day and year
-	private void dateBackward() throws DataAccessException {
+	private void dateBackward() throws DataAccessException, SQLException {
 		// Disables button when shown week is currentweek
 		LocalDate today = LocalDate.now();
 		if (firstDayOfThisWeek.isBefore(today.plusDays(7))) {
@@ -337,7 +360,7 @@ public class TimeChoice extends JPanel {
 	}
 
 	// Shows next weeks buttons, displays first day, last day and year
-	private void dateForward() throws DataAccessException {
+	private void dateForward() throws DataAccessException, SQLException {
 		// Enables button backwards
 		btnDateBackward.setEnabled(true);
 

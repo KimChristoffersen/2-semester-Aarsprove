@@ -37,6 +37,10 @@ public class BookingController {
 	public Booking getCurrentBooking() {
 		return currentBooking;
 	}
+	
+	public Booking findBookingByNumber(int id) throws DataAccessException, SQLException {
+		return bookingDB.findBookingByNumber(id);
+	}
 
 	public List<Integer> getAvailableShootingRanges(LocalDate date, int time) throws DataAccessException {
 		return bookingDB.getAvailableShootingRangeIds(date, time);
@@ -48,5 +52,9 @@ public class BookingController {
 
 	public List<LocalDateTime> getAvailability(List<LocalDateTime> weeksTimeSlots) throws DataAccessException {
 		return bookingDB.getAvailabilityList(weeksTimeSlots);
+	}
+
+	public List<Booking> getWeekBookings(LocalDate startDate, LocalDate endDate) throws DataAccessException, SQLException {
+		return bookingDB.getWeekBookings(startDate, endDate);
 	}
 }

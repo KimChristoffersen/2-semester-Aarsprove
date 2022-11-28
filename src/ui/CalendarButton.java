@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 
+import model.Instructor;
+import model.ShootingRange;
+
 public class CalendarButton extends JButton {
 
 	private static final long serialVersionUID = 1L;
@@ -13,8 +16,8 @@ public class CalendarButton extends JButton {
 	private LocalDate date;
 	private int time;
 	private String buttonType;
-	private List<Integer> availableShootingRanges = new ArrayList<>();
-	private List<Integer> availableInstructors = new ArrayList<>();
+	private List<ShootingRange> shootingRanges = new ArrayList<>();
+	private List<Instructor> instructors = new ArrayList<>();
 
 	public CalendarButton(String label, LocalDate date, String buttonType) { // WEEK NAMES
 		this.label = label;
@@ -35,23 +38,15 @@ public class CalendarButton extends JButton {
 		this.setBackground(new Color(180, 200, 220));
 	}
 
-	public void addAvailableShootingRange(int id) {
-		availableShootingRanges.add(id);
+	public void removeShootingRange(int id) {
+		shootingRanges.remove(id);
 	}
 
-	public void addAvailableInstructors(int id) {
-		availableInstructors.add(id);
+	public void removeInstructor(int id) {
+		instructors.remove(id);
 	}
 
-	public void removeAvailableShootingRange(int id) {
-		availableShootingRanges.remove(id);
-	}
-
-	public void removeAvailableInstructors(int id) {
-		availableInstructors.remove(id);
-	}
-
-	// GETTERS & SETTERS
+	// GETTERS
 	public String getLabel() {
 		return label;
 	}
@@ -67,7 +62,16 @@ public class CalendarButton extends JButton {
 	public String getButtonType() {
 		return buttonType;
 	}
-
+	
+	public List<ShootingRange> getShootingRanges() {
+		return shootingRanges;
+	}
+	
+	public List<Instructor> getInstructors() {
+		return instructors;
+	}
+	
+	// SETTERS
 	public void setTime(int time) {
 		this.time = time;
 	}
@@ -80,20 +84,12 @@ public class CalendarButton extends JButton {
 		this.date = date;
 	}
 
-	public List<Integer> getAvailableShootingRanges() {
-		return availableShootingRanges;
+	public void setShootingRanges(List<ShootingRange> shootingRanges) {
+		this.shootingRanges = shootingRanges;
 	}
 
-	public void setAvailableShootingRanges(List<Integer> availableShootingRanges) {
-		this.availableShootingRanges = availableShootingRanges;
-	}
-
-	public List<Integer> getAvailableInstructors() {
-		return availableInstructors;
-	}
-
-	public void setAvailableInstructors(List<Integer> availableInstructors) {
-		this.availableInstructors = availableInstructors;
+	public void setInstructors(List<Instructor> instructors) {
+		this.instructors = instructors;
 	}
 
 }

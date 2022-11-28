@@ -10,7 +10,7 @@ public class Booking {
 	private LocalDate creationDate;
 	private double priceTotal;
 	private LocalDate date;
-	private LocalTime time;
+	private int time;
 	private Customer customer;
 	private ShootingRange shootingRange;
 	private Weapon weapon;
@@ -23,7 +23,7 @@ public class Booking {
 		this.customer = customer;
 	}
 
-	public Booking(int bookingNumber, LocalDate creationDate, double priceTotal, LocalDate date, LocalTime time,
+	public Booking(int bookingNumber, LocalDate creationDate, double priceTotal, LocalDate date, int time,
 			Customer customer, ShootingRange shootingRange, Weapon weapon, Instructor instructor) {
 		this.bookingNumber = bookingNumber;
 		this.creationDate = creationDate;
@@ -53,7 +53,7 @@ public class Booking {
 		return date;
 	}
 
-	public LocalTime getTime() {
+	public int getTime() {
 		return time;
 	}
 
@@ -90,7 +90,7 @@ public class Booking {
 		this.date = date;
 	}
 
-	public void setTime(LocalTime time) {
+	public void setTime(int time) {
 		this.time = time;
 	}
 

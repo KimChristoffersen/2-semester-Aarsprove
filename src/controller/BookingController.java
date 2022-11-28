@@ -57,4 +57,8 @@ public class BookingController {
 	public List<Booking> getWeekBookings(LocalDate startDate, LocalDate endDate) throws DataAccessException, SQLException {
 		return bookingDB.getWeekBookings(startDate, endDate);
 	}
+	
+	public void cancelBooking() {
+		this.currentBooking = null;
+	}
 }

@@ -7,5 +7,5 @@ import java.util.List;
 import model.Customer;
 
 public interface CustomerDBIF {
-		
+	Customer findCustomerById(int customerId) throws DataAccessException, SQLException;
 }

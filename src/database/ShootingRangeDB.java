@@ -3,20 +3,44 @@ package database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import model.ShootingRange;
+import model.Weapon;
 
 public class ShootingRangeDB implements ShootingRangeDBIF {
 
 	private static final String FIND_BY_ID_Q = "select * from shootingrange where shootingrange_id = ?";
+	private static final String Find_All_Q = "select shootingRange_Id, status from shootingrange where status = 1";
 
 	private PreparedStatement findByIdPS;
+	private PreparedStatement findAll;
 
 	public ShootingRangeDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
+		findAll = DBConnection.getInstance().getConnection().prepareStatement(Find_All_Q);
 	}
 
+	
+	
+	public List<ShootingRange> findAll() throws DataAccessException, SQLException {
+		ResultSet rs = null;
+		try {
+			DBConnection.getInstance().startTransaction();
+			rs = findAll.executeQuery();
+			DBConnection.getInstance().commitTransaction();
+		} catch (SQLException e) {
+			DBConnection.getInstance().rollbackTransaction();
+			throw new DataAccessException("Could not retrieve any shootingranges", e);
+		}
+		List<ShootingRange> shootingRanges = buildObjects(rs);
+		return shootingRanges;
+		
+	}
+	
+	
+	
 	public ShootingRange findShootingRangeById(int id) throws DataAccessException, SQLException {
 		ShootingRange res = null;
 		try {
@@ -52,4 +76,13 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 
 	}
 
+	private List<ShootingRange> buildObjects(ResultSet rs) throws SQLException, DataAccessException {
+		List<ShootingRange> shootingRanges = new ArrayList<>();
+		while (rs.next()) {
+			shootingRanges.add(buildObject(rs));
+		}
+		return shootingRanges;
+	}
+	
+	
 }

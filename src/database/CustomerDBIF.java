@@ -7,6 +7,5 @@ import java.util.List;
 import model.Customer;
 
 public interface CustomerDBIF {
-	
-	Customer buildObject(ResultSet rs) throws DataAccessException;		
+		
 }

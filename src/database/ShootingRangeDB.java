@@ -12,7 +12,7 @@ import model.ShootingRange;
 
 public class ShootingRangeDB implements ShootingRangeDBIF {
 
-	private static final String FIND_BY_ID_Q = "select * from shootingrange where shootingrange_id = ?";
+	private static final String FIND_BY_ID_Q = "select s.shootingRange_id, s.status, p.price from ShootingRange s, price p where s.shootingRange_Id = ? and s.shootingRange_Id = p.shootingRange_Id";
 	private static final String Find_All_Q = "select shootingRange_Id, status from shootingrange where status = 1";
 
 	private PreparedStatement findByIdPS;
@@ -62,13 +62,10 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 	}
 
 	public ShootingRange buildObject(ResultSet rs) throws DataAccessException {
-
 		ShootingRange currentShootingRange = new ShootingRange();
 		try {
 			currentShootingRange.setShootingRangeId(rs.getInt("shootingrange_Id"));
 			currentShootingRange.setStatus(rs.getBoolean("status"));
-			
-
 		} catch (SQLException e) {
 
 			throw new DataAccessException("Could not retrieve shooting range", e);

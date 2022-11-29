@@ -4,46 +4,40 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import model.Booking;
+import model.Customer;
+import model.Instructor;
 import model.ShootingRange;
 import model.Weapon;
 
 public class BookingDB implements BookingDBIF {
 	
 	private ShootingRangeDBIF shootingRangeDB;
+	private CustomerDBIF customerDB;
+	private InstructorDBIF instructorDB;
+	private WeaponDBIF weaponDB;
 
 
 	private static final String FIND_BY_ID_Q = "select * from booking where bookingnumber = ?";
 	private static final String INSERT_Q = "insert into booking values(?, ?, ?, ?, ?,?,?,?)";
 	private static final String FINDAVAILABLESHOOTINGRANGES_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
 	private static final String FINDAVAILABLEINSTRUCTORS_Q = "select instructor_Id from Instructor where instructor_Id NOT IN (select instructor_Id from Booking where date = ? and time = ?)";
-	private static final String CHECKAVAILABILTY_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
-	private static final String FIND_WEEK_Q = "select * from booking where date between ? and ?";
 
 	private PreparedStatement findByIdPS;
 	private PreparedStatement insertPS;
 	private PreparedStatement findAvailableShootingRanges;
 	private PreparedStatement findAvailableInstructors;
-	private PreparedStatement checkAvailability;
-	private PreparedStatement findWeekPS;
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q);
-		findAvailableShootingRanges = DBConnection.getInstance().getConnection()
-				.prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
-		findAvailableInstructors = DBConnection.getInstance().getConnection()
-				.prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
-		checkAvailability = DBConnection.getInstance().getConnection().prepareStatement(CHECKAVAILABILTY_Q);
-		findWeekPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_WEEK_Q);
-	shootingRangeDB = new ShootingRangeDB();
+		findAvailableShootingRanges = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
+		findAvailableInstructors = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
+		shootingRangeDB = new ShootingRangeDB();
 	}
 
 	// Finds booking in database
@@ -72,13 +66,14 @@ public class BookingDB implements BookingDBIF {
 			currentBooking.setPriceTotal(rs.getDouble("priceTotal"));
 			currentBooking.setTime(rs.getInt("time"));
 			currentBooking.setDate(rs.getDate("date").toLocalDate());
-			
-			currentBooking.setCustomer(null);
-			currentBooking.setInstructor(null);
+			Customer customer = customerDB.findCustomerById(rs.getInt("customer_Id"));
+			currentBooking.setCustomer(customer);
+			Instructor instructor = instructorDB.findInstructorById(rs.getInt("Instructor_Id"));
+			currentBooking.setInstructor(instructor);
 			ShootingRange shootingRange = shootingRangeDB.findShootingRangeById(rs.getInt("shootingRange_Id"));
 			currentBooking.setShootingRange(shootingRange);
-			currentBooking.setWeapon(null);
-			
+			Weapon weapon = weaponDB.findWeaponById(rs.getInt("weapon_Id"));
+			currentBooking.setWeapon(weapon);
 		} catch (SQLException e) {
 			throw new DataAccessException("Could not retrieve booking", e);
 		}
@@ -131,7 +126,7 @@ public class BookingDB implements BookingDBIF {
 		return availShootingRanges;
 	}
 
-	public List<Integer> getAvailableInstructors(LocalDate date, int time) throws DataAccessException {
+	public List<Integer> getAvailableInstructorIds(LocalDate date, int time) throws DataAccessException {
 		List<Integer> availableInstructors = new LinkedList<>();
 		try {
 			Date sqlDate = Date.valueOf(date);
@@ -139,58 +134,13 @@ public class BookingDB implements BookingDBIF {
 			findAvailableInstructors.setInt(2, time);
 			ResultSet rs = findAvailableInstructors.executeQuery();
 			while (rs.next()) {
-				int shootingRange_Id = 0;
-				availableInstructors.add(rs.getInt("shootingRange_Id"));
+				int instructorRange_Id = 0;
+				availableInstructors.add(rs.getInt("instructor_Id"));
 			}
 		} catch (SQLException e) {
-			throw new DataAccessException("Could not retrieve shootingRanges", e);
+			throw new DataAccessException("Could not retrieve instructors", e);
 		}
 
 		return availableInstructors;
-	}
-
-	public List<LocalDateTime> getAvailabilityList(List<LocalDateTime> weekTimes) throws DataAccessException {
-		DBConnection.getInstance().startTransaction();
-		try {
-			for (int i = 0; i < weekTimes.size(); i++) {
-				LocalDate localDate = weekTimes.get(i).toLocalDate();
-				Date sqlDate = Date.valueOf(localDate);
-				int time = weekTimes.get(i).getHour();
-				checkAvailability.setDate(1, sqlDate);
-				checkAvailability.setInt(2, time);
-				ResultSet rs = checkAvailability.executeQuery();
-				if (!rs.next()) {
-					weekTimes.remove(weekTimes.get(i));
-				}
-			}
-			DBConnection.getInstance().commitTransaction();
-		} catch (SQLException e) {
-			DBConnection.getInstance().rollbackTransaction();
-			throw new DataAccessException("Could not retrieve booking", e);
-		}
-		return weekTimes;
-	}
-
-	@Override
-	public List<Booking> getWeekBookings(LocalDate startDate, LocalDate endDate)
-			throws DataAccessException, SQLException {
-		ResultSet rs;
-		List<Booking> bookings = null;
-		try {
-			DBConnection.getInstance().startTransaction();
-			Date sqlStartDate = Date.valueOf(startDate);
-			Date sqlEndDate = Date.valueOf(endDate);
-			findWeekPS.setDate(1, sqlStartDate);
-			findWeekPS.setDate(2, sqlEndDate);
-			rs = findWeekPS.executeQuery();
-			if (rs.next()) {
-				bookings = buildObjects(rs);
-			}
-			DBConnection.getInstance().commitTransaction();
-		} catch (SQLException e) {
-			DBConnection.getInstance().rollbackTransaction();
-			throw new DataAccessException("Could not retrieve any bookings", e);
-		}
-		return bookings;
 	}
 }

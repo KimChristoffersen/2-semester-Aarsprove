@@ -47,15 +47,7 @@ public class BookingController {
 	}
 
 	public List<Integer> getAvailableInstructors(LocalDate date, int time) throws DataAccessException {
-		return bookingDB.getAvailableInstructors(date, time);
-	}
-
-	public List<LocalDateTime> getAvailability(List<LocalDateTime> weeksTimeSlots) throws DataAccessException {
-		return bookingDB.getAvailabilityList(weeksTimeSlots);
-	}
-
-	public List<Booking> getWeekBookings(LocalDate startDate, LocalDate endDate) throws DataAccessException, SQLException {
-		return bookingDB.getWeekBookings(startDate, endDate);
+		return bookingDB.getAvailableInstructorIds(date, time);
 	}
 	
 	public void cancelBooking() {

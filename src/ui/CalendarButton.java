@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 
-import model.Instructor;
-import model.ShootingRange;
-
 public class CalendarButton extends JButton {
 
 	private static final long serialVersionUID = 1L;
@@ -16,8 +13,8 @@ public class CalendarButton extends JButton {
 	private LocalDate date;
 	private int time;
 	private String buttonType;
-	private List<ShootingRange> shootingRanges = new ArrayList<>();
-	private List<Instructor> instructors = new ArrayList<>();
+	private List<Integer> shootingRanges = new ArrayList<>();
+	private List<Integer> instructors = new ArrayList<>();
 
 	public CalendarButton(String label, LocalDate date, String buttonType) { // WEEK NAMES
 		this.label = label;
@@ -38,14 +35,6 @@ public class CalendarButton extends JButton {
 		this.setBackground(new Color(180, 200, 220));
 	}
 
-	public void removeShootingRange(int id) {
-		shootingRanges.remove(id);
-	}
-
-	public void removeInstructor(int id) {
-		instructors.remove(id);
-	}
-
 	// GETTERS
 	public String getLabel() {
 		return label;
@@ -63,11 +52,11 @@ public class CalendarButton extends JButton {
 		return buttonType;
 	}
 	
-	public List<ShootingRange> getShootingRanges() {
+	public List<Integer> getAvailableShootingRanges() {
 		return shootingRanges;
 	}
 	
-	public List<Instructor> getInstructors() {
+	public List<Integer> getAvailableInstructors() {
 		return instructors;
 	}
 	
@@ -84,11 +73,11 @@ public class CalendarButton extends JButton {
 		this.date = date;
 	}
 
-	public void setShootingRanges(List<ShootingRange> shootingRanges) {
+	public void setAvailableShootingRanges(List<Integer> shootingRanges) {
 		this.shootingRanges = shootingRanges;
 	}
 
-	public void setInstructors(List<Instructor> instructors) {
+	public void setAvailableInstructors(List<Integer> instructors) {
 		this.instructors = instructors;
 	}
 

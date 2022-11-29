@@ -1,6 +1,5 @@
 package database;
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.ShootingRange;
-
 
 public class ShootingRangeDB implements ShootingRangeDBIF {
 
@@ -23,8 +21,6 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 		findAll = DBConnection.getInstance().getConnection().prepareStatement(Find_All_Q);
 	}
 
-	
-	
 	public List<ShootingRange> findAll() throws DataAccessException, SQLException {
 		ResultSet rs = null;
 		try {
@@ -37,11 +33,9 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 		}
 		List<ShootingRange> shootingRanges = buildObjects(rs);
 		return shootingRanges;
-		
+
 	}
-	
-	
-	
+
 	public ShootingRange findShootingRangeById(int id) throws DataAccessException, SQLException {
 		ShootingRange res = null;
 		try {
@@ -81,8 +75,5 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 		}
 		return shootingRanges;
 	}
-	
-	
-	
-	
+
 }

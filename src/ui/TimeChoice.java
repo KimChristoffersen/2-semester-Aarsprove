@@ -119,7 +119,6 @@ public class TimeChoice extends JPanel {
 		panelTop.add(lblTimeChoice);
 
 		createCalendarButtons();
-		getShootingRanges();
 		// getInstructors();
 	}
 
@@ -312,19 +311,9 @@ public class TimeChoice extends JPanel {
 
 	// updates the status of the buttons
 	private synchronized void updateStatus() throws DataAccessException, SQLException {
-		
-		
-		
-		
-		
+
 		// gets this weeks bookings
 		List<Booking> weekBookings = getWeeksBookings();
-		
-		System.out.println("weekbooking size: " + weekBookings.size());
-		System.out.println("weekbookings shootingrange 0's model: " + weekBookings.get(0).getShootingRange());
-		System.out.println("weekbookings shootingrange 0's id: " + weekBookings.get(0).getShootingRange().getShootingRangeId());
-
-		
 		if (weekBookings != null) {
 			// loop thought the buttons to check for availability
 			for (int i = 0; i < calendarButtons.size(); i++) {

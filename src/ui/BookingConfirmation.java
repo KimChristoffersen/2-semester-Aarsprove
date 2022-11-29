@@ -7,19 +7,25 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
+import controller.BookingController;
+import database.DataAccessException;
+
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BookingConfirmation extends JPanel {
 
 	private MainUI mainUI;
+	private BookingController bookingController;
 	/**
 	 * Create the panel.
 	 */
-	public BookingConfirmation(MainUI mainUI) {
-		this.mainUI = mainUI;
+	public BookingConfirmation(MainUI mainUI, BookingController bookingController) {
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelTop = new JPanel();
@@ -38,6 +44,27 @@ public class BookingConfirmation extends JPanel {
 		add(panelCenter);
 		panelCenter.setLayout(new GridLayout(2, 1, 10, 10));
 		
+		JButton btnNewButton = new JButton("Gem booking");
+		btnNewButton.addActionListener(e -> {
+			try {
+				confirmBooking();
+			} catch (DataAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		panelCenter.add(btnNewButton);
+		
+		init(mainUI, bookingController);
+	}
+	
+	private void init(MainUI mainUI, BookingController bookingController) {
+		this.mainUI = mainUI;
+		this.bookingController = bookingController;
+	}
+	
+	private void confirmBooking() throws DataAccessException {
+		bookingController.confirmBooking();
 	}
 
 }

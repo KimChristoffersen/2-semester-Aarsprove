@@ -58,7 +58,7 @@ public class InstructorDB implements InstructorDBIF {
 			currentInstructor.setFirstName(rs.getString("fName"));
 			currentInstructor.setLastName(rs.getString("lName"));
 			currentInstructor.setAddress(rs.getString("address"));
-			currentInstructor.setPostalCode(rs.getString("postalCode"));
+			currentInstructor.setPostalCode(rs.getString("postalCode_id"));
 			currentInstructor.setCity(rs.getString("city"));
 			currentInstructor.setPhone(rs.getString("phone"));
 			currentInstructor.setEmail(rs.getString("email"));

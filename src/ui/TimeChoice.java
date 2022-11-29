@@ -6,12 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
 import controller.BookingController;
 import controller.InstructorController;
 import controller.ShootingRangeController;
 import database.DataAccessException;
-import model.Booking;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.sql.SQLException;
@@ -122,8 +120,6 @@ public class TimeChoice extends JPanel {
 		yearFormat = DateTimeFormatter.ofPattern("u");
 		calendarButtons = new ArrayList<>();
 		bookingController = new BookingController();
-		new ShootingRangeController();
-		new InstructorController();
 	}
 
 	// Create all the buttons and adds them to a button list
@@ -257,8 +253,8 @@ public class TimeChoice extends JPanel {
 				cb.setAvailableInstructors(bookingController.getAvailableInstructors(cb.getDate(), cb.getTime()));
 				cb.addActionListener(e -> {
 					try {
-						selectDate(cb.getDate(), cb.getTime(), cb);
-					} catch (DataAccessException e1) {
+						selectDate(cb);
+					} catch (DataAccessException | SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -270,10 +266,13 @@ public class TimeChoice extends JPanel {
 		updateStatus();
 	}
 
-	// Gets buttons date and time when a button is clicked
-	private void selectDate(LocalDate date, int time, CalendarButton button) throws DataAccessException {
-		button.getAvailableShootingRanges().get(0);
-		mainUI.gotoBookingConfirmation();
+	// Gets buttons date, time, shootingrange, instructor when a button is clicked
+	private void selectDate(CalendarButton button) throws DataAccessException, SQLException {
+		LocalDate date = button.getDate();
+		int time = button.getTime();
+		int shootingRange = button.getAvailableShootingRanges().get(0);
+		int instructor = button.getAvailableInstructors().get(0);
+		mainUI.gotoBookingConfirmation(date,time,shootingRange,instructor);
 	}
 
 	// Checks if buttons date is before current date

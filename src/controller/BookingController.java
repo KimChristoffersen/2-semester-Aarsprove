@@ -7,32 +7,56 @@ import java.util.List;
 
 import database.BookingDB;
 import database.BookingDBIF;
+import database.CustomerDBIF;
 import database.DataAccessException;
 import model.*;
 
 public class BookingController {
 
-	private Booking currentBooking;
-	// private CustomerDBIF customerDB;
-	private BookingDBIF bookingDB;
+	private CustomerController customerController;
+	private ShootingRangeController shootingRangeController;
+	private InstructorController instructorController;
 	private WeaponController weaponController;
-
+	private BookingDBIF bookingDB;
+	private Booking currentBooking;
+	
 	public BookingController() throws SQLException, DataAccessException {
+		customerController = new CustomerController();
+		shootingRangeController = new ShootingRangeController();
+		instructorController = new InstructorController();
 		weaponController = new WeaponController();
 		bookingDB = new BookingDB();
+		
 	}
 
-	public void createBooking(Customer customer) {
-		currentBooking = new Booking(customer);
+	public void createBooking(int customerId) throws DataAccessException, SQLException {
+		currentBooking = new Booking(customerController.findCustomerById(customerId));
+	}
+	
+	public Customer findByCustomerById(int customerId) throws DataAccessException, SQLException {
+		return customerController.findCustomerById(customerId);
 	}
 
 	public void addWeapon(int weaponId) throws DataAccessException, SQLException {
-		currentBooking.setWeapon(findById(weaponId));
+		currentBooking.setWeapon(findWeaponById(weaponId));
 	}
-
-	public Weapon findById(int weaponId) throws DataAccessException, SQLException {
+	
+	public Weapon findWeaponById(int weaponId) throws DataAccessException, SQLException {
 		return weaponController.findById(weaponId);
 	}
+	
+	public void setTimeSlot(LocalDate date, int time, int instructorId, int shootingRangeId) throws DataAccessException, SQLException {
+		currentBooking.setDate(date);
+		currentBooking.setTime(time);
+		currentBooking.setInstructor(instructorController.findById(instructorId));
+		currentBooking.setShootingRange(shootingRangeController.findById(shootingRangeId));
+	}
+	
+	public void confirmBooking() throws DataAccessException {
+		bookingDB.confirmBooking(currentBooking);
+	}
+
+	
 
 	public Booking getCurrentBooking() {
 		return currentBooking;

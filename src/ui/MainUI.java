@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -108,12 +109,6 @@ public class MainUI extends JFrame {
 	}
 
 	public void createBookingWithWeaponAndInstructor() throws SQLException, DataAccessException {
-		//
-//		panelSouth.setLayout(new GridLayout(0, 3, 10, 10));
-//		panelSouth.add(btnStatusWeapon);
-//		panelSouth.add(btnStatusTime);
-//		panelSouth.add(btnStatusConfirmation);
-
 		panelCenterStart.hide();
 		panelCenterWeapon = new JPanel();
 		contentPane.add(panelCenterWeapon, BorderLayout.CENTER);
@@ -122,9 +117,7 @@ public class MainUI extends JFrame {
 		panelCenterWeapon.add(weaponChoice, BorderLayout.CENTER);
 		btnStatusWeapon.setBackground(Color.GREEN);
 		
-		Customer customer = new Customer();	// HARDCODE CUSTOMER
-		customer.setFirstName("Lasse");		// MAYBE REMOVE??
-		bookingController.createBooking(customer);	
+		bookingController.createBooking(2); // hardcoded customer	
 	}
 
 	public void addWeapon(int weaponId) throws DataAccessException, SQLException {
@@ -140,14 +133,16 @@ public class MainUI extends JFrame {
 		bookingController.addWeapon(weaponId);
 	}
 
-	public void gotoBookingConfirmation() {
+	public void gotoBookingConfirmation(LocalDate date, int time, int shootingRange, int instructor) throws DataAccessException, SQLException {
 		panelCenterTime.hide();
 		panelCenterBooking = new JPanel();
 		contentPane.add(panelCenterBooking, BorderLayout.CENTER);
 		panelCenterBooking.setLayout(new GridLayout(1, 0, 0, 0));
-		bookingConfirmation = new BookingConfirmation(this);
+		bookingConfirmation = new BookingConfirmation(this, bookingController);
 		panelCenterBooking.add(bookingConfirmation, BorderLayout.CENTER);
 		btnStatusTime.setEnabled(true);
 		btnStatusConfirmation.setBackground(Color.GREEN);
+		
+		bookingController.setTimeSlot(date, time, instructor, shootingRange);
 	}
 }

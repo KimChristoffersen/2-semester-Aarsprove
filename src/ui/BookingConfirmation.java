@@ -39,10 +39,12 @@ public class BookingConfirmation extends JPanel {
 	private JTextField textFieldCustomerPhone;
 	private JTextField textFieldCustomerEmail;
 	private JTextField textFieldCustomerNumber;
+	private JTextField textFieldBookingDateTimeInfo;
 	/**
 	 * Create the panel.
 	 */
 	public BookingConfirmation(MainUI mainUI, BookingController bookingController) {
+		init(mainUI, bookingController);
 		blueColor = new Color(0, 94, 150);
 		setBounds(new Rectangle(0, 0, 800, 500));
 		setLayout(new BorderLayout(0, 0));
@@ -89,7 +91,7 @@ public class BookingConfirmation extends JPanel {
 		panelBookingInfoHeader.add(lblBookingInfo);
 		
 		JLabel lblBookingNumber = new JLabel("Booking nr.");
-		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblBookingNumber, 45, SpringLayout.NORTH, panelBookingInfo);
+		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblBookingNumber, 42, SpringLayout.NORTH, panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblBookingNumber, 15, SpringLayout.WEST, panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, lblBookingNumber, 130, SpringLayout.WEST, panelBookingInfo);
 		lblBookingNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -108,7 +110,7 @@ public class BookingConfirmation extends JPanel {
 		panelBookingInfo.add(lblShootingRangeNumber);
 		
 		textFieldBookingNumber = new JTextField();
-		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingNumber, 40, SpringLayout.NORTH, panelBookingInfo);
+		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingNumber, 39, SpringLayout.NORTH, panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingNumber, 155, SpringLayout.WEST, panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingNumber, -15, SpringLayout.EAST, panelBookingInfo);
 		textFieldBookingNumber.setBackground(new Color(255, 255, 255));
@@ -127,17 +129,17 @@ public class BookingConfirmation extends JPanel {
 		textFieldBookingShootingRange.setColumns(10);
 		panelBookingInfo.add(textFieldBookingShootingRange);
 		
-		JLabel lblInstruktrNavn = new JLabel("Instruktør navn");
-		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblInstruktrNavn, 17, SpringLayout.SOUTH, lblShootingRangeNumber);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblInstruktrNavn, 0, SpringLayout.WEST, lblBookingNumber);
-		lblInstruktrNavn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panelBookingInfo.add(lblInstruktrNavn);
+		JLabel lblInstruktorName = new JLabel("Instruktør navn");
+		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblInstruktorName, 15, SpringLayout.SOUTH, lblShootingRangeNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblInstruktorName, 0, SpringLayout.WEST, lblBookingNumber);
+		lblInstruktorName.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panelBookingInfo.add(lblInstruktorName);
 		
-		JLabel lblVben = new JLabel("Våben");
-		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblVben, 18, SpringLayout.SOUTH, lblInstruktrNavn);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblVben, 0, SpringLayout.WEST, lblBookingNumber);
-		lblVben.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panelBookingInfo.add(lblVben);
+		JLabel lblWeapon = new JLabel("Våben");
+		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblWeapon, 15, SpringLayout.SOUTH, lblInstruktorName);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblWeapon, 0, SpringLayout.WEST, lblBookingNumber);
+		lblWeapon.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panelBookingInfo.add(lblWeapon);
 		
 		textFieldBookingInstructor = new JTextField();
 		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingInstructor, 10, SpringLayout.SOUTH, textFieldBookingShootingRange);
@@ -159,6 +161,23 @@ public class BookingConfirmation extends JPanel {
 		textFieldBookingWeapon.setBackground(Color.WHITE);
 		panelBookingInfo.add(textFieldBookingWeapon);
 		
+		JLabel lblDateTime = new JLabel("Dato tid");
+		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblDateTime, 15, SpringLayout.SOUTH, lblWeapon);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblDateTime, 0, SpringLayout.WEST, lblBookingNumber);
+		lblDateTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panelBookingInfo.add(lblDateTime);
+		
+		textFieldBookingDateTimeInfo = new JTextField();
+		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingDateTimeInfo, 6, SpringLayout.SOUTH, textFieldBookingWeapon);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingDateTimeInfo, 155, SpringLayout.WEST, panelBookingInfo);
+		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingDateTimeInfo, 0, SpringLayout.EAST, textFieldBookingNumber);
+		textFieldBookingDateTimeInfo.setText((String) null);
+		textFieldBookingDateTimeInfo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textFieldBookingDateTimeInfo.setEditable(false);
+		textFieldBookingDateTimeInfo.setColumns(10);
+		textFieldBookingDateTimeInfo.setBackground(Color.WHITE);
+		panelBookingInfo.add(textFieldBookingDateTimeInfo);
+		
 		JPanel panelCustomerInfo = new JPanel();
 		panelBooking.add(panelCustomerInfo);
 		SpringLayout sl_panelCustomerInfo = new SpringLayout();
@@ -178,14 +197,14 @@ public class BookingConfirmation extends JPanel {
 		panelCustomerInfoHeader.add(lblCustomerInfo);
 		
 		JLabel lblCustomerName = new JLabel("Navn");
-		sl_panelCustomerInfo.putConstraint(SpringLayout.NORTH, lblCustomerName, 45, SpringLayout.NORTH, panelCustomerInfo);
+		sl_panelCustomerInfo.putConstraint(SpringLayout.NORTH, lblCustomerName, 42, SpringLayout.NORTH, panelCustomerInfo);
 		sl_panelCustomerInfo.putConstraint(SpringLayout.WEST, lblCustomerName, 15, SpringLayout.WEST, panelCustomerInfo);
 		sl_panelCustomerInfo.putConstraint(SpringLayout.EAST, lblCustomerName, 130, SpringLayout.WEST, panelCustomerInfo);
 		lblCustomerName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelCustomerInfo.add(lblCustomerName);
 		
 		textFieldCustomerName = new JTextField();
-		sl_panelCustomerInfo.putConstraint(SpringLayout.NORTH, textFieldCustomerName, 40, SpringLayout.NORTH, panelCustomerInfo);
+		sl_panelCustomerInfo.putConstraint(SpringLayout.NORTH, textFieldCustomerName, 39, SpringLayout.NORTH, panelCustomerInfo);
 		sl_panelCustomerInfo.putConstraint(SpringLayout.WEST, textFieldCustomerName, 155, SpringLayout.WEST, panelCustomerInfo);
 		sl_panelCustomerInfo.putConstraint(SpringLayout.EAST, textFieldCustomerName, -15, SpringLayout.EAST, panelCustomerInfo);
 		textFieldCustomerName.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -401,8 +420,6 @@ public class BookingConfirmation extends JPanel {
 		btnChoose.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panelSouth.add(btnChoose);
 		
-		init(mainUI, bookingController);
-		
 		updateFields();
 	}
 	
@@ -416,7 +433,8 @@ public class BookingConfirmation extends JPanel {
 		textFieldBookingNumber.setText("HMM HOW TO GET THIS??");
 //		textFieldBookingShootingRange.setText(bookingController.getCurrentBooking().getShootingRange().getShootingRangeId() + "");
 //		textFieldBookingInstructor.setText(bookingController.getCurrentBooking().getInstructor().getFirstName() + " " + bookingController.getCurrentBooking().getInstructor().getLastName());
-//		textFieldBookingWeapon.setText(bookingController.getCurrentBooking().getWeapon().getWeaponName());
+		textFieldBookingWeapon.setText(bookingController.getCurrentBooking().getWeapon().getWeaponName());
+		textFieldBookingDateTimeInfo.setText(bookingController.getCurrentBooking().getDate() + " kl. " + bookingController.getCurrentBooking().getTime() + ":00" );
 		
 		textFieldCustomerName.setText(bookingController.getCurrentBooking().getCustomer().getFirstName() + " " + bookingController.getCurrentBooking().getCustomer().getLastName());
 		textFieldCustomerPhone.setText(bookingController.getCurrentBooking().getCustomer().getPhone());

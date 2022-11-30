@@ -37,7 +37,7 @@ public class TimeChoice extends JPanel {
 	private JButton btnDateForward;
 	private JPanel panel;
 	private JPanel panelTop;
-	
+
 	// Threads and monitor
 	private TimeChoiceMonitor timeChoiceMonitor;
 	private PollThread pollThread;
@@ -114,18 +114,18 @@ public class TimeChoice extends JPanel {
 		panelTop.add(lblTimeChoice);
 
 		createCalendarButtons();
-		
+
 		// initializing threads and monitor
 		timeChoiceMonitor = TimeChoiceMonitor.getInstance();
-		
+
 		updateTimeChoiceUIThread = new UpdateTimeChoiceUIThread(this, timeChoiceMonitor);
 		pollThread = new PollThread();
 
-		System.out.println("UI Thread");
-		updateTimeChoiceUIThread.start();
-		
 		pollThread.start();
 		System.out.println("PollStart");
+
+		System.out.println("UI Thread");
+		updateTimeChoiceUIThread.start();
 	}
 
 	private void init(MainUI mainUI) throws SQLException, DataAccessException {
@@ -142,7 +142,7 @@ public class TimeChoice extends JPanel {
 		// Clear buttonlist
 		calendarButtons.clear();
 		panelCalendar.removeAll();
-		
+
 		CalendarButton btnMonday = new CalendarButton("<html><center><b>MANDAG<br></b>"
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(0)) + "</center></html>",
 				firstDayOfThisWeek.plusDays(0), "headerButton");
@@ -288,7 +288,7 @@ public class TimeChoice extends JPanel {
 		int time = button.getTime();
 		int shootingRange = button.getAvailableShootingRanges().get(0);
 		int instructor = button.getAvailableInstructors().get(0);
-		mainUI.gotoBookingConfirmation(date,time,shootingRange,instructor);
+		mainUI.gotoBookingConfirmation(date, time, shootingRange, instructor);
 	}
 
 	// Checks if buttons date is before current date
@@ -312,14 +312,16 @@ public class TimeChoice extends JPanel {
 		}
 		checkAvailability();
 	}
-	
+
 	private void checkAvailability() {
 		for (CalendarButton cb : calendarButtons)
-			if(cb.getAvailableShootingRanges() != null && cb.getAvailableInstructors() != null)
-				if (cb.getAvailableShootingRanges().size() == 0 || cb.getAvailableInstructors().size() == 0 || !checkForDatePast(cb)) {
-				cb.setEnabled(false);
+			if (cb.getAvailableShootingRanges() != null && cb.getAvailableInstructors() != null) {
+				if (cb.getAvailableShootingRanges().size() == 0 || cb.getAvailableInstructors().size() == 0
+						|| !checkForDatePast(cb)) {
+					cb.setEnabled(false);
+				}
 			}
-		}
+	}
 
 	// Shows last weeks buttons, displays first day, last day and year
 	private void dateBackward() throws DataAccessException, SQLException {

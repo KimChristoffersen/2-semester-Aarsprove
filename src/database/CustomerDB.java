@@ -8,7 +8,7 @@ import model.Customer;
 
 public class CustomerDB implements CustomerDBIF {
 
-	private static final String FIND_BY_ID_Q = "select c.customer_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from customer c, person p, address a, PostalCode pc where customer_Id = ?";
+	private static final String FIND_BY_ID_Q = "select c.customer_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from customer c, person p, address a, PostalCode pc where customer_Id = ? and c.customer_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
 
 	private PreparedStatement findByIdPS;
 

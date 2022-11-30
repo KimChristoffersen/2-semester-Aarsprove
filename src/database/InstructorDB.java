@@ -9,8 +9,8 @@ import model.Instructor;
 
 public class InstructorDB implements InstructorDBIF {
 
-	private static final String FIND_ALL_Q = "select i.instructor_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where status = 1";
-	private static final String FIND_BY_ID_Q = "select i.instructor_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where instructor_id = ?";
+	private static final String FIND_ALL_Q = "select i.instructor_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where status = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
+	private static final String FIND_BY_ID_Q = "select i.instructor_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where instructor_id = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
 
 	private PreparedStatement findAllPS;
 	private PreparedStatement findByIdPS;

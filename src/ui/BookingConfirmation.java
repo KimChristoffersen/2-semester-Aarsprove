@@ -12,6 +12,7 @@ import controller.BookingController;
 import database.DataAccessException;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
@@ -42,6 +43,8 @@ public class BookingConfirmation extends JPanel {
 	private JTextField textFieldCustomerNumber;
 	private JTextField textFieldBookingDateTimeInfo;
 	private DateTimeFormatter dayMontFormat;
+	private DecimalFormat twoDecimals;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -426,16 +429,16 @@ public class BookingConfirmation extends JPanel {
 		updateFields();
 	}
 	
-
 	private void init(MainUI mainUI, BookingController bookingController) {
 		this.mainUI = mainUI;
 		this.bookingController = bookingController;
 		dayMontFormat = DateTimeFormatter.ofPattern("dd. MMM");
+		twoDecimals = new DecimalFormat("0.00");
 	}
 	
 	private void updateFields() {
 		textFieldBookingNumber.setText("HMM HOW TO GET THIS??");
-	textFieldBookingShootingRange.setText(bookingController.getCurrentBooking().getShootingRange().getShootingRangeId() + "");
+		textFieldBookingShootingRange.setText(bookingController.getCurrentBooking().getShootingRange().getShootingRangeId() + "");
 		textFieldBookingInstructor.setText(bookingController.getCurrentBooking().getInstructor().getFirstName() + " " + bookingController.getCurrentBooking().getInstructor().getLastName());
 		textFieldBookingWeapon.setText(bookingController.getCurrentBooking().getWeapon().getWeaponName());
 		textFieldBookingDateTimeInfo.setText(dayMontFormat.format(bookingController.getCurrentBooking().getDate()) + " kl. " + bookingController.getCurrentBooking().getTime() + ":00" );
@@ -445,17 +448,13 @@ public class BookingConfirmation extends JPanel {
 		textFieldCustomerEmail.setText(bookingController.getCurrentBooking().getCustomer().getEmail());
 		textFieldCustomerNumber.setText(bookingController.getCurrentBooking().getCustomer().getCustomerId() + "");
 		
-		txtFieldShootingRangePrice.setText(0 + ".00 kr.");
-		textFieldInstructorPrice.setText(0 + ".00 kr.");
-		textFieldWeaponPrice.setText(0 + ".00 kr.");
-		textFieldTotalPrice.setText(bookingController.getCurrentBooking().getPriceTotal() + "0 kr.");
+		txtFieldShootingRangePrice.setText(twoDecimals.format(0) + " kr.");
+		textFieldInstructorPrice.setText(twoDecimals.format(0) + " kr.");
+		textFieldWeaponPrice.setText(twoDecimals.format(0) + " kr.");
+		textFieldTotalPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getPriceTotal()) + " kr.");
 	}
-	
 	
 	private void confirmBooking() throws DataAccessException {
 		bookingController.confirmBooking();
 	}
-	
-	
-	
 }

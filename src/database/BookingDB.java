@@ -15,29 +15,33 @@ import model.ShootingRange;
 import model.Weapon;
 
 public class BookingDB implements BookingDBIF {
-	
+
 	private ShootingRangeDBIF shootingRangeDB;
 	private CustomerDBIF customerDB;
 	private InstructorDBIF instructorDB;
 	private WeaponDBIF weaponDB;
 
-
 	private static final String FIND_BY_ID_Q = "select * from booking where bookingnumber = ?";
 	private static final String INSERT_Q = "insert into booking values(?, ?, ?, ?, ?,?,?,?)";
 	private static final String FINDAVAILABLESHOOTINGRANGES_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
 	private static final String FINDAVAILABLEINSTRUCTORS_Q = "select instructor_Id from Instructor where instructor_Id NOT IN (select instructor_Id from Booking where date = ? and time = ?)";
+	private static final String FIND_NEWEST_BOOKINGNUMBER_Q = "select max(bookingNumber) as bookingNumber from booking";
 
 	private PreparedStatement findByIdPS;
 	private PreparedStatement insertPS;
 	private PreparedStatement findAvailableShootingRanges;
 	private PreparedStatement findAvailableInstructors;
+	private PreparedStatement findNewestBookingNumber;
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q);
-		findAvailableShootingRanges = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
-		findAvailableInstructors = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
-		shootingRangeDB = new ShootingRangeDB();
+		findAvailableShootingRanges = DBConnection.getInstance().getConnection()
+				.prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
+		findAvailableInstructors = DBConnection.getInstance().getConnection()
+				.prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
+		findNewestBookingNumber = DBConnection.getInstance().getConnection()
+				.prepareStatement(FIND_NEWEST_BOOKINGNUMBER_Q);
 	}
 
 	// Finds booking in database
@@ -117,7 +121,7 @@ public class BookingDB implements BookingDBIF {
 			findAvailableShootingRanges.setInt(2, time);
 			ResultSet rs = findAvailableShootingRanges.executeQuery();
 			while (rs.next()) {
-				int shootingRange_Id = 0;
+				// int shootingRange_Id = 0;
 				availShootingRanges.add(rs.getInt("shootingRange_Id"));
 			}
 		} catch (SQLException e) {
@@ -134,7 +138,7 @@ public class BookingDB implements BookingDBIF {
 			findAvailableInstructors.setInt(2, time);
 			ResultSet rs = findAvailableInstructors.executeQuery();
 			while (rs.next()) {
-				int instructorRange_Id = 0;
+				// int instructorRange_Id = 0;
 				availableInstructors.add(rs.getInt("instructor_Id"));
 			}
 		} catch (SQLException e) {
@@ -142,5 +146,21 @@ public class BookingDB implements BookingDBIF {
 		}
 
 		return availableInstructors;
+	}
+
+	@Override
+	public int getNewestBookingNumber() throws DataAccessException {
+		ResultSet rs = null;
+		int bookingNumber = 0;
+		try {
+			rs = findNewestBookingNumber.executeQuery();
+			if (rs.next()) {
+				bookingNumber = rs.getInt("bookingNumber");
+			}
+		} catch (
+		SQLException e) {
+			throw new DataAccessException("Could not retrieve newest booking number", e);
+		}
+		return bookingNumber;
 	}
 }

@@ -56,8 +56,6 @@ public class BookingController {
 		bookingDB.confirmBooking(currentBooking);
 	}
 
-	
-
 	public Booking getCurrentBooking() {
 		return currentBooking;
 	}
@@ -76,5 +74,9 @@ public class BookingController {
 	
 	public void cancelBooking() {
 		this.currentBooking = null;
+	}
+
+	public int getNewestBookingNumber() throws DataAccessException {
+		return bookingDB.getNewestBookingNumber();		
 	}
 }

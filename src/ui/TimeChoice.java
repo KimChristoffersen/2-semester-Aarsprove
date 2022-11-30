@@ -7,8 +7,6 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import controller.BookingController;
-import controller.InstructorController;
-import controller.ShootingRangeController;
 import database.DataAccessException;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -39,6 +37,11 @@ public class TimeChoice extends JPanel {
 	private JButton btnDateForward;
 	private JPanel panel;
 	private JPanel panelTop;
+	
+	// Threads and monitor
+	private TimeChoiceMonitor timeChoiceMonitor;
+	private PollThread pollThread;
+	private UpdateTimeChoiceUIThread updateTimeChoiceUIThread;
 
 	/**
 	 * Create the panel.
@@ -110,7 +113,20 @@ public class TimeChoice extends JPanel {
 		lblTimeChoice.setFont(new Font("Tahoma", Font.BOLD, 18));
 		panelTop.add(lblTimeChoice);
 
-		createCalendarButtons();
+//		createCalendarButtons();
+		
+		// initializing threads and monitor
+		timeChoiceMonitor = TimeChoiceMonitor.getInstance();
+		
+		updateTimeChoiceUIThread = new UpdateTimeChoiceUIThread(this, timeChoiceMonitor);
+		pollThread = new PollThread();
+
+		pollThread.start();
+		System.out.println("PollStart");
+
+		System.out.println("UI Thread");
+		updateTimeChoiceUIThread.start();
+
 	}
 
 	private void init(MainUI mainUI) throws SQLException, DataAccessException {
@@ -123,10 +139,11 @@ public class TimeChoice extends JPanel {
 	}
 
 	// Create all the buttons and adds them to a button list
-	public void createCalendarButtons() throws DataAccessException, SQLException {
+	public synchronized void createCalendarButtons() throws DataAccessException, SQLException {
 		// Clear buttonlist
 		calendarButtons.clear();
-
+		panelCalendar.removeAll();
+		
 		CalendarButton btnMonday = new CalendarButton("<html><center><b>MANDAG<br></b>"
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(0)) + "</center></html>",
 				firstDayOfThisWeek.plusDays(0), "headerButton");
@@ -263,7 +280,7 @@ public class TimeChoice extends JPanel {
 				cb.setText(cb.getLabel());
 			}
 		}
-		updateStatus();
+		checkAvailability();
 	}
 
 	// Gets buttons date, time, shootingrange, instructor when a button is clicked
@@ -287,16 +304,16 @@ public class TimeChoice extends JPanel {
 	}
 
 	// updates the status of the buttons
-	private void updateStatus() throws DataAccessException, SQLException {
+	public void updateStatus() throws DataAccessException, SQLException {
+		createCalendarButtons();
+	}
+	
+	private void checkAvailability() {
 		for (CalendarButton cb : calendarButtons)
 			if(cb.getAvailableShootingRanges() != null && cb.getAvailableInstructors() != null)
 				if (cb.getAvailableShootingRanges().size() == 0 || cb.getAvailableInstructors().size() == 0 || !checkForDatePast(cb)) {
 				cb.setEnabled(false);
 			}
-	}
-	
-	private void checkAvailability() {
-		
 		}
 
 	// Shows last weeks buttons, displays first day, last day and year
@@ -313,9 +330,7 @@ public class TimeChoice extends JPanel {
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(5)) + " " + yearFormat.format(firstDayOfThisWeek));
 		// removes all buttons from the center panel, creates buttons anew and updates
 		// status of the buttons
-		panelCalendar.removeAll();
 		createCalendarButtons();
-		updateStatus();
 	}
 
 	// Shows next weeks buttons, displays first day, last day and year
@@ -332,8 +347,6 @@ public class TimeChoice extends JPanel {
 
 		// removes all buttons from the center panel, creates buttons anew and updates
 		// status of the buttons
-		panelCalendar.removeAll();
 		createCalendarButtons();
-		updateStatus();
 	}
 }

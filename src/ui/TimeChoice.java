@@ -307,7 +307,7 @@ public class TimeChoice extends JPanel {
 	//	panelCalendar.setVisible(false);
 		createCalendarButtons();
 	//	panelCalendar.setVisible(true);
-		panelCalendar.revalidate();
+	//	panelCalendar.revalidate();
 	}
 	
 	private void checkAvailability() {

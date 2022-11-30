@@ -113,7 +113,7 @@ public class TimeChoice extends JPanel {
 		lblTimeChoice.setFont(new Font("Tahoma", Font.BOLD, 18));
 		panelTop.add(lblTimeChoice);
 
-//		createCalendarButtons();
+		createCalendarButtons();
 		
 		// initializing threads and monitor
 		timeChoiceMonitor = TimeChoiceMonitor.getInstance();
@@ -304,10 +304,13 @@ public class TimeChoice extends JPanel {
 
 	// updates the status of the buttons
 	public void updateStatus() throws DataAccessException, SQLException {
-	//	panelCalendar.setVisible(false);
-		createCalendarButtons();
-	//	panelCalendar.setVisible(true);
-	//	panelCalendar.revalidate();
+		for (CalendarButton cb : calendarButtons) {
+			if (!cb.getButtonType().equals("headerButton")) {
+				cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(), cb.getTime()));
+				cb.setAvailableInstructors(bookingController.getAvailableInstructors(cb.getDate(), cb.getTime()));
+			}
+		}
+		checkAvailability();
 	}
 	
 	private void checkAvailability() {

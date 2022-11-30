@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import java.awt.Toolkit;
 
 public class MainUI extends JFrame {
 
@@ -53,6 +54,8 @@ public class MainUI extends JFrame {
 	 * @throws SQLException 
 	 */
 	public MainUI() throws SQLException, DataAccessException {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource("/images/programIcon.gif")));
+		setTitle("Østjysk Våbenhandel skydebaner bookingsystem");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();

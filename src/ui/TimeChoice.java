@@ -121,12 +121,11 @@ public class TimeChoice extends JPanel {
 		updateTimeChoiceUIThread = new UpdateTimeChoiceUIThread(this, timeChoiceMonitor);
 		pollThread = new PollThread();
 
-		pollThread.start();
-		System.out.println("PollStart");
-
 		System.out.println("UI Thread");
 		updateTimeChoiceUIThread.start();
-
+		
+		pollThread.start();
+		System.out.println("PollStart");
 	}
 
 	private void init(MainUI mainUI) throws SQLException, DataAccessException {
@@ -305,7 +304,10 @@ public class TimeChoice extends JPanel {
 
 	// updates the status of the buttons
 	public void updateStatus() throws DataAccessException, SQLException {
+	//	panelCalendar.setVisible(false);
 		createCalendarButtons();
+	//	panelCalendar.setVisible(true);
+		panelCalendar.revalidate();
 	}
 	
 	private void checkAvailability() {

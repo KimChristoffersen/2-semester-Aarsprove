@@ -44,7 +44,6 @@ public class BookingConfirmation extends JPanel {
 	 * Create the panel.
 	 */
 	public BookingConfirmation(MainUI mainUI, BookingController bookingController) {
-		init(mainUI, bookingController);
 		blueColor = new Color(0, 94, 150);
 		setBounds(new Rectangle(0, 0, 800, 500));
 		setLayout(new BorderLayout(0, 0));
@@ -143,8 +142,8 @@ public class BookingConfirmation extends JPanel {
 		
 		textFieldBookingInstructor = new JTextField();
 		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingInstructor, 10, SpringLayout.SOUTH, textFieldBookingShootingRange);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingInstructor, 155, SpringLayout.WEST, panelBookingInfo);
-		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingInstructor, 0, SpringLayout.EAST, textFieldBookingNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingInstructor, 34, SpringLayout.EAST, lblInstruktorName);
+		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingInstructor, -15, SpringLayout.EAST, panelBookingInfo);
 		textFieldBookingInstructor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textFieldBookingInstructor.setEditable(false);
 		textFieldBookingInstructor.setColumns(10);
@@ -153,8 +152,8 @@ public class BookingConfirmation extends JPanel {
 		
 		textFieldBookingWeapon = new JTextField();
 		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingWeapon, 10, SpringLayout.SOUTH, textFieldBookingInstructor);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingWeapon, 155, SpringLayout.WEST, panelBookingInfo);
-		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingWeapon, 0, SpringLayout.EAST, textFieldBookingNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingWeapon, 91, SpringLayout.EAST, lblWeapon);
+		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingWeapon, -15, SpringLayout.EAST, panelBookingInfo);
 		textFieldBookingWeapon.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textFieldBookingWeapon.setEditable(false);
 		textFieldBookingWeapon.setColumns(10);
@@ -169,8 +168,8 @@ public class BookingConfirmation extends JPanel {
 		
 		textFieldBookingDateTimeInfo = new JTextField();
 		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingDateTimeInfo, 6, SpringLayout.SOUTH, textFieldBookingWeapon);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingDateTimeInfo, 155, SpringLayout.WEST, panelBookingInfo);
-		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingDateTimeInfo, 0, SpringLayout.EAST, textFieldBookingNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingDateTimeInfo, 90, SpringLayout.EAST, lblDateTime);
+		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingDateTimeInfo, -15, SpringLayout.EAST, panelBookingInfo);
 		textFieldBookingDateTimeInfo.setText((String) null);
 		textFieldBookingDateTimeInfo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textFieldBookingDateTimeInfo.setEditable(false);
@@ -419,7 +418,9 @@ public class BookingConfirmation extends JPanel {
 		});
 		btnChoose.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panelSouth.add(btnChoose);
-		
+
+		init(mainUI, bookingController);
+
 		updateFields();
 	}
 	
@@ -431,8 +432,8 @@ public class BookingConfirmation extends JPanel {
 	
 	private void updateFields() {
 		textFieldBookingNumber.setText("HMM HOW TO GET THIS??");
-//		textFieldBookingShootingRange.setText(bookingController.getCurrentBooking().getShootingRange().getShootingRangeId() + "");
-//		textFieldBookingInstructor.setText(bookingController.getCurrentBooking().getInstructor().getFirstName() + " " + bookingController.getCurrentBooking().getInstructor().getLastName());
+	textFieldBookingShootingRange.setText(bookingController.getCurrentBooking().getShootingRange().getShootingRangeId() + "");
+		textFieldBookingInstructor.setText(bookingController.getCurrentBooking().getInstructor().getFirstName() + " " + bookingController.getCurrentBooking().getInstructor().getLastName());
 		textFieldBookingWeapon.setText(bookingController.getCurrentBooking().getWeapon().getWeaponName());
 		textFieldBookingDateTimeInfo.setText(bookingController.getCurrentBooking().getDate() + " kl. " + bookingController.getCurrentBooking().getTime() + ":00" );
 		

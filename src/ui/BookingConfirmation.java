@@ -12,6 +12,7 @@ import controller.BookingController;
 import database.DataAccessException;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
+import java.time.format.DateTimeFormatter;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -40,6 +41,7 @@ public class BookingConfirmation extends JPanel {
 	private JTextField textFieldCustomerEmail;
 	private JTextField textFieldCustomerNumber;
 	private JTextField textFieldBookingDateTimeInfo;
+	private DateTimeFormatter dayMontFormat;
 	/**
 	 * Create the panel.
 	 */
@@ -428,6 +430,7 @@ public class BookingConfirmation extends JPanel {
 	private void init(MainUI mainUI, BookingController bookingController) {
 		this.mainUI = mainUI;
 		this.bookingController = bookingController;
+		dayMontFormat = DateTimeFormatter.ofPattern("dd. MMM");
 	}
 	
 	private void updateFields() {
@@ -435,7 +438,7 @@ public class BookingConfirmation extends JPanel {
 	textFieldBookingShootingRange.setText(bookingController.getCurrentBooking().getShootingRange().getShootingRangeId() + "");
 		textFieldBookingInstructor.setText(bookingController.getCurrentBooking().getInstructor().getFirstName() + " " + bookingController.getCurrentBooking().getInstructor().getLastName());
 		textFieldBookingWeapon.setText(bookingController.getCurrentBooking().getWeapon().getWeaponName());
-		textFieldBookingDateTimeInfo.setText(bookingController.getCurrentBooking().getDate() + " kl. " + bookingController.getCurrentBooking().getTime() + ":00" );
+		textFieldBookingDateTimeInfo.setText(dayMontFormat.format(bookingController.getCurrentBooking().getDate()) + " kl. " + bookingController.getCurrentBooking().getTime() + ":00" );
 		
 		textFieldCustomerName.setText(bookingController.getCurrentBooking().getCustomer().getFirstName() + " " + bookingController.getCurrentBooking().getCustomer().getLastName());
 		textFieldCustomerPhone.setText(bookingController.getCurrentBooking().getCustomer().getPhone());

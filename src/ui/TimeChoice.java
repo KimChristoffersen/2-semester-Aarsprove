@@ -318,6 +318,7 @@ public class TimeChoice extends JPanel {
 
 	// Gets buttons date, time, shootingrange, instructor when a button is clicked
 	private void selectDate(CalendarButton button) throws DataAccessException, SQLException, InterruptedException {
+		pollThread.setTimeChoiceOpen(false);
 		LocalDate date = button.getDate();
 		int time = button.getTime();
 		int shootingRange = button.getAvailableShootingRanges().get(0);

@@ -94,7 +94,7 @@ public class WeaponChoice extends JPanel {
 	private void selectWeapon() throws DataAccessException, SQLException {
 		int selectedWeapon = table.getSelectedRow();
 		if (selectedWeapon != -1) {
-			int weaponId = Integer.parseInt((String) table.getValueAt(selectedWeapon, 4));
+			int weaponId = Integer.parseInt((String) table.getValueAt(selectedWeapon, 3));
 			mainUI.addWeapon(weaponId);
 			updateTable();
 		} else {
@@ -120,8 +120,7 @@ public class WeaponChoice extends JPanel {
 		table.getColumnModel().getColumn(1).setHeaderRenderer(headerLeftRenderer);
 		table.getColumnModel().getColumn(2).setHeaderRenderer(headerLeftRenderer);
 		table.getColumnModel().getColumn(3).setHeaderRenderer(headerLeftRenderer);
-		table.getColumnModel().getColumn(4).setHeaderRenderer(headerLeftRenderer);
-		table.getColumnModel().getColumn(0).setPreferredWidth(120);;
+		//table.getColumnModel().getColumn(0).setPreferredWidth(120);
 
 
 		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
@@ -131,6 +130,5 @@ public class WeaponChoice extends JPanel {
 		table.getColumnModel().getColumn(1).setCellRenderer(leftRenderer);
 		table.getColumnModel().getColumn(2).setCellRenderer(leftRenderer);
 		table.getColumnModel().getColumn(3).setCellRenderer(leftRenderer);
-		table.getColumnModel().getColumn(4).setCellRenderer(leftRenderer);
 	}
 }

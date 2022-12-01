@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -25,7 +27,6 @@ public class BookingConfirmation extends JPanel {
 	private MainUI mainUI;
 	private BookingController bookingController;
 	private Color blueColor;
-	private JTextField textFieldBookingNumber;
 	private JTextField textFieldBookingShootingRange;
 	private JTextField txtFieldRessourceName;
 	private JTextField txtFieldPrice;
@@ -100,23 +101,13 @@ public class BookingConfirmation extends JPanel {
 		lblBookingInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panelBookingInfoHeader.add(lblBookingInfo);
 
-		JLabel lblBookingNumber = new JLabel("Booking nr.");
-		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblBookingNumber, 42, SpringLayout.NORTH,
-				panelBookingInfo);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblBookingNumber, 15, SpringLayout.WEST, panelBookingInfo);
-		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, lblBookingNumber, 130, SpringLayout.WEST,
-				panelBookingInfo);
-		lblBookingNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panelBookingInfo.add(lblBookingNumber);
-
 		JLabel label = new JLabel("New label");
 		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, label, 0, SpringLayout.NORTH, panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, label, 0, SpringLayout.WEST, panelBookingInfo);
 		panelBookingInfo.add(label);
 
 		JLabel lblShootingRangeNumber = new JLabel("Skydebane nr.");
-		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblShootingRangeNumber, 15, SpringLayout.SOUTH,
-				lblBookingNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblShootingRangeNumber, 44, SpringLayout.NORTH, panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblShootingRangeNumber, 15, SpringLayout.WEST,
 				panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, lblShootingRangeNumber, 130, SpringLayout.WEST,
@@ -124,22 +115,8 @@ public class BookingConfirmation extends JPanel {
 		lblShootingRangeNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelBookingInfo.add(lblShootingRangeNumber);
 
-		textFieldBookingNumber = new JTextField();
-		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingNumber, 39, SpringLayout.NORTH,
-				panelBookingInfo);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingNumber, 140, SpringLayout.WEST,
-				panelBookingInfo);
-		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingNumber, -15, SpringLayout.EAST,
-				panelBookingInfo);
-		textFieldBookingNumber.setBackground(new Color(255, 255, 255));
-		textFieldBookingNumber.setEditable(false);
-		textFieldBookingNumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panelBookingInfo.add(textFieldBookingNumber);
-		textFieldBookingNumber.setColumns(10);
-
 		textFieldBookingShootingRange = new JTextField();
-		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingShootingRange, 10, SpringLayout.SOUTH,
-				textFieldBookingNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, textFieldBookingShootingRange, 42, SpringLayout.NORTH, panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, textFieldBookingShootingRange, 140, SpringLayout.WEST,
 				panelBookingInfo);
 		sl_panelBookingInfo.putConstraint(SpringLayout.EAST, textFieldBookingShootingRange, -15, SpringLayout.EAST,
@@ -153,13 +130,13 @@ public class BookingConfirmation extends JPanel {
 		JLabel lblInstruktorName = new JLabel("Instrukt\u00F8r navn");
 		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblInstruktorName, 15, SpringLayout.SOUTH,
 				lblShootingRangeNumber);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblInstruktorName, 0, SpringLayout.WEST, lblBookingNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblInstruktorName, 15, SpringLayout.WEST, panelBookingInfo);
 		lblInstruktorName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelBookingInfo.add(lblInstruktorName);
 
 		JLabel lblWeapon = new JLabel("V\u00E5ben");
 		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblWeapon, 15, SpringLayout.SOUTH, lblInstruktorName);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblWeapon, 0, SpringLayout.WEST, lblBookingNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblWeapon, 15, SpringLayout.WEST, panelBookingInfo);
 		lblWeapon.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelBookingInfo.add(lblWeapon);
 
@@ -191,7 +168,7 @@ public class BookingConfirmation extends JPanel {
 
 		JLabel lblDateTime = new JLabel("Dato tid");
 		sl_panelBookingInfo.putConstraint(SpringLayout.NORTH, lblDateTime, 15, SpringLayout.SOUTH, lblWeapon);
-		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblDateTime, 0, SpringLayout.WEST, lblBookingNumber);
+		sl_panelBookingInfo.putConstraint(SpringLayout.WEST, lblDateTime, 15, SpringLayout.WEST, panelBookingInfo);
 		lblDateTime.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panelBookingInfo.add(lblDateTime);
 
@@ -500,8 +477,10 @@ public class BookingConfirmation extends JPanel {
 		btnChoose.addActionListener(e -> {
 			try {
 				confirmBooking();
+				JOptionPane.showMessageDialog(panelCenter, "Din booking er registreret - kvitering er sendt pr. mail");
+				mainUI.backToStart();
 			} catch (DataAccessException e1) {
-				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret");
 				e1.printStackTrace();
 			}
 		});
@@ -530,7 +509,6 @@ public class BookingConfirmation extends JPanel {
 	}
 
 	private void updateFields() {
-		textFieldBookingNumber.setText("HMM HOW TO GET THIS??");
 		textFieldBookingShootingRange
 				.setText(bookingController.getCurrentBooking().getShootingRange().getShootingRangeId() + "");
 		textFieldBookingInstructor.setText(bookingController.getCurrentBooking().getInstructor().getFirstName() + " "

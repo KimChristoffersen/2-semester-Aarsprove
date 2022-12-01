@@ -4,16 +4,23 @@ public class Instructor extends Person {
 	private int instructorId;
 	private boolean status;
 	
+	private Price price;
+	
+	
+
+	
+
 	public Instructor() {
 		super();
 	}
 
 	public Instructor(String firstName, String lastName, String address, String postalCode, String city, String phone,
-			String email, int instructorId, boolean status) {
+			String email, int instructorId, boolean status, Price price) {
 
 		super(firstName, lastName, address, postalCode, city, phone, email);
 		this.instructorId = instructorId;
 		this.status = status;
+		this.price = price;
 	}
 
 	// GETTERS
@@ -24,6 +31,10 @@ public class Instructor extends Person {
 	public boolean getStatus() {
 		return status;
 	}
+	
+	public Price getPrice() {
+		return price;
+	}
 
 	// SETTERS
 	public void setInstructorId(int instructorId) {
@@ -32,6 +43,10 @@ public class Instructor extends Person {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	
+	public void setPrice(Price price) {
+		this.price = price;
 	}
 
 }

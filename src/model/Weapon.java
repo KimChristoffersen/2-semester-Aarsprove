@@ -7,19 +7,23 @@ public class Weapon {
 	private String weaponType;
 	private String ammunitionType;
 	private boolean status;
+	private Price price;
 
 	public Weapon() {
 	}
 
-	public Weapon(int weaponId, String weaponName, String weaponType, String ammunitionType, boolean status) {
+	public Weapon(int weaponId, String weaponName, String weaponType, String ammunitionType, boolean status, Price price) {
 		this.weaponId = weaponId;
 		this.weaponName = weaponName;
 		this.weaponType = weaponType;
 		this.ammunitionType = ammunitionType;
 		this.status = status;
+		this.price = price;
 	}
 
-//GETTERS
+
+
+	//GETTERS
 	public int getWeaponId() {
 		return weaponId;
 	}
@@ -38,6 +42,10 @@ public class Weapon {
 
 	public boolean getStatus() {
 		return status;
+	}
+	
+	public Price getPrice() {
+		return price;
 	}
 
 //SETTERS
@@ -59,6 +67,10 @@ public class Weapon {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	
+	public void setPrice(Price price) {
+		this.price = price;
 	}
 
 }

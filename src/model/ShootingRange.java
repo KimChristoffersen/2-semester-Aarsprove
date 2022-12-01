@@ -4,13 +4,20 @@ public class ShootingRange {
 	private int shootingRangeId;
 	private boolean status;
 	
+
+	
+
+
+	private Price price;
+	
 	public ShootingRange() {
 		
 	}
 	
-	public ShootingRange(int shootingRangeId, boolean status) {
+	public ShootingRange(int shootingRangeId, boolean status, Price price) {
 		this.shootingRangeId = shootingRangeId;
 		this.status = status;
+		this.price = price;
 	}
 
 	
@@ -22,6 +29,10 @@ public class ShootingRange {
 	public boolean getStatus() {
 		return status;
 	}
+	
+	public Price getPrice() {
+		return price;
+	}
 
 	//SETTERS
 	public void setShootingRangeId(int shootingRangeId) {
@@ -31,6 +42,10 @@ public class ShootingRange {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+	
+	public void setPrice(Price price) {
+		this.price = price;
 	}
 	
 	

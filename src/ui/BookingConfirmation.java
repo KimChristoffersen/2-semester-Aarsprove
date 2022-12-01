@@ -545,8 +545,8 @@ public class BookingConfirmation extends JPanel {
 		textFieldCustomerEmail.setText(bookingController.getCurrentBooking().getCustomer().getEmail());
 		textFieldCustomerNumber.setText(bookingController.getCurrentBooking().getCustomer().getCustomerId() + "");
 
-//		txtFieldShootingRangePrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getShootingRange().getPrice().getPrice()) + " kr.");
-//		textFieldInstructorPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getInstructor().getPrice().getPrice()) + " kr.");
+		txtFieldShootingRangePrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getShootingRange().getPrice().getPrice()) + " kr.");
+		textFieldInstructorPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getInstructor().getPrice().getPrice()) + " kr.");
 		textFieldWeaponPrice.setText(
 				twoDecimals.format(bookingController.getCurrentBooking().getWeapon().getPrice().getPrice()) + " kr.");
 		textFieldTotalPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getPriceTotal()) + " kr.");

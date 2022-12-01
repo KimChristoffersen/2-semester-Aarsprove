@@ -10,15 +10,17 @@ public class PollThread extends Thread {
 	private TimeChoiceMonitor timeChoiceMonitor;
 	private BookingController bookingController;
 	private int bookingNumber;
+	private boolean timeChoiceOpen;
 
 	public PollThread() throws SQLException, DataAccessException {
 		bookingController = new BookingController();
 		timeChoiceMonitor = TimeChoiceMonitor.getInstance();
+		timeChoiceOpen = true;
 	}
 
 	@Override
 	public void run() {
-		while (true)
+		while (timeChoiceOpen)
 			try {
 				try {
 					pollAndUpdateNewestBookingNumber();
@@ -39,5 +41,9 @@ public class PollThread extends Thread {
 			timeChoiceMonitor.notifyAllThreads();
 			bookingNumber = bookingController.getNewestBookingNumber();
 		}
+	}
+	
+	public void setTimeChoiceOpen(boolean open) {
+		timeChoiceOpen = false;
 	}
 }

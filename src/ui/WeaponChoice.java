@@ -121,6 +121,8 @@ public class WeaponChoice extends JPanel {
 		table.getColumnModel().getColumn(2).setHeaderRenderer(headerLeftRenderer);
 		table.getColumnModel().getColumn(3).setHeaderRenderer(headerLeftRenderer);
 		table.getColumnModel().getColumn(4).setHeaderRenderer(headerLeftRenderer);
+		table.getColumnModel().getColumn(0).setPreferredWidth(120);;
+
 
 		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
 		leftRenderer.setHorizontalAlignment(JLabel.LEFT);

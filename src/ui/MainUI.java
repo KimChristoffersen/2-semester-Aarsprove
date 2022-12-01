@@ -124,4 +124,10 @@ public class MainUI extends JFrame {
 		bookingConfirmation = new BookingConfirmation(this, bookingController);
 		panelCenterBooking.add(bookingConfirmation, BorderLayout.CENTER);
 	}
+
+	public void backToStart() {
+		panelCenterStart.show();
+		panelCenterBooking.hide();
+		
+	}
 }

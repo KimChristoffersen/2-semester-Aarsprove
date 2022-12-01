@@ -155,7 +155,7 @@ public class TimeChoice extends JPanel {
 		calendarButtons.add(btnThuesday);
 		panelCalendar.add(btnThuesday);
 		btnThuesday.setText(btnThuesday.getLabel());
-		
+
 		CalendarButton btnWednesday = new CalendarButton("<html><center><b>ONSDAG<br></b>"
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(2)) + "</center></html>",
 				firstDayOfThisWeek.plusDays(0), "headerButton");
@@ -163,7 +163,6 @@ public class TimeChoice extends JPanel {
 		panelCalendar.add(btnWednesday);
 		btnWednesday.setText(btnWednesday.getLabel());
 
-		
 		CalendarButton btnThursday = new CalendarButton("<html><center><b>TORSDAG<br></b>"
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(3)) + "</center></html>",
 				firstDayOfThisWeek.plusDays(0), "headerButton");
@@ -181,134 +180,135 @@ public class TimeChoice extends JPanel {
 		CalendarButton btnMon10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(0), 10, "timeButton");
 		calendarButtons.add(btnMon10);
 		addButton(btnMon10);
-		
+
 		CalendarButton btnTue10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(1), 10, "timeButton");
 		calendarButtons.add(btnTue10);
 		addButton(btnTue10);
-		
+
 		CalendarButton btnWed10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(2), 10, "timeButton");
 		calendarButtons.add(btnWed10);
 		addButton(btnWed10);
-		
+
 		CalendarButton btnThu10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(3), 10, "timeButton");
 		calendarButtons.add(btnThu10);
 		addButton(btnThu10);
-		
+
 		CalendarButton btnFri10 = new CalendarButton("10:00-11:00", firstDayOfThisWeek.plusDays(4), 10, "timeButton");
 		calendarButtons.add(btnFri10);
 		addButton(btnFri10);
-		
+
 		CalendarButton btnMon11 = new CalendarButton("11:00-12:00", firstDayOfThisWeek.plusDays(0), 11, "timeButton");
 		calendarButtons.add(btnMon11);
 		addButton(btnMon11);
-		
+
 		CalendarButton btnTue11 = new CalendarButton("11:00-12:00", firstDayOfThisWeek.plusDays(1), 11, "timeButton");
 		calendarButtons.add(btnTue11);
 		addButton(btnTue11);
-		
+
 		CalendarButton btnWed11 = new CalendarButton("11:00-12:00", firstDayOfThisWeek.plusDays(2), 11, "timeButton");
 		calendarButtons.add(btnWed11);
 		addButton(btnWed11);
-		
+
 		CalendarButton btnThu11 = new CalendarButton("11:00-12:00", firstDayOfThisWeek.plusDays(3), 11, "timeButton");
 		calendarButtons.add(btnThu11);
 		addButton(btnThu11);
-		
+
 		CalendarButton btnFri11 = new CalendarButton("11:00-12:00", firstDayOfThisWeek.plusDays(4), 11, "timeButton");
 		calendarButtons.add(btnFri11);
 		addButton(btnFri11);
-		
+
 		CalendarButton btnMon12 = new CalendarButton("12:00-13:00", firstDayOfThisWeek.plusDays(0), 12, "timeButton");
 		calendarButtons.add(btnMon12);
 		addButton(btnMon12);
-		
+
 		CalendarButton btnTue12 = new CalendarButton("12:00-13:00", firstDayOfThisWeek.plusDays(1), 12, "timeButton");
 		calendarButtons.add(btnTue12);
 		addButton(btnTue12);
-		
+
 		CalendarButton btnWed12 = new CalendarButton("12:00-13:00", firstDayOfThisWeek.plusDays(2), 12, "timeButton");
 		calendarButtons.add(btnWed12);
 		addButton(btnWed12);
-		
+
 		CalendarButton btnThu12 = new CalendarButton("12:00-13:00", firstDayOfThisWeek.plusDays(3), 12, "timeButton");
 		calendarButtons.add(btnThu12);
 		addButton(btnThu12);
-		
+
 		CalendarButton btnFri12 = new CalendarButton("12:00-13:00", firstDayOfThisWeek.plusDays(4), 12, "timeButton");
 		calendarButtons.add(btnFri12);
 		addButton(btnFri12);
-		
+
 		CalendarButton btnMon13 = new CalendarButton("13:00-14:00", firstDayOfThisWeek.plusDays(0), 13, "timeButton");
 		calendarButtons.add(btnMon13);
 		addButton(btnMon13);
-		
+
 		CalendarButton btnTue13 = new CalendarButton("13:00-14:00", firstDayOfThisWeek.plusDays(1), 13, "timeButton");
 		calendarButtons.add(btnTue13);
 		addButton(btnTue13);
-		
+
 		CalendarButton btnWed13 = new CalendarButton("13:00-14:00", firstDayOfThisWeek.plusDays(2), 13, "timeButton");
 		calendarButtons.add(btnWed13);
 		addButton(btnWed13);
-		
+
 		CalendarButton btnThu13 = new CalendarButton("13:00-14:00", firstDayOfThisWeek.plusDays(3), 13, "timeButton");
 		calendarButtons.add(btnThu13);
 		addButton(btnThu13);
-		
+
 		CalendarButton btnFri13 = new CalendarButton("13:00-14:00", firstDayOfThisWeek.plusDays(4), 13, "timeButton");
 		calendarButtons.add(btnFri13);
 		addButton(btnFri13);
-		
+
 		CalendarButton btnMon14 = new CalendarButton("14:00-15:00", firstDayOfThisWeek.plusDays(0), 14, "timeButton");
 		calendarButtons.add(btnMon14);
 		addButton(btnMon14);
-		
+
 		CalendarButton btnTue14 = new CalendarButton("14:00-15:00", firstDayOfThisWeek.plusDays(1), 14, "timeButton");
 		calendarButtons.add(btnTue14);
 		addButton(btnTue14);
-		
+
 		CalendarButton btnWed14 = new CalendarButton("14:00-15:00", firstDayOfThisWeek.plusDays(2), 14, "timeButton");
 		calendarButtons.add(btnWed14);
 		addButton(btnWed14);
-		
+
 		CalendarButton btnThu14 = new CalendarButton("14:00-15:00", firstDayOfThisWeek.plusDays(3), 14, "timeButton");
 		calendarButtons.add(btnThu14);
 		addButton(btnThu14);
-		
+
 		CalendarButton btnFri14 = new CalendarButton("14:00-15:00", firstDayOfThisWeek.plusDays(4), 14, "timeButton");
 		calendarButtons.add(btnFri14);
 		addButton(btnFri14);
-		
+
 		CalendarButton btnMon15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(0), 15, "timeButton");
 		calendarButtons.add(btnMon15);
 		addButton(btnMon15);
-		
+
 		CalendarButton btnTue15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(1), 15, "timeButton");
 		calendarButtons.add(btnTue15);
 		addButton(btnTue15);
-		
+
 		CalendarButton btnWed15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(2), 15, "timeButton");
 		calendarButtons.add(btnWed15);
 		addButton(btnWed15);
-		
+
 		CalendarButton btnThu15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(3), 15, "timeButton");
 		calendarButtons.add(btnThu15);
 		addButton(btnThu15);
-		
+
 		CalendarButton btnFri15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(4), 15, "timeButton");
 		calendarButtons.add(btnFri15);
 		addButton(btnFri15);
-		
-		//addButtonsFromList();
+
+		// addButtonsFromList();
 	}
-	
+
 	private void addButton(CalendarButton button) throws DataAccessException {
-		button.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(button.getDate(), button.getTime()));
+		button.setAvailableShootingRanges(
+				bookingController.getAvailableShootingRanges(button.getDate(), button.getTime()));
 		button.setAvailableInstructors(bookingController.getAvailableInstructors(button.getDate(), button.getTime()));
 		panelCalendar.add(button);
 		button.addActionListener(e -> {
 			try {
 				selectDate(button);
-			} catch (DataAccessException | SQLException e1) {
+			} catch (DataAccessException | SQLException | InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -317,11 +317,12 @@ public class TimeChoice extends JPanel {
 	}
 
 	// Gets buttons date, time, shootingrange, instructor when a button is clicked
-	private void selectDate(CalendarButton button) throws DataAccessException, SQLException {
+	private void selectDate(CalendarButton button) throws DataAccessException, SQLException, InterruptedException {
 		LocalDate date = button.getDate();
 		int time = button.getTime();
 		int shootingRange = button.getAvailableShootingRanges().get(0);
 		int instructor = button.getAvailableInstructors().get(0);
+
 		mainUI.gotoBookingConfirmation(date, time, shootingRange, instructor);
 	}
 
@@ -376,14 +377,11 @@ public class TimeChoice extends JPanel {
 	private void dateForward() throws DataAccessException, SQLException {
 		// Enables button backwards
 		btnDateBackward.setEnabled(true);
-
 		// Adds 7 days to the first day of the week
 		firstDayOfThisWeek = firstDayOfThisWeek.plusDays(7);
-
 		// Sets text to label
 		lblDateFromTo.setText(dayMontFormat.format(firstDayOfThisWeek.plusDays(0)) + " til "
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(5)) + " " + yearFormat.format(firstDayOfThisWeek));
-
 		createCalendarButtons();
 	}
 }

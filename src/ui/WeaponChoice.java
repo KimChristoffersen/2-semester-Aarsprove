@@ -96,7 +96,6 @@ public class WeaponChoice extends JPanel {
 		if (selectedWeapon != -1) {
 			int weaponId = Integer.parseInt((String) table.getValueAt(selectedWeapon, 3));
 			mainUI.addWeapon(weaponId);
-			updateTable();
 		} else {
 			JOptionPane.showMessageDialog(panelCenter, "Intet v\u00E5ben valgt");
 		}

@@ -19,20 +19,20 @@ public class BookingController {
 	private WeaponController weaponController;
 	private BookingDBIF bookingDB;
 	private Booking currentBooking;
-	
+
 	public BookingController() throws SQLException, DataAccessException {
 		customerController = new CustomerController();
 		shootingRangeController = new ShootingRangeController();
 		instructorController = new InstructorController();
 		weaponController = new WeaponController();
 		bookingDB = new BookingDB();
-		
+
 	}
 
 	public void createBooking(int customerId) throws DataAccessException, SQLException {
 		currentBooking = new Booking(customerController.findCustomerById(customerId));
 	}
-	
+
 	public Customer findByCustomerById(int customerId) throws DataAccessException, SQLException {
 		return customerController.findCustomerById(customerId);
 	}
@@ -40,18 +40,19 @@ public class BookingController {
 	public void addWeapon(int weaponId) throws DataAccessException, SQLException {
 		currentBooking.setWeapon(findWeaponById(weaponId));
 	}
-	
+
 	public Weapon findWeaponById(int weaponId) throws DataAccessException, SQLException {
 		return weaponController.findById(weaponId);
 	}
-	
-	public void setTimeSlot(LocalDate date, int time, int instructorId, int shootingRangeId) throws DataAccessException, SQLException {
+
+	public void setTimeSlot(LocalDate date, int time, int instructorId, int shootingRangeId)
+			throws DataAccessException, SQLException {
 		currentBooking.setDate(date);
 		currentBooking.setTime(time);
 		currentBooking.setInstructor(instructorController.findById(instructorId));
 		currentBooking.setShootingRange(shootingRangeController.findById(shootingRangeId));
 	}
-	
+
 	public void confirmBooking() throws DataAccessException {
 		bookingDB.confirmBooking(currentBooking);
 	}
@@ -59,7 +60,7 @@ public class BookingController {
 	public Booking getCurrentBooking() {
 		return currentBooking;
 	}
-	
+
 	public Booking findBookingByNumber(int id) throws DataAccessException, SQLException {
 		return bookingDB.findBookingByNumber(id);
 	}
@@ -71,12 +72,18 @@ public class BookingController {
 	public List<Integer> getAvailableInstructors(LocalDate date, int time) throws DataAccessException {
 		return bookingDB.getAvailableInstructorIds(date, time);
 	}
-	
+
 	public void cancelBooking() {
 		this.currentBooking = null;
 	}
 
 	public int getNewestBookingNumber() throws DataAccessException {
-		return bookingDB.getNewestBookingNumber();		
+		return bookingDB.getNewestBookingNumber();
+	}
+
+	public double calculateTotal() {
+		return currentBooking.getShootingRange().getPrice().getPrice()
+				+ currentBooking.getInstructor().getPrice().getPrice()
+				+ currentBooking.getWeapon().getPrice().getPrice();
 	}
 }

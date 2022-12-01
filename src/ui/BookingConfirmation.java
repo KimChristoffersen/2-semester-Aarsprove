@@ -441,7 +441,7 @@ public class BookingConfirmation extends JPanel {
 		sl_panelBookingRessources.putConstraint(SpringLayout.EAST, textFieldTotal, -100, SpringLayout.EAST,
 				panelBookingRessources);
 		textFieldTotal.setText("I alt");
-		textFieldTotal.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textFieldTotal.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textFieldTotal.setEditable(false);
 		textFieldTotal.setColumns(10);
 		textFieldTotal.setBackground(Color.WHITE);
@@ -486,7 +486,7 @@ public class BookingConfirmation extends JPanel {
 		sl_panelBookingRessources.putConstraint(SpringLayout.EAST, textFieldTotalPrice, -15, SpringLayout.EAST,
 				panelBookingRessources);
 		textFieldTotalPrice.setHorizontalAlignment(SwingConstants.RIGHT);
-		textFieldTotalPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textFieldTotalPrice.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textFieldTotalPrice.setEditable(false);
 		textFieldTotalPrice.setColumns(10);
 		textFieldTotalPrice.setBackground(Color.WHITE);

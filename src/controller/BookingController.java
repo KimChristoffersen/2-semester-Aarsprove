@@ -26,7 +26,6 @@ public class BookingController {
 		instructorController = new InstructorController();
 		weaponController = new WeaponController();
 		bookingDB = new BookingDB();
-
 	}
 
 	public void createBooking(int customerId) throws DataAccessException, SQLException {
@@ -51,6 +50,7 @@ public class BookingController {
 		currentBooking.setTime(time);
 		currentBooking.setInstructor(instructorController.findById(instructorId));
 		currentBooking.setShootingRange(shootingRangeController.findById(shootingRangeId));
+		currentBooking.setPriceTotal(calculateTotal());
 	}
 
 	public void confirmBooking() throws DataAccessException {

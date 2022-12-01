@@ -23,4 +23,5 @@ public class WeaponController {
 	public Weapon findById(int weaponId) throws DataAccessException, SQLException {
 		return weaponDB.findWeaponById(weaponId);
 	}
+	
 }

@@ -450,7 +450,7 @@ public class BookingConfirmation extends JPanel {
 		
 		txtFieldShootingRangePrice.setText(twoDecimals.format(0) + " kr.");
 		textFieldInstructorPrice.setText(twoDecimals.format(0) + " kr.");
-		textFieldWeaponPrice.setText(twoDecimals.format(0) + " kr.");
+		textFieldWeaponPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getWeapon().getPrice().getPrice()) + " kr.");
 		textFieldTotalPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getPriceTotal()) + " kr.");
 	}
 	

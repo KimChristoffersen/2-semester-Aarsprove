@@ -6,9 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Price;
 import model.Weapon;
 
 public class WeaponDB implements WeaponDBIF {
+
+	private PriceDBIF priceDB;
 
 	private static final String FIND_BY_ID_Q = "select w.weaponid, w.weaponname, wt.weapontype, a.ammunitiontype, status from weapon w, weapontype wt, ammunitiontype a where weaponId = ? and w.weaponType_Id = wt.weaponTypeId and w.ammunitionType_Id = a.AmmunitionTypeId";
 	private static final String FIND_ALL_Q = "select w.weaponid, w.weaponname, wt.weapontype, a.ammunitiontype, status from weapon w, weapontype wt, ammunitiontype a where w.weaponType_Id = wt.weaponTypeId and w.ammunitionType_Id = a.AmmunitionTypeId";
@@ -19,6 +22,7 @@ public class WeaponDB implements WeaponDBIF {
 	public WeaponDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 		findAll = DBConnection.getInstance().getConnection().prepareStatement(FIND_ALL_Q);
+		priceDB = new PriceDB();
 	}
 
 	public List<Weapon> findAll() throws DataAccessException, SQLException {
@@ -60,10 +64,12 @@ public class WeaponDB implements WeaponDBIF {
 			currentWeapon.setWeaponType(rs.getString("weaponType"));
 			currentWeapon.setAmmunitionType(rs.getString("ammunitionType"));
 			currentWeapon.setStatus(rs.getBoolean("status"));
+			Price price = priceDB.findPriceByWeaponId(currentWeapon.getWeaponId());
+			currentWeapon.setPrice(price);
 //			boolean weaponStatus = false;
 //			if(rs.getInt("status") == 1) weaponStatus = true; 
 //			currentWeapon.setStatus(weaponStatus);
-			
+
 		} catch (SQLException e) {
 
 			throw new DataAccessException("Could not retrieve weapon", e);

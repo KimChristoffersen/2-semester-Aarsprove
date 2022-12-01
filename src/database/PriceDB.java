@@ -10,12 +10,19 @@ import model.Price;
 public class PriceDB implements PriceDBIF {
 
 	private static final String FIND_BY_ID_Q = "select * from price where price_id = ?";
+	private static final String FIND_PRICE_BY_WEAPONID_Q = "select * from price where weapon_Id = ?";
+	
+	
 
 	private PreparedStatement findByIdPS;
+	private PreparedStatement findPriceByWeaponIdPS;
 
 	public PriceDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
-	}
+		findPriceByWeaponIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_PRICE_BY_WEAPONID_Q);
+	} 
+	
+	
 
 	public Price findPriceById(int id) throws DataAccessException, SQLException {
 		Price res = null;
@@ -50,7 +57,32 @@ public class PriceDB implements PriceDBIF {
 			throw new DataAccessException("Could not retrieve price", e);
 		}
 		return currentPrice;
-
+		
+	
 	}
 
+	public Price findPriceByWeaponId(int id) throws DataAccessException {
+		ResultSet rs = null;
+		Price price = null;
+		
+		try {
+			DBConnection.getInstance().startTransaction();
+			findPriceByWeaponIdPS.setInt(1, id);
+			rs = findPriceByWeaponIdPS.executeQuery();
+			if (rs.next()) {
+				price = buildObject(rs);
+				
+			}
+			DBConnection.getInstance().commitTransaction();
+
+		} catch (SQLException e) {
+			DBConnection.getInstance().rollbackTransaction();
+			throw new DataAccessException("Could not retrieve price", e);
+		}
+
+		return price;
+	}
+	
+	
+	
 }

@@ -6,8 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Instructor;
+import model.Price;
 
 public class InstructorDB implements InstructorDBIF {
+	
+	private PriceDBIF priceDB;
 
 	private static final String FIND_ALL_Q = "select i.instructor_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where status = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
 	private static final String FIND_BY_ID_Q = "select i.instructor_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where instructor_id = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
@@ -18,6 +21,8 @@ public class InstructorDB implements InstructorDBIF {
 	public InstructorDB() throws SQLException, DataAccessException {
 		findAllPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_ALL_Q);
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
+		
+		priceDB = new PriceDB();
 	}
 
 	public List<Instructor> findAll() throws DataAccessException, SQLException {
@@ -62,6 +67,9 @@ public class InstructorDB implements InstructorDBIF {
 			currentInstructor.setCity(rs.getString("city"));
 			currentInstructor.setPhone(rs.getString("phone"));
 			currentInstructor.setEmail(rs.getString("email"));
+			Price price = priceDB.findPriceByInstructorID(currentInstructor.getInstructorId());
+			currentInstructor.setPrice(price);
+			
 		} catch (SQLException e) {
 			throw new DataAccessException("Could not retrieve Instructor", e);
 		}

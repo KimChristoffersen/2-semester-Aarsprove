@@ -1,6 +1,7 @@
 package ui;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import controller.BookingController;
 import database.DataAccessException;
@@ -10,12 +11,16 @@ public class PollThread extends Thread {
 	private TimeChoiceMonitor timeChoiceMonitor;
 	private BookingController bookingController;
 	private int bookingNumber;
+	private LocalDateTime lastDatabaseChangeTime;
+	
 	private boolean timeChoiceOpen;
 
 	public PollThread() throws SQLException, DataAccessException {
 		bookingController = new BookingController();
 		timeChoiceMonitor = TimeChoiceMonitor.getInstance();
 		timeChoiceOpen = true;
+		lastDatabaseChangeTime = LocalDateTime.of(2017, 1, 1, 1, 0);
+		System.out.println(lastDatabaseChangeTime);
 	}
 
 	@Override
@@ -23,7 +28,7 @@ public class PollThread extends Thread {
 		while (timeChoiceOpen)
 			try {
 				try {
-					pollAndUpdateNewestBookingNumber();
+					pollAndGetLastDataBaseChangeTime();
 				} catch (DataAccessException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -36,10 +41,10 @@ public class PollThread extends Thread {
 			}
 	}
 
-	public void pollAndUpdateNewestBookingNumber() throws DataAccessException {
-		if (bookingNumber != bookingController.getNewestBookingNumber()) {
+	public void pollAndGetLastDataBaseChangeTime() throws DataAccessException {
+		if (lastDatabaseChangeTime.isBefore(bookingController.getLastDataBaseChangeTime())) {
 			timeChoiceMonitor.notifyAllThreads();
-			bookingNumber = bookingController.getNewestBookingNumber();
+			lastDatabaseChangeTime = bookingController.getLastDataBaseChangeTime();
 		}
 	}
 	

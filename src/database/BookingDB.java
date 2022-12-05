@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,22 +27,23 @@ public class BookingDB implements BookingDBIF {
 	private static final String FINDAVAILABLESHOOTINGRANGES_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
 	private static final String FINDAVAILABLEINSTRUCTORS_Q = "select instructor_Id from Instructor where instructor_Id NOT IN (select instructor_Id from Booking where date = ? and time = ?)";
 	private static final String FIND_NEWEST_BOOKINGNUMBER_Q = "select max(bookingNumber) as bookingNumber from booking";
-
+	private static final String FIND_LAST_DATABASECHANGE_TIME_Q = "select max(datetime) as datetime from updatetime";
+	
+	
 	private PreparedStatement findByIdPS;
 	private PreparedStatement insertPS;
 	private PreparedStatement findAvailableShootingRanges;
 	private PreparedStatement findAvailableInstructors;
 	private PreparedStatement findNewestBookingNumber;
+	private PreparedStatement findLastDatabaseChangeTime;
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q);
-		findAvailableShootingRanges = DBConnection.getInstance().getConnection()
-				.prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
-		findAvailableInstructors = DBConnection.getInstance().getConnection()
-				.prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
-		findNewestBookingNumber = DBConnection.getInstance().getConnection()
-				.prepareStatement(FIND_NEWEST_BOOKINGNUMBER_Q);
+		findAvailableShootingRanges = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
+		findAvailableInstructors = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
+		findNewestBookingNumber = DBConnection.getInstance().getConnection().prepareStatement(FIND_NEWEST_BOOKINGNUMBER_Q);
+		findLastDatabaseChangeTime = DBConnection.getInstance().getConnection().prepareStatement(FIND_LAST_DATABASECHANGE_TIME_Q);
 	}
 
 	// Finds booking in database
@@ -153,6 +155,19 @@ public class BookingDB implements BookingDBIF {
 		return availableInstructors;
 	}
 
+	public LocalDateTime getLastDatabaseChangeTime() throws DataAccessException {
+		LocalDateTime localDateTime = null;
+		try {
+			ResultSet rs = findLastDatabaseChangeTime.executeQuery();
+			if(rs.next()) {
+				localDateTime = rs.getTimestamp("DateTime").toLocalDateTime();	
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException("Could not retrieve last database change time", e);
+		}
+		return localDateTime;
+	}
+	
 	@Override
 	public int getNewestBookingNumber() throws DataAccessException {
 		ResultSet rs = null;

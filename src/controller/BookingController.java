@@ -86,4 +86,8 @@ public class BookingController {
 				+ booking.getInstructor().getPrice().getPrice()
 				+ booking.getWeapon().getPrice().getPrice();
 	}
+
+	public LocalDateTime getLastDataBaseChangeTime() throws DataAccessException {
+		return bookingDB.getLastDatabaseChangeTime();
+	}
 }

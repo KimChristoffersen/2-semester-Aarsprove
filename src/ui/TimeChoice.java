@@ -48,8 +48,8 @@ public class TimeChoice extends JPanel {
 	 * @throws DataAccessException
 	 * @throws SQLException
 	 */
-	public TimeChoice(MainUI mainUI) throws SQLException, DataAccessException {
-		init(mainUI);
+	public TimeChoice(MainUI mainUI, BookingController bookingController) throws SQLException, DataAccessException {
+		init(mainUI, bookingController);
 		setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();
@@ -127,13 +127,13 @@ public class TimeChoice extends JPanel {
 		updateTimeChoiceUIThread.start();
 	}
 
-	private void init(MainUI mainUI) throws SQLException, DataAccessException {
+	private void init(MainUI mainUI, BookingController bookingController) throws SQLException, DataAccessException {
 		this.mainUI = mainUI;
 		firstDayOfThisWeek = LocalDate.now().with(DayOfWeek.MONDAY);
 		dayMontFormat = DateTimeFormatter.ofPattern("dd. MMM");
 		yearFormat = DateTimeFormatter.ofPattern("u");
 		calendarButtons = new ArrayList<>();
-		bookingController = new BookingController();
+		this.bookingController = bookingController;
 	}
 
 	// Create all the buttons and adds them to a button list
@@ -301,9 +301,11 @@ public class TimeChoice extends JPanel {
 	}
 
 	private void addButton(CalendarButton button) throws DataAccessException {
-		button.setAvailableShootingRanges(
-				bookingController.getAvailableShootingRanges(button.getDate(), button.getTime()));
-		button.setAvailableInstructors(bookingController.getAvailableInstructors(button.getDate(), button.getTime()));
+		LocalDate buttonDate = button.getDate();
+		int buttonTime = button.getTime();
+		button.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(buttonDate, buttonTime));
+		button.setAvailableInstructors(bookingController.getAvailableInstructors(buttonDate, buttonTime));
+		button.setAvailableWeapons(bookingController.getAvailableWeapons(buttonDate, buttonTime, bookingController.getCurrentBooking().getWeapon().getWeaponId()));
 		panelCalendar.add(button);
 		button.addActionListener(e -> {
 			try {
@@ -351,9 +353,9 @@ public class TimeChoice extends JPanel {
 
 	private void checkAvailability() {
 		for (CalendarButton cb : calendarButtons)
-			if (cb.getAvailableShootingRanges() != null && cb.getAvailableInstructors() != null) {
-				if (cb.getAvailableShootingRanges().size() == 0 || cb.getAvailableInstructors().size() == 0
-						|| !checkForDatePast(cb)) {
+			if (cb.getAvailableShootingRanges() != null && cb.getAvailableInstructors() != null && cb.getAvailableWeapons() != null) {
+				if (cb.getAvailableShootingRanges().size() == 0 || cb.getAvailableInstructors().size() == 0 || cb.getAvailableWeapons().size() == 0
+						|| !checkForDatePast(cb) ) {
 					cb.setEnabled(false);
 				}
 			}

@@ -12,8 +12,9 @@ public interface BookingDBIF {
 	public Booking findBookingByNumber(int id) throws DataAccessException, SQLException;
 	List<Integer> getAvailableShootingRangeIds(LocalDate date, int time) throws DataAccessException;
 	List<Integer> getAvailableInstructorIds(LocalDate date, int time) throws DataAccessException;
-	int getNewestBookingNumber() throws DataAccessException;
+	List<Integer> getAvailableWeaponIds(LocalDate date, int time, int weaponId) throws DataAccessException;
 	LocalDateTime getLastDatabaseChangeTime() throws DataAccessException;
+
 }
 
 

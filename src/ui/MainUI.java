@@ -93,25 +93,25 @@ public class MainUI extends JFrame {
 	}
 
 	public void createBookingWithWeaponAndInstructor() throws SQLException, DataAccessException {
+		bookingController.createBooking(2); // hardcoded customer	
+		
 		panelCenterStart.hide();
 		panelCenterWeapon = new JPanel();
 		contentPane.add(panelCenterWeapon, BorderLayout.CENTER);
 		panelCenterWeapon.setLayout(new GridLayout(1, 0, 0, 0));
 		weaponChoice = new WeaponChoice(this);
 		panelCenterWeapon.add(weaponChoice, BorderLayout.CENTER);
-		
-		bookingController.createBooking(2); // hardcoded customer	
 	}
 
 	public void addWeapon(int weaponId) throws DataAccessException, SQLException {
+		bookingController.addWeapon(weaponId);
+		
 		panelCenterWeapon.hide();
 		panelCenterTime = new JPanel();
 		contentPane.add(panelCenterTime, BorderLayout.CENTER);
 		panelCenterTime.setLayout(new GridLayout(1, 0, 0, 0));
-		timeChoice = new TimeChoice(this);
+		timeChoice = new TimeChoice(this, bookingController);
 		panelCenterTime.add(timeChoice, BorderLayout.CENTER);
-
-		bookingController.addWeapon(weaponId);
 	}
 
 	public void gotoBookingConfirmation(LocalDate date, int time, int shootingRange, int instructor) throws DataAccessException, SQLException {

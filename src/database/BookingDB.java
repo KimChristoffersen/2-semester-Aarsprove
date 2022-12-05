@@ -26,7 +26,7 @@ public class BookingDB implements BookingDBIF {
 	private static final String INSERT_Q = "insert into booking values(?, ?, ?, ?, ?,?,?,?)";
 	private static final String FINDAVAILABLESHOOTINGRANGES_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
 	private static final String FINDAVAILABLEINSTRUCTORS_Q = "select instructor_Id from Instructor where instructor_Id NOT IN (select instructor_Id from Booking where date = ? and time = ?)";
-	private static final String FIND_NEWEST_BOOKINGNUMBER_Q = "select max(bookingNumber) as bookingNumber from booking";
+	private static final String FINDAVAILABLEWEAPONS_Q = "select weaponid from weapon where weaponid NOT IN (select weapon_id from Booking where date = ? and time = ?) and weaponid = ?";
 	private static final String FIND_LAST_DATABASECHANGE_TIME_Q = "select max(datetime) as datetime from updatetime";
 	
 	
@@ -34,7 +34,7 @@ public class BookingDB implements BookingDBIF {
 	private PreparedStatement insertPS;
 	private PreparedStatement findAvailableShootingRanges;
 	private PreparedStatement findAvailableInstructors;
-	private PreparedStatement findNewestBookingNumber;
+	private PreparedStatement findAvailableWeapons;
 	private PreparedStatement findLastDatabaseChangeTime;
 
 	public BookingDB() throws SQLException, DataAccessException {
@@ -42,7 +42,7 @@ public class BookingDB implements BookingDBIF {
 		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q);
 		findAvailableShootingRanges = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
 		findAvailableInstructors = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
-		findNewestBookingNumber = DBConnection.getInstance().getConnection().prepareStatement(FIND_NEWEST_BOOKINGNUMBER_Q);
+		findAvailableWeapons = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEWEAPONS_Q);
 		findLastDatabaseChangeTime = DBConnection.getInstance().getConnection().prepareStatement(FIND_LAST_DATABASECHANGE_TIME_Q);
 	}
 
@@ -96,7 +96,7 @@ public class BookingDB implements BookingDBIF {
 		try {
 			DBConnection.getInstance().startTransaction();
 			
-			// sæt database isolationsniveau
+			// sï¿½t database isolationsniveau
 			
 			
 			
@@ -125,7 +125,6 @@ public class BookingDB implements BookingDBIF {
 			findAvailableShootingRanges.setInt(2, time);
 			ResultSet rs = findAvailableShootingRanges.executeQuery();
 			while (rs.next()) {
-				// int shootingRange_Id = 0;
 				availShootingRanges.add(rs.getInt("shootingRange_Id"));
 			}
 		} catch (SQLException e) {
@@ -142,14 +141,29 @@ public class BookingDB implements BookingDBIF {
 			findAvailableInstructors.setInt(2, time);
 			ResultSet rs = findAvailableInstructors.executeQuery();
 			while (rs.next()) {
-				// int instructorRange_Id = 0;
 				availableInstructors.add(rs.getInt("instructor_Id"));
 			}
 		} catch (SQLException e) {
 			throw new DataAccessException("Could not retrieve instructors", e);
 		}
-
 		return availableInstructors;
+	}
+	
+	public List<Integer> getAvailableWeaponIds(LocalDate date, int time, int weaponId) throws DataAccessException {
+		List<Integer> availableWeapons = new LinkedList<>();
+		try {
+			Date sqlDate = Date.valueOf(date);
+			findAvailableWeapons.setDate(1, sqlDate);
+			findAvailableWeapons.setInt(2, time);
+			findAvailableWeapons.setInt(3, weaponId);
+			ResultSet rs = findAvailableWeapons.executeQuery();
+			while (rs.next()) {
+				availableWeapons.add(rs.getInt("weaponId"));
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException("Could not retrieve weapons", e);
+		}
+		return availableWeapons;
 	}
 
 	public LocalDateTime getLastDatabaseChangeTime() throws DataAccessException {
@@ -163,21 +177,5 @@ public class BookingDB implements BookingDBIF {
 			throw new DataAccessException("Could not retrieve last database change time", e);
 		}
 		return localDateTime;
-	}
-	
-	@Override
-	public int getNewestBookingNumber() throws DataAccessException {
-		ResultSet rs = null;
-		int bookingNumber = 0;
-		try {
-			rs = findNewestBookingNumber.executeQuery();
-			if (rs.next()) {
-				bookingNumber = rs.getInt("bookingNumber");
-			}
-		} catch (
-		SQLException e) {
-			throw new DataAccessException("Could not retrieve newest booking number", e);
-		}
-		return bookingNumber;
 	}
 }

@@ -15,6 +15,7 @@ public class CalendarButton extends JButton {
 	private String buttonType;
 	private List<Integer> shootingRanges = new ArrayList<>();
 	private List<Integer> instructors = new ArrayList<>();
+	private List<Integer> weapons = new ArrayList<>();
 
 	public CalendarButton(String label, LocalDate date, String buttonType) { // WEEK NAMES
 		this.label = label;
@@ -51,15 +52,19 @@ public class CalendarButton extends JButton {
 	public String getButtonType() {
 		return buttonType;
 	}
-	
+
 	public List<Integer> getAvailableShootingRanges() {
 		return shootingRanges;
 	}
-	
+
 	public List<Integer> getAvailableInstructors() {
 		return instructors;
 	}
-	
+
+	public List<Integer> getAvailableWeapons() {
+		return weapons;
+	}
+
 	// SETTERS
 	public void setTime(int time) {
 		this.time = time;
@@ -81,4 +86,7 @@ public class CalendarButton extends JButton {
 		this.instructors = instructors;
 	}
 
+	public void setAvailableWeapons(List<Integer> weapons) {
+		this.weapons = weapons;
+	}
 }

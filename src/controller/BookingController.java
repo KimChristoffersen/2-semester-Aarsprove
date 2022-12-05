@@ -73,12 +73,12 @@ public class BookingController {
 		return bookingDB.getAvailableInstructorIds(date, time);
 	}
 
+	public List<Integer> getAvailableWeapons(LocalDate date, int time, int weaponId) throws DataAccessException {
+		return bookingDB.getAvailableWeaponIds(date, time, weaponId);
+	}
+	
 	public void cancelBooking() {
 		this.currentBooking = null;
-	}
-
-	public int getNewestBookingNumber() throws DataAccessException {
-		return bookingDB.getNewestBookingNumber();
 	}
 
 	public double calculateTotal(Booking booking) {

@@ -50,7 +50,7 @@ public class BookingController {
 		currentBooking.setTime(time);
 		currentBooking.setInstructor(instructorController.findById(instructorId));
 		currentBooking.setShootingRange(shootingRangeController.findById(shootingRangeId));
-		currentBooking.setPriceTotal(calculateTotal());
+		currentBooking.setPriceTotal(calculateTotal(currentBooking));
 	}
 
 	public void confirmBooking() throws DataAccessException {
@@ -81,9 +81,9 @@ public class BookingController {
 		return bookingDB.getNewestBookingNumber();
 	}
 
-	public double calculateTotal() {
-		return currentBooking.getShootingRange().getPrice().getPrice()
-				+ currentBooking.getInstructor().getPrice().getPrice()
-				+ currentBooking.getWeapon().getPrice().getPrice();
+	public double calculateTotal(Booking booking) {
+		return booking.getShootingRange().getPrice().getPrice()
+				+ booking.getInstructor().getPrice().getPrice()
+				+ booking.getWeapon().getPrice().getPrice();
 	}
 }

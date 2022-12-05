@@ -55,7 +55,7 @@ public class MainUI extends JFrame {
 	 */
 	public MainUI() throws SQLException, DataAccessException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource("/images/programIcon.gif")));
-		setTitle("Østjysk Våbenhandel skydebaner bookingsystem");
+		setTitle("\u00D8STJYSK V\u00C5BENHANDEL BOOKINGSYSTEM");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();

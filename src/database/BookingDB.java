@@ -96,6 +96,11 @@ public class BookingDB implements BookingDBIF {
 	public Booking confirmBooking(Booking booking) throws DataAccessException {
 		try {
 			DBConnection.getInstance().startTransaction();
+			
+			// sæt database isolationsniveau
+			
+			
+			
 			insertPS.setDate(1, Date.valueOf(LocalDate.now()));
 			insertPS.setDouble(2, booking.getPriceTotal());
 			insertPS.setInt(3, booking.getTime());

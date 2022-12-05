@@ -34,23 +34,20 @@ public class CustomerDB implements CustomerDBIF {
 	}
 
 	public Customer buildObject(ResultSet rs) throws DataAccessException {
-		Customer currentCustomer = new Customer();
+		Customer currentCustomer = null;
 		try {
-			currentCustomer.setCustomerId(rs.getInt("customer_Id"));
-			currentCustomer.setFirstName(rs.getString("fName"));
-			currentCustomer.setLastName(rs.getString("lName"));
-			currentCustomer.setAddress(rs.getString("address"));
-			currentCustomer.setPostalCode(rs.getString("postalCode_Id"));
-			currentCustomer.setCity(rs.getString("city"));
-			currentCustomer.setPhone(rs.getString("phone"));
-			currentCustomer.setEmail(rs.getString("email"));
-
+			int customerId = rs.getInt("customer_Id");
+			String firstName = rs.getString("fName");
+			String lastName = rs.getString("lName");
+			String address = rs.getString("address");
+			String PostalCode = rs.getString("postalCode_Id");
+			String City = rs.getString("city");
+			String Phone = rs.getString("phone");
+			String Email = rs.getString("email");
+			currentCustomer = new Customer(firstName, lastName, address, PostalCode, City, Phone, Email, customerId);
 		} catch (SQLException e) {
-
 			throw new DataAccessException("Could not retrieve customer", e);
 		}
 		return currentCustomer;
-
 	}
-
 }

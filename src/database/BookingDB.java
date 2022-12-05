@@ -65,26 +65,23 @@ public class BookingDB implements BookingDBIF {
 	}
 
 	public Booking buildObject(ResultSet rs) throws DataAccessException {
-		Booking currentBooking = new Booking();
-		try {
-			currentBooking.setBookingNumber(rs.getInt("bookingNumber"));
-			currentBooking.setCreationDate(rs.getDate("creationDate").toLocalDate());
-			currentBooking.setPriceTotal(rs.getDouble("priceTotal"));
-			currentBooking.setTime(rs.getInt("time"));
-			currentBooking.setDate(rs.getDate("date").toLocalDate());
-			Customer customer = customerDB.findCustomerById(rs.getInt("customer_Id"));
-			currentBooking.setCustomer(customer);
-			Instructor instructor = instructorDB.findInstructorById(rs.getInt("Instructor_Id"));
-			currentBooking.setInstructor(instructor);
-			ShootingRange shootingRange = shootingRangeDB.findShootingRangeById(rs.getInt("shootingRange_Id"));
-			currentBooking.setShootingRange(shootingRange);
-			Weapon weapon = weaponDB.findWeaponById(rs.getInt("weapon_Id"));
-			currentBooking.setWeapon(weapon);
-		} catch (SQLException e) {
-			throw new DataAccessException("Could not retrieve booking", e);
-		}
-		return currentBooking;
-	}
+        Booking currentBooking = null;
+        try {
+            int bookingNumber = rs.getInt("bookingNumber");
+            LocalDate creationDate = rs.getDate("creationDate").toLocalDate();
+            double priceTotal = rs.getDouble("priceTotal");
+            int time = rs.getInt("time");
+            LocalDate date = rs.getDate("date").toLocalDate();
+            Customer customer = customerDB.findCustomerById(rs.getInt("customer_Id"));
+            Instructor instructor = instructorDB.findInstructorById(rs.getInt("Instructor_Id"));
+            ShootingRange shootingRange = shootingRangeDB.findShootingRangeById(rs.getInt("shootingRange_Id"));
+            Weapon weapon = weaponDB.findWeaponById(rs.getInt("weapon_Id"));
+            currentBooking = new Booking(bookingNumber, creationDate, priceTotal, date, time, customer, shootingRange, weapon, instructor);
+        } catch (SQLException e) {
+            throw new DataAccessException("Could not retrieve booking", e);
+        }
+        return currentBooking;
+    }
 
 	private List<Booking> buildObjects(ResultSet rs) throws SQLException, DataAccessException {
 		List<Booking> bookings = new ArrayList<>();

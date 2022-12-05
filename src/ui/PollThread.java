@@ -20,7 +20,6 @@ public class PollThread extends Thread {
 		timeChoiceMonitor = TimeChoiceMonitor.getInstance();
 		timeChoiceOpen = true;
 		lastDatabaseChangeTime = LocalDateTime.of(2017, 1, 1, 1, 0);
-		System.out.println(lastDatabaseChangeTime);
 	}
 
 	@Override

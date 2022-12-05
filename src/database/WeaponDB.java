@@ -57,19 +57,15 @@ public class WeaponDB implements WeaponDBIF {
 	}
 
 	private Weapon buildObject(ResultSet rs) throws DataAccessException {
-		Weapon currentWeapon = new Weapon();
-		try {
-			currentWeapon.setWeaponId(rs.getInt("weaponId"));
-			currentWeapon.setWeaponName(rs.getString("weaponName"));
-			currentWeapon.setWeaponType(rs.getString("weaponType"));
-			currentWeapon.setAmmunitionType(rs.getString("ammunitionType"));
-			currentWeapon.setStatus(rs.getBoolean("status"));
-			Price price = priceDB.findPriceByWeaponId(currentWeapon.getWeaponId());
-			currentWeapon.setPrice(price);
-//			boolean weaponStatus = false;
-//			if(rs.getInt("status") == 1) weaponStatus = true; 
-//			currentWeapon.setStatus(weaponStatus);
-
+        Weapon currentWeapon = null;
+        try {
+            int weaponId = rs.getInt("weaponId");
+            String weaponName = rs.getString("weaponName");
+            String weaponType = rs.getString("weaponType");
+            String ammunitionType = rs.getString("ammunitionType");
+            boolean status = rs.getBoolean("status");
+            Price price = priceDB.findPriceByWeaponId(weaponId);
+            currentWeapon = new Weapon(weaponId, weaponName, weaponType, ammunitionType, status, price);
 		} catch (SQLException e) {
 
 			throw new DataAccessException("Could not retrieve weapon", e);

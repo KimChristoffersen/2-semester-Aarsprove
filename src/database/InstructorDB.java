@@ -12,8 +12,8 @@ public class InstructorDB implements InstructorDBIF {
 	
 	private PriceDBIF priceDB;
 
-	private static final String FIND_ALL_Q = "select i.instructor_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where status = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
-	private static final String FIND_BY_ID_Q = "select i.instructor_id, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where instructor_id = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
+	private static final String FIND_ALL_Q = "select i.instructor_id, i.status, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where status = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
+	private static final String FIND_BY_ID_Q = "select i.instructor_id, i.status, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where instructor_id = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";
 
 	private PreparedStatement findAllPS;
 	private PreparedStatement findByIdPS;
@@ -57,24 +57,24 @@ public class InstructorDB implements InstructorDBIF {
 	}
 
 	public Instructor buildObject(ResultSet rs) throws DataAccessException {
-		Instructor currentInstructor = new Instructor();
-		try {
-			currentInstructor.setInstructorId(rs.getInt("instructor_Id"));
-			currentInstructor.setFirstName(rs.getString("fName"));
-			currentInstructor.setLastName(rs.getString("lName"));
-			currentInstructor.setAddress(rs.getString("address"));
-			currentInstructor.setPostalCode(rs.getString("postalCode_id"));
-			currentInstructor.setCity(rs.getString("city"));
-			currentInstructor.setPhone(rs.getString("phone"));
-			currentInstructor.setEmail(rs.getString("email"));
-			Price price = priceDB.findPriceByInstructorID(currentInstructor.getInstructorId());
-			currentInstructor.setPrice(price);
-			
-		} catch (SQLException e) {
-			throw new DataAccessException("Could not retrieve Instructor", e);
-		}
-		return currentInstructor;
-	}
+        Instructor currentInstructor = null;
+        try {
+            int instructorId = rs.getInt("instructor_Id");
+            Boolean status = rs.getBoolean("status");
+            String firstName = rs.getString("fName");
+            String lastName = rs.getString("lName");
+            String address = rs.getString("address");
+            String postalCode = rs.getString("postalCode_id");
+            String city = rs.getString("city");
+            String phone = rs.getString("phone");
+            String email = rs.getString("email");
+            Price price = priceDB.findPriceByInstructorID(instructorId);
+            currentInstructor = new Instructor(firstName, lastName, address, postalCode, city, phone, email, instructorId, status, price);
+        } catch (SQLException e) {
+            throw new DataAccessException("Could not retrieve Instructor", e);
+        }
+        return currentInstructor;
+    }
 
 	private List<Instructor> buildObjects(ResultSet rs) throws SQLException, DataAccessException {
 		List<Instructor> instructors = new ArrayList<>();

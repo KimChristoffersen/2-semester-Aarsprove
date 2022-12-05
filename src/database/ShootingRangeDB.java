@@ -10,7 +10,7 @@ import model.Price;
 import model.ShootingRange;
 
 public class ShootingRangeDB implements ShootingRangeDBIF {
-	
+
 	private PriceDBIF priceDB;
 
 	private static final String FIND_BY_ID_Q = "select s.shootingRange_id, s.status, p.price from ShootingRange s, price p where s.shootingRange_Id = ? and s.shootingRange_Id = p.shootingRange_Id";
@@ -60,18 +60,16 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 	}
 
 	public ShootingRange buildObject(ResultSet rs) throws DataAccessException {
-		ShootingRange currentShootingRange = new ShootingRange();
+		ShootingRange currentShootingRange = null;
 		try {
-			currentShootingRange.setShootingRangeId(rs.getInt("shootingrange_Id"));
-			currentShootingRange.setStatus(rs.getBoolean("status"));
-			Price price = priceDB.findPriceByShootingRangeId(currentShootingRange.getShootingRangeId());
-			currentShootingRange.setPrice(price);
+			int shootingRangeId = rs.getInt("shootingrange_Id");
+			boolean status = rs.getBoolean("status");
+			Price price = priceDB.findPriceByShootingRangeId(shootingRangeId);
+			currentShootingRange = new ShootingRange(shootingRangeId, status, price);
 		} catch (SQLException e) {
-
 			throw new DataAccessException("Could not retrieve shooting range", e);
 		}
 		return currentShootingRange;
-
 	}
 
 	private List<ShootingRange> buildObjects(ResultSet rs) throws SQLException, DataAccessException {

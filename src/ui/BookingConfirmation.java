@@ -480,8 +480,9 @@ public class BookingConfirmation extends JPanel {
 				JOptionPane.showMessageDialog(panelCenter, "Din booking er registreret - kvitering er sendt pr. mail");
 				mainUI.backToStart();
 			} catch (DataAccessException e1) {
-				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret");
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret - prøv igen");
+				mainUI.backToStart();
+				//e1.printStackTrace();
 			}
 		});
 

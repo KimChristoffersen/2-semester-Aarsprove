@@ -33,7 +33,7 @@ public class PollThread extends Thread {
 					e.printStackTrace();
 				}
 				System.out.println("polled");
-				Thread.sleep(2500);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -346,6 +346,8 @@ public class TimeChoice extends JPanel {
 			if (!cb.getButtonType().equals("headerButton")) {
 				cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(), cb.getTime()));
 				cb.setAvailableInstructors(bookingController.getAvailableInstructors(cb.getDate(), cb.getTime()));
+				cb.setAvailableWeapons(bookingController.getAvailableWeapons(cb.getDate(), cb.getTime(), bookingController.getCurrentBooking().getWeapon().getWeaponId()));
+
 			}
 		}
 		checkAvailability();

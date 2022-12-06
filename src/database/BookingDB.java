@@ -1,11 +1,10 @@
 package database;
 
-import java.security.Timestamp;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -117,6 +116,9 @@ public class BookingDB implements BookingDBIF {
 			insertPS.setInt(7, booking.getShootingRange().getShootingRangeId());
 			insertPS.setInt(8, booking.getWeapon().getWeaponId());
 			insertPS.executeUpdate();
+			
+			insertTimestamp();
+			
 			DBConnection.getInstance().commitTransaction();
 		} catch (
 
@@ -139,10 +141,7 @@ public class BookingDB implements BookingDBIF {
 		checkForDoubleBooking.setInt(9, booking.getWeapon().getWeaponId());
 		ResultSet rs = checkForDoubleBooking.executeQuery();
 		if (rs.next()) {
-			System.out.println("yes");
 			throw new SQLException("Ressource allready booked");
-		} else {
-			System.out.println("no");
 		}
 	}
 
@@ -208,10 +207,10 @@ public class BookingDB implements BookingDBIF {
 		return localDateTime;
 	}
 
-	public void insertTimestamp() {
-//		Date date = new Date(0);
-//		Timestamp t = Timestamp(date.getTime());
-//			insertTimestampPS.set.(1, t);
-//			insertTimestampPS.executeUpdate();
+	public void insertTimestamp() throws SQLException {
+        long now = System.currentTimeMillis();
+        Timestamp sqlTimestamp = new Timestamp(now);
+			insertTimestampPS.setTimestamp(1, sqlTimestamp);
+			insertTimestampPS.executeUpdate();
 	}
 }

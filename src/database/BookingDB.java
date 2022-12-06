@@ -1,9 +1,11 @@
 package database;
 
+import java.security.Timestamp;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class BookingDB implements BookingDBIF {
 	private static final String FINDAVAILABLEWEAPONS_Q = "select weaponid from weapon where weaponid NOT IN (select weapon_id from Booking where date = ? and time = ?) and weaponid = ?";
 	private static final String FIND_LAST_DATABASECHANGE_TIME_Q = "select max(datetime) as datetime from updatetime";
 	private static final String CHECK_FOR_DOUBLEBOOKING_Q = "select * from booking where (date = ? and time = ? and ShootingRange_Id = ?) OR (date = ? and time = ? and instructor_id = ?) OR (date = ? and time = ? and Weapon_Id = ?)";
+	private static final String INSERT_TIMESTAMP_Q = "insert into UpdateTime values(?)";
 
 	private PreparedStatement findByIdPS;
 	private PreparedStatement insertPS;
@@ -37,15 +40,20 @@ public class BookingDB implements BookingDBIF {
 	private PreparedStatement findAvailableWeapons;
 	private PreparedStatement findLastDatabaseChangeTime;
 	private PreparedStatement checkForDoubleBooking;
+	private PreparedStatement insertTimestampPS;
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q);
-		findAvailableShootingRanges = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
-		findAvailableInstructors = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
+		findAvailableShootingRanges = DBConnection.getInstance().getConnection()
+				.prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
+		findAvailableInstructors = DBConnection.getInstance().getConnection()
+				.prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
 		findAvailableWeapons = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEWEAPONS_Q);
-		findLastDatabaseChangeTime = DBConnection.getInstance().getConnection().prepareStatement(FIND_LAST_DATABASECHANGE_TIME_Q);
+		findLastDatabaseChangeTime = DBConnection.getInstance().getConnection()
+				.prepareStatement(FIND_LAST_DATABASECHANGE_TIME_Q);
 		checkForDoubleBooking = DBConnection.getInstance().getConnection().prepareStatement(CHECK_FOR_DOUBLEBOOKING_Q);
+		insertTimestampPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_TIMESTAMP_Q);
 	}
 
 	// Finds booking in database
@@ -133,8 +141,7 @@ public class BookingDB implements BookingDBIF {
 		if (rs.next()) {
 			System.out.println("yes");
 			throw new SQLException("Ressource allready booked");
-		}
-		else {
+		} else {
 			System.out.println("no");
 		}
 	}
@@ -199,5 +206,12 @@ public class BookingDB implements BookingDBIF {
 			throw new DataAccessException("Could not retrieve last database change time", e);
 		}
 		return localDateTime;
+	}
+
+	public void insertTimestamp() {
+//		Date date = new Date(0);
+//		Timestamp t = Timestamp(date.getTime());
+//			insertTimestampPS.set.(1, t);
+//			insertTimestampPS.executeUpdate();
 	}
 }

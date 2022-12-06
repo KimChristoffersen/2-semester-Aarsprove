@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,7 +44,7 @@ public class BookingDB implements BookingDBIF {
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
-		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q);
+		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q,Statement.RETURN_GENERATED_KEYS);
 		findAvailableShootingRanges = DBConnection.getInstance().getConnection()
 				.prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
 		findAvailableInstructors = DBConnection.getInstance().getConnection()
@@ -115,10 +116,11 @@ public class BookingDB implements BookingDBIF {
 			insertPS.setInt(6, booking.getInstructor().getInstructorId());
 			insertPS.setInt(7, booking.getShootingRange().getShootingRangeId());
 			insertPS.setInt(8, booking.getWeapon().getWeaponId());
-			insertPS.executeUpdate();
+			
+			int bookingNumber = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
+			booking.setBookingNumber(bookingNumber);
 			
 			insertTimestamp();
-			
 			DBConnection.getInstance().commitTransaction();
 		} catch (
 

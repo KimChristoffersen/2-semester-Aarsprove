@@ -19,8 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class BookingConfirmation extends JPanel {
 
@@ -477,7 +475,7 @@ public class BookingConfirmation extends JPanel {
 		btnChoose.addActionListener(e -> {
 			try {
 				confirmBooking();
-				JOptionPane.showMessageDialog(panelCenter, "Din booking er registreret - kvitering er sendt pr. mail");
+				JOptionPane.showMessageDialog(panelCenter, "Din booking er registreret med bookingnummer " + bookingController.getCurrentBooking().getBookingNumber() + " - kvitering er sendt pr. mail");
 				mainUI.backToStart();
 			} catch (DataAccessException e1) {
 				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret - prøv igen");

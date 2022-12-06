@@ -116,20 +116,19 @@ public class DBConnection {
 //		return res;
 //	}
 //
-//	public int executeInsertWithIdentity(PreparedStatement ps) throws DataAccessException {
-//		 
-//		int res = -1;
-//		try {
-//			res = ps.executeUpdate();
-//			if (res > 0) {
-//				ResultSet rs = ps.getGeneratedKeys();
-//				rs.next();
-//				res = rs.getInt(1);
-//			}
-//		} catch (SQLException e) {
-//
-//			throw new DataAccessException("Could not execute insert", e);
-//		}
-//		return res;
-//	}
+	public int executeInsertWithIdentity(PreparedStatement ps) throws DataAccessException {
+		int res = -1;
+		try {
+			res = ps.executeUpdate();
+			if (res > 0) {
+				ResultSet rs = ps.getGeneratedKeys();
+				rs.next();
+				res = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+
+			throw new DataAccessException("Could not execute insert", e);
+		}
+		return res;
+	}
 }

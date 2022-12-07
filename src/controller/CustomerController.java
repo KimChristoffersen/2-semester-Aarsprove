@@ -12,7 +12,7 @@ import model.Customer;
  * @author (DMA-CSD-V221-Gruppe 1)
  */
 public class CustomerController {
-	CustomerDBIF customerDB;
+	private CustomerDBIF customerDB;
 	
 	public CustomerController() throws SQLException, DataAccessException {
 		customerDB = new CustomerDB();

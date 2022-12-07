@@ -1,11 +1,14 @@
 package model;
-
+/**
+ * Class for Booking model.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Booking {
-
 	private int bookingNumber;
 	private LocalDate creationDate;
 	private double priceTotal;
@@ -109,5 +112,4 @@ public class Booking {
 	public void setInstructor(Instructor instructor) {
 		this.instructor = instructor;
 	}
-
 }

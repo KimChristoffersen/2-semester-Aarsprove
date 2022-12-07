@@ -8,9 +8,12 @@ import java.util.List;
 
 import model.Price;
 import model.Weapon;
-
+/**
+ * Class for WeaponDB.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class WeaponDB implements WeaponDBIF {
-
 	private PriceDBIF priceDB;
 
 	private static final String FIND_BY_ID_Q = "select w.weaponid, w.weaponname, wt.weapontype, a.ammunitiontype, status from weapon w, weapontype wt, ammunitiontype a where weaponId = ? and w.weaponType_Id = wt.weaponTypeId and w.ammunitionType_Id = a.AmmunitionTypeId";
@@ -80,5 +83,4 @@ public class WeaponDB implements WeaponDBIF {
 		}
 		return weapons;
 	}
-
 }

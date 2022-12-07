@@ -15,7 +15,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import database.DataAccessException;
-
+/**
+ * Class for Start.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class Start extends JPanel {
 	private MainUI mainUI;
 	/**
@@ -107,11 +111,9 @@ public class Start extends JPanel {
 		btnShop.setForeground(Color.WHITE);
 		btnShop.setBackground(new Color(0, 142, 138));
 		panelCenter.add(btnShop);
-
 	}
 
 	private void bookingWithInstructorAndWeapon() throws SQLException, DataAccessException {
 		mainUI.createBookingWithWeaponAndInstructor();
-		
 	}
 }

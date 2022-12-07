@@ -5,12 +5,14 @@ import java.time.LocalDateTime;
 
 import controller.BookingController;
 import database.DataAccessException;
-
+/**
+ * Class for PollThread.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class PollThread extends Thread {
-
 	private TimeChoiceMonitor timeChoiceMonitor;
 	private BookingController bookingController;
-	private int bookingNumber;
 	private LocalDateTime lastDatabaseChangeTime;
 	
 	private boolean timeChoiceOpen;
@@ -29,13 +31,10 @@ public class PollThread extends Thread {
 				try {
 					pollAndGetLastDataBaseChangeTime();
 				} catch (DataAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("polled");
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}

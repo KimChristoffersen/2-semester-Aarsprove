@@ -6,7 +6,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import model.Booking;
-
+/**
+ * Interface for BookingDB.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public interface BookingDBIF {
 	Booking confirmBooking(Booking booking) throws DataAccessException;
 	public Booking findBookingByNumber(int id) throws DataAccessException, SQLException;

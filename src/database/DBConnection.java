@@ -6,35 +6,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-
+/**
+ * Class for DBConnection.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class DBConnection {
 	private Connection connection = null;
 	private static DBConnection dbConnection;
-
-	private static final String driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String dbName = "DMA-CSD-V221_10434668";
-	private static final String serverAddress = "hildur.ucn.dk";
-	private static final int serverPort = 1433;
-	private static final String userName = "DMA-CSD-V221_10434668";
-	private static final String password = "Password1!";
-	private static final String encryption = "encrypt=false";
+	private static final String DRIVER_CLASS = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	private static final String DB_NAME = "DMA-CSD-V221_10434668";
+	private static final String SERVER_ADDRESS = "hildur.ucn.dk";
+	private static final int SERVER_PORT = 1433;
+	private static final String USER_NAME = "DMA-CSD-V221_10434668";
+	private static final String PASSWORD = "Password1!";
+	private static final String ENCRYPTION = "encrypt=false";
 
 	private DBConnection() throws DataAccessException {
-
-		String connectionString = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;user=%s;password=%s;encrypt=false",
-				serverAddress, serverPort, dbName, userName, password, encryption);
+		String connectionString = String.format(
+				"jdbc:sqlserver://%s:%d;databaseName=%s;user=%s;password=%s;encrypt=false", SERVER_ADDRESS, SERVER_PORT,
+				DB_NAME, USER_NAME, PASSWORD, ENCRYPTION);
 		try {
-			Class.forName(driverClass);
+			Class.forName(DRIVER_CLASS);
 			connection = DriverManager.getConnection(connectionString);
 		} catch (ClassNotFoundException e) {
 			throw new DataAccessException("Missing JDBC driver", e);
-			
-
 		} catch (SQLException e) {
-			throw new DataAccessException(String.format("Could not connect to database %s@%s:%d user %s", dbName,
-					serverAddress, serverPort, userName), e);
-			
+			throw new DataAccessException(String.format("Could not connect to database %s@%s:%d user %s", DB_NAME,
+					SERVER_ADDRESS, SERVER_PORT, USER_NAME), e);
 		}
 	}
 
@@ -45,8 +44,6 @@ public class DBConnection {
 		return dbConnection;
 	}
 
-	
-	
 	public void startTransaction() throws DataAccessException {
 		try {
 			connection.setAutoCommit(false);
@@ -83,8 +80,6 @@ public class DBConnection {
 		}
 	}
 
-
-
 	public Connection getConnection() {
 		return connection;
 	}
@@ -96,26 +91,7 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 	}
-	
-//	INSERT WITH IDENTITY
-//	public int executeInsertWithIdentity(String sql) throws DataAccessException {
-//		System.out.println("DBConnection, Inserting: " + sql);
-//		int res = -1;
-//		try (Statement s = connection.createStatement()) {
-//			res = s.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-//			if (res > 0) {
-//				ResultSet rs = s.getGeneratedKeys();
-//				rs.next();
-//				res = rs.getInt(1);
-//			}
-//
-//		} catch (SQLException e) {
-//			
-//			throw new DataAccessException("Could not execute insert (" + sql + ").", e);
-//		}
-//		return res;
-//	}
-//
+
 	public int executeInsertWithIdentity(PreparedStatement ps) throws DataAccessException {
 		int res = -1;
 		try {
@@ -126,7 +102,6 @@ public class DBConnection {
 				res = rs.getInt(1);
 			}
 		} catch (SQLException e) {
-
 			throw new DataAccessException("Could not execute insert", e);
 		}
 		return res;

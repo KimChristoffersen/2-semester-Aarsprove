@@ -8,8 +8,12 @@ import database.WeaponDB;
 import database.WeaponDBIF;
 import model.Weapon;
 
+/**
+ * Class for WeaponController.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class WeaponController {
-	
 	private WeaponDBIF weaponDB;
 	
 	public WeaponController() throws SQLException, DataAccessException  {
@@ -23,5 +27,4 @@ public class WeaponController {
 	public Weapon findById(int weaponId) throws DataAccessException, SQLException {
 		return weaponDB.findWeaponById(weaponId);
 	}
-	
 }

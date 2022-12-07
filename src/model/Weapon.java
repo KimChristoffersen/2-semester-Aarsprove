@@ -1,7 +1,10 @@
 package model;
-
+/**
+ * Class for Weapon model.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class Weapon {
-
 	private int weaponId;
 	private String weaponName;
 	private String weaponType;
@@ -20,8 +23,6 @@ public class Weapon {
 		this.status = status;
 		this.price = price;
 	}
-
-
 
 	//GETTERS
 	public int getWeaponId() {
@@ -48,7 +49,7 @@ public class Weapon {
 		return price;
 	}
 
-//SETTERS
+	//SETTERS
 	public void setWeaponId(int weaponId) {
 		this.weaponId = weaponId;
 	}
@@ -72,5 +73,4 @@ public class Weapon {
 	public void setPrice(Price price) {
 		this.price = price;
 	}
-
 }

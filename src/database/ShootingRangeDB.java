@@ -8,9 +8,12 @@ import java.util.List;
 
 import model.Price;
 import model.ShootingRange;
-
+/**
+ * Class for ShootingRangeDB.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class ShootingRangeDB implements ShootingRangeDBIF {
-
 	private PriceDBIF priceDB;
 
 	private static final String FIND_BY_ID_Q = "select s.shootingRange_id, s.status, p.price from ShootingRange s, price p where s.shootingRange_Id = ? and s.shootingRange_Id = p.shootingRange_Id";
@@ -37,7 +40,6 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 		}
 		List<ShootingRange> shootingRanges = buildObjects(rs);
 		return shootingRanges;
-
 	}
 
 	public ShootingRange findShootingRangeById(int id) throws DataAccessException, SQLException {
@@ -50,12 +52,10 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 				res = buildObject(rs);
 			}
 			DBConnection.getInstance().commitTransaction();
-
 		} catch (SQLException e) {
 			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Could not retrieve shooting range", e);
 		}
-
 		return res;
 	}
 
@@ -79,5 +79,4 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 		}
 		return shootingRanges;
 	}
-
 }

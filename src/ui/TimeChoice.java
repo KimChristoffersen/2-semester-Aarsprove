@@ -19,7 +19,11 @@ import java.util.List;
 import java.awt.BorderLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
-
+/**
+ * Class for TimeChoice.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class TimeChoice extends JPanel {
 
 	private JPanel panelCalendar;
@@ -70,7 +74,6 @@ public class TimeChoice extends JPanel {
 			try {
 				dateBackward();
 			} catch (DataAccessException | SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
@@ -90,7 +93,6 @@ public class TimeChoice extends JPanel {
 			try {
 				dateForward();
 			} catch (DataAccessException | SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
@@ -116,14 +118,9 @@ public class TimeChoice extends JPanel {
 
 		// initializing threads and monitor
 		timeChoiceMonitor = TimeChoiceMonitor.getInstance();
-
 		updateTimeChoiceUIThread = new UpdateTimeChoiceUIThread(this, timeChoiceMonitor);
 		pollThread = new PollThread();
-
 		pollThread.start();
-		System.out.println("PollStart");
-
-		System.out.println("UI Thread");
 		updateTimeChoiceUIThread.start();
 	}
 
@@ -136,12 +133,12 @@ public class TimeChoice extends JPanel {
 		this.bookingController = bookingController;
 	}
 
-	// Create all the buttons and adds them to a button list
 	public synchronized void createCalendarButtons() throws DataAccessException, SQLException {
-		// Clear buttonlist
+		// Clear buttonlist and removes buttons from panel
 		calendarButtons.clear();
 		panelCalendar.removeAll();
-
+		
+		// Defines the buttons, adds them to a list and adds them to the panel (headerbuttons directly and timebuttons with method)
 		CalendarButton btnMonday = new CalendarButton("<html><center><b>MANDAG<br></b>"
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(0)) + "</center></html>",
 				firstDayOfThisWeek.plusDays(0), "headerButton");
@@ -296,25 +293,27 @@ public class TimeChoice extends JPanel {
 		CalendarButton btnFri15 = new CalendarButton("15:00-16:00", firstDayOfThisWeek.plusDays(4), 15, "timeButton");
 		calendarButtons.add(btnFri15);
 		addButton(btnFri15);
-
-		// addButtonsFromList();
 	}
 
 	private void addButton(CalendarButton button) throws DataAccessException {
+		// gets buttons date and time
 		LocalDate buttonDate = button.getDate();
 		int buttonTime = button.getTime();
+		// adds lists of available ressources to the buttons
 		button.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(buttonDate, buttonTime));
 		button.setAvailableInstructors(bookingController.getAvailableInstructors(buttonDate, buttonTime));
 		button.setAvailableWeapons(bookingController.getAvailableWeapons(buttonDate, buttonTime, bookingController.getCurrentBooking().getWeapon().getWeaponId()));
+		// adds the button to the panel
 		panelCalendar.add(button);
+		// creates actionlisteners to the buttons
 		button.addActionListener(e -> {
 			try {
 				selectDate(button);
 			} catch (DataAccessException | SQLException | InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
+		// checks for availability
 		checkAvailability();
 	}
 
@@ -325,7 +324,6 @@ public class TimeChoice extends JPanel {
 		int time = button.getTime();
 		int shootingRange = button.getAvailableShootingRanges().get(0);
 		int instructor = button.getAvailableInstructors().get(0);
-
 		mainUI.gotoBookingConfirmation(date, time, shootingRange, instructor);
 	}
 
@@ -344,10 +342,10 @@ public class TimeChoice extends JPanel {
 	public void updateStatus() throws DataAccessException, SQLException {
 		for (CalendarButton cb : calendarButtons) {
 			if (!cb.getButtonType().equals("headerButton")) {
+				// adds new list of available ressources to the buttons
 				cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(), cb.getTime()));
 				cb.setAvailableInstructors(bookingController.getAvailableInstructors(cb.getDate(), cb.getTime()));
 				cb.setAvailableWeapons(bookingController.getAvailableWeapons(cb.getDate(), cb.getTime(), bookingController.getCurrentBooking().getWeapon().getWeaponId()));
-
 			}
 		}
 		checkAvailability();
@@ -355,7 +353,9 @@ public class TimeChoice extends JPanel {
 
 	private void checkAvailability() {
 		for (CalendarButton cb : calendarButtons)
+			// checks that availability lists excists
 			if (cb.getAvailableShootingRanges() != null && cb.getAvailableInstructors() != null && cb.getAvailableWeapons() != null) {
+				// checks that availability lists aren't empty and if the button date is before today
 				if (cb.getAvailableShootingRanges().size() == 0 || cb.getAvailableInstructors().size() == 0 || cb.getAvailableWeapons().size() == 0
 						|| !checkForDatePast(cb) ) {
 					cb.setEnabled(false);

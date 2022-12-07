@@ -5,9 +5,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
-
+/**
+ * Class for CalendarButton.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class CalendarButton extends JButton {
-
 	private static final long serialVersionUID = 1L;
 	private String label;
 	private LocalDate date;

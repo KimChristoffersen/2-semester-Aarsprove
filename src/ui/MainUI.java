@@ -17,9 +17,12 @@ import java.time.LocalDate;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Toolkit;
-
+/**
+ * Class for MainUI.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class MainUI extends JFrame {
-
 	private JPanel contentPane;
 	private Start start;
 	private WeaponChoice weaponChoice;
@@ -89,12 +92,10 @@ public class MainUI extends JFrame {
 
 	private void init() throws SQLException, DataAccessException {
 		bookingController = new BookingController();
-		
 	}
 
 	public void createBookingWithWeaponAndInstructor() throws SQLException, DataAccessException {
 		bookingController.createBooking(2); // hardcoded customer	
-		
 		panelCenterStart.hide();
 		panelCenterWeapon = new JPanel();
 		contentPane.add(panelCenterWeapon, BorderLayout.CENTER);
@@ -105,7 +106,6 @@ public class MainUI extends JFrame {
 
 	public void addWeapon(int weaponId) throws DataAccessException, SQLException {
 		bookingController.addWeapon(weaponId);
-		
 		panelCenterWeapon.hide();
 		panelCenterTime = new JPanel();
 		contentPane.add(panelCenterTime, BorderLayout.CENTER);
@@ -116,7 +116,6 @@ public class MainUI extends JFrame {
 
 	public void gotoBookingConfirmation(LocalDate date, int time, int shootingRange, int instructor) throws DataAccessException, SQLException {
 		bookingController.setTimeSlot(date, time, instructor, shootingRange);
-
 		panelCenterTime.hide();
 		panelCenterBooking = new JPanel();
 		contentPane.add(panelCenterBooking, BorderLayout.CENTER);
@@ -127,7 +126,6 @@ public class MainUI extends JFrame {
 
 	public void backToStart() {
 		panelCenterStart.show();
-		panelCenterBooking.hide();
-		
+		panelCenterBooking.hide();	
 	}
 }

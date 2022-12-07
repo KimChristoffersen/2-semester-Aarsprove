@@ -10,9 +10,12 @@ import database.BookingDBIF;
 import database.CustomerDBIF;
 import database.DataAccessException;
 import model.*;
-
+/**
+ * Class for BookingController.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class BookingController {
-
 	private CustomerController customerController;
 	private ShootingRangeController shootingRangeController;
 	private InstructorController instructorController;

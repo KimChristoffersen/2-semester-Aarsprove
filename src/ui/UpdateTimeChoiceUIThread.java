@@ -3,7 +3,11 @@ package ui;
 import java.sql.SQLException;
 
 import database.DataAccessException;
-
+/**
+ * Class for UpdateTimeChoiceUIThread.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class UpdateTimeChoiceUIThread extends Thread {
 	private TimeChoice timeChoice;
 	private TimeChoiceMonitor timeChoiceMonitor;
@@ -20,10 +24,8 @@ public class UpdateTimeChoiceUIThread extends Thread {
 			try {
 				timeChoice.updateStatus();
 			} catch (DataAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

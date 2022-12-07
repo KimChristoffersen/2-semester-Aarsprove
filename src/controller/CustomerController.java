@@ -6,9 +6,12 @@ import database.CustomerDB;
 import database.CustomerDBIF;
 import database.DataAccessException;
 import model.Customer;
-
+/**
+ * Class for CustomerController.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class CustomerController {
-
 	CustomerDBIF customerDB;
 	
 	public CustomerController() throws SQLException, DataAccessException {
@@ -18,5 +21,4 @@ public class CustomerController {
 	public Customer findCustomerById(int customerId) throws DataAccessException, SQLException {
 		return customerDB.findCustomerById(customerId);
 	}
-	
 }

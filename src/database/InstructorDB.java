@@ -7,7 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Instructor;
 import model.Price;
-
+/**
+ * Class for InstructorDB.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class InstructorDB implements InstructorDBIF {
 	
 	private PriceDBIF priceDB;
@@ -83,7 +87,4 @@ public class InstructorDB implements InstructorDBIF {
 		}
 		return instructors;
 	}
-
-	
-	
 }

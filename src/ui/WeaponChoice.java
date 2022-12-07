@@ -21,7 +21,11 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.BoxLayout;
 import javax.swing.border.LineBorder;
-
+/**
+ * Class for WeaponChoice.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class WeaponChoice extends JPanel {
 
 	private MainUI mainUI;
@@ -119,8 +123,6 @@ public class WeaponChoice extends JPanel {
 		table.getColumnModel().getColumn(1).setHeaderRenderer(headerLeftRenderer);
 		table.getColumnModel().getColumn(2).setHeaderRenderer(headerLeftRenderer);
 		table.getColumnModel().getColumn(3).setHeaderRenderer(headerLeftRenderer);
-		//table.getColumnModel().getColumn(0).setPreferredWidth(120);
-
 
 		DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
 		leftRenderer.setHorizontalAlignment(JLabel.LEFT);

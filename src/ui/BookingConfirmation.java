@@ -1,5 +1,9 @@
 package ui;
-
+/**
+ * Class for BookingConfirmation.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -21,7 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
 public class BookingConfirmation extends JPanel {
-
 	private MainUI mainUI;
 	private BookingController bookingController;
 	private Color blueColor;
@@ -478,7 +481,7 @@ public class BookingConfirmation extends JPanel {
 				JOptionPane.showMessageDialog(panelCenter, "Din booking er registreret med bookingnummer " + bookingController.getCurrentBooking().getBookingNumber() + " - kvitering er sendt pr. mail");
 				mainUI.backToStart();
 			} catch (DataAccessException e1) {
-				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret - prøv igen");
+				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret - pr\u00F8v igen");
 				mainUI.backToStart();
 				//e1.printStackTrace();
 			}

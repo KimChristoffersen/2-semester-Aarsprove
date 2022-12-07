@@ -1,17 +1,15 @@
 package model;
-
+/**
+ * Class for ShootingRange model.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class ShootingRange {
 	private int shootingRangeId;
 	private boolean status;
-	
-
-	
-
-
 	private Price price;
 	
 	public ShootingRange() {
-		
 	}
 	
 	public ShootingRange(int shootingRangeId, boolean status, Price price) {
@@ -20,7 +18,6 @@ public class ShootingRange {
 		this.price = price;
 	}
 
-	
 	//GETTERS
 	public int getShootingRangeId() {
 		return shootingRangeId;
@@ -47,7 +44,4 @@ public class ShootingRange {
 	public void setPrice(Price price) {
 		this.price = price;
 	}
-	
-	
-
 }

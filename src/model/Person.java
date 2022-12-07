@@ -1,7 +1,10 @@
 package model;
-
+/**
+ * Class for Person model.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class Person {
-
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -15,7 +18,6 @@ public class Person {
 
 	public Person(String firstName, String lastName, String address, String postalCode, String city, String phone,
 			String email) {
-
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
@@ -54,7 +56,7 @@ public class Person {
 		return email;
 	}
 
-//SETTERS
+	//SETTERS
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -82,5 +84,4 @@ public class Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 }

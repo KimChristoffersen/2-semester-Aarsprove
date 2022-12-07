@@ -1,14 +1,15 @@
 package model;
-
+/**
+ * Class for Instructor model.
+ * 
+ * Child of Person
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class Instructor extends Person {
 	private int instructorId;
 	private boolean status;
-	
 	private Price price;
-	
-	
-
-	
 
 	public Instructor() {
 		super();
@@ -31,7 +32,7 @@ public class Instructor extends Person {
 	public boolean getStatus() {
 		return status;
 	}
-	
+
 	public Price getPrice() {
 		return price;
 	}
@@ -44,9 +45,8 @@ public class Instructor extends Person {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	
+
 	public void setPrice(Price price) {
 		this.price = price;
 	}
-
 }

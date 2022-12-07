@@ -1,7 +1,10 @@
 package ui;
-
+/**
+ * Class for TimeChoiceMonitor.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class TimeChoiceMonitor {
-
 	private static TimeChoiceMonitor instance;
 
 	private TimeChoiceMonitor() {
@@ -16,17 +19,13 @@ public class TimeChoiceMonitor {
 	
 	public synchronized void notifyAllThreads() {
 		notifyAll();
-		System.out.println("Here we go again.... Yeeehaaaa!");
-
 	}
 	
 	public synchronized void waitMethod() {
 		try {
 			wait();
-			System.out.println("zZzzzZzzZZzz");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 	}
 }

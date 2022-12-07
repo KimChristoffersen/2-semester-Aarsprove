@@ -16,9 +16,12 @@ import model.Customer;
 import model.Instructor;
 import model.ShootingRange;
 import model.Weapon;
-
+/**
+ * Class for BookingDB.
+ *
+ * @author (DMA-CSD-V221-Gruppe 1)
+ */
 public class BookingDB implements BookingDBIF {
-
 	private ShootingRangeDBIF shootingRangeDB;
 	private CustomerDBIF customerDB;
 	private InstructorDBIF instructorDB;

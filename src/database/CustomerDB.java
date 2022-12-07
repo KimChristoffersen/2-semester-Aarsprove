@@ -36,7 +36,7 @@ public class CustomerDB implements CustomerDBIF {
 		return res;
 	}
 
-	public Customer buildObject(ResultSet rs) throws DataAccessException {
+	private Customer buildObject(ResultSet rs) throws DataAccessException {
 		Customer currentCustomer = null;
 		try {
 			int customerId = rs.getInt("customer_Id");

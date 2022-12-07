@@ -121,7 +121,9 @@ public class TimeChoice extends JPanel {
 		updateTimeChoiceUIThread = new UpdateTimeChoiceUIThread(this, timeChoiceMonitor);
 		pollThread = new PollThread();
 		pollThread.start();
+		// System.out.println("PollStart");
 		updateTimeChoiceUIThread.start();
+		// System.out.println("UI Thread");
 	}
 
 	private void init(MainUI mainUI, BookingController bookingController) throws SQLException, DataAccessException {

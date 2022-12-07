@@ -77,7 +77,7 @@ public class BookingDB implements BookingDBIF {
 		return booking;
 	}
 
-	public Booking buildObject(ResultSet rs) throws DataAccessException {
+	private Booking buildObject(ResultSet rs) throws DataAccessException {
 		Booking currentBooking = null;
 		try {
 			int bookingNumber = rs.getInt("bookingNumber");
@@ -134,7 +134,7 @@ public class BookingDB implements BookingDBIF {
 		return booking;
 	}
 
-	public void checkForDoubleBookingOfRessource(Booking booking) throws SQLException {
+	private void checkForDoubleBookingOfRessource(Booking booking) throws SQLException {
 		checkForDoubleBooking.setDate(1, Date.valueOf(booking.getDate()));
 		checkForDoubleBooking.setInt(2, booking.getTime());
 		checkForDoubleBooking.setInt(3, booking.getShootingRange().getShootingRangeId());
@@ -212,7 +212,7 @@ public class BookingDB implements BookingDBIF {
 		return localDateTime;
 	}
 
-	public void insertTimestamp() throws SQLException {
+	private void insertTimestamp() throws SQLException {
         long now = System.currentTimeMillis();
         Timestamp sqlTimestamp = new Timestamp(now);
 			insertTimestampPS.setTimestamp(1, sqlTimestamp);

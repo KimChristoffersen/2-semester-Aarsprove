@@ -13,7 +13,6 @@ import model.Price;
  * @author (DMA-CSD-V221-Gruppe 1)
  */
 public class InstructorDB implements InstructorDBIF {
-	
 	private PriceDBIF priceDB;
 
 	private static final String FIND_ALL_Q = "select i.instructor_id, i.status, p.fName, p.lName, p.phone, p.email, a.address, a.postalCode_Id, pc.city from instructor i, person p, address a, PostalCode pc where status = ? and i.instructor_id = p.personId and p.address_id = a.address_Id and a.postalCode_Id = pc.postalCode";

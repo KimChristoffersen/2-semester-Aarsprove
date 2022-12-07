@@ -59,7 +59,7 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 		return res;
 	}
 
-	public ShootingRange buildObject(ResultSet rs) throws DataAccessException {
+	private ShootingRange buildObject(ResultSet rs) throws DataAccessException {
 		ShootingRange currentShootingRange = null;
 		try {
 			int shootingRangeId = rs.getInt("shootingrange_Id");

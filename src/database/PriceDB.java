@@ -12,7 +12,6 @@ import model.Price;
  * @author (DMA-CSD-V221-Gruppe 1)
  */
 public class PriceDB implements PriceDBIF {
-
 	private static final String FIND_PRICE_BY_WEAPONID_Q = "select startdate, price from price where weapon_Id = ? and startdate = (select max(startdate) from price where weapon_Id = ?)";
 	private static final String FIND_PRICE_BY_SHOOTINGRANGEID_Q = "select startdate, price from price where shootingRange_Id = ? and startdate = (select max(startdate) from price where shootingRange_Id = ?)";
 	private static final String FIND_PRICE_BY_INSTRUCTOR_ID_Q = "select startdate, price from price where instructor_Id = ? and startdate = (select max(startdate) from price where instructor_Id = ?)";
@@ -27,7 +26,7 @@ public class PriceDB implements PriceDBIF {
 		findPriceByInstructorIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_PRICE_BY_INSTRUCTOR_ID_Q);
 	} 
 	
-	public Price buildObject(ResultSet rs) throws DataAccessException {
+	private Price buildObject(ResultSet rs) throws DataAccessException {
         Price currentPrice = null;
         try {
             LocalDate startDate = rs.getDate("startDate").toLocalDate();

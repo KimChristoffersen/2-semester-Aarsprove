@@ -18,11 +18,13 @@ public class TimeChoiceMonitor {
 	}
 	
 	public synchronized void notifyAllThreads() {
+		// System.out.println("Here we go again.... Yeeehaaaa!");
 		notifyAll();
 	}
 	
 	public synchronized void waitMethod() {
 		try {
+			// System.out.println("zZzzzZzzZZzz");
 			wait();
 		} catch (InterruptedException e) {
 			e.printStackTrace();

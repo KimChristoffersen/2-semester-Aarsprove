@@ -529,7 +529,7 @@ public class BookingConfirmation extends JPanel {
 		textFieldInstructorPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getInstructor().getPrice().getPrice()) + " kr.");
 		textFieldWeaponPrice.setText(
 				twoDecimals.format(bookingController.getCurrentBooking().getWeapon().getPrice().getPrice()) + " kr.");
-		textFieldTotalPrice.setText(twoDecimals.format(bookingController.calculateTotal(bookingController.getCurrentBooking())) + " kr.");
+		textFieldTotalPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getPriceTotal()) + " kr.");
 	}
 
 	private void confirmBooking() throws DataAccessException {

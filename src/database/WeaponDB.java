@@ -17,7 +17,7 @@ public class WeaponDB implements WeaponDBIF {
 	private PriceDBIF priceDB;
 
 	private static final String FIND_BY_ID_Q = "select w.weaponid, w.weaponname, wt.weapontype, a.ammunitiontype, status from weapon w, weapontype wt, ammunitiontype a where weaponId = ? and w.weaponType_Id = wt.weaponTypeId and w.ammunitionType_Id = a.AmmunitionTypeId";
-	private static final String FIND_ALL_Q = "select w.weaponid, w.weaponname, wt.weapontype, a.ammunitiontype, status from weapon w, weapontype wt, ammunitiontype a where w.weaponType_Id = wt.weaponTypeId and w.ammunitionType_Id = a.AmmunitionTypeId";
+	private static final String FIND_ALL_Q = "select w.weaponid, w.weaponname, wt.weapontype, a.ammunitiontype, status from weapon w, weapontype wt, ammunitiontype a where w.weaponType_Id = wt.weaponTypeId and w.ammunitionType_Id = a.AmmunitionTypeId and w.status = 1";
 
 	private PreparedStatement findByIdPS;
 	private PreparedStatement findAll;

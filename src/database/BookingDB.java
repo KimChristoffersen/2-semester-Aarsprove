@@ -28,9 +28,9 @@ public class BookingDB implements BookingDBIF {
 
 	private static final String FIND_BY_ID_Q = "select * from booking where bookingnumber = ?";
 	private static final String INSERT_Q = "insert into booking values(?, ?, ?, ?, ?,?,?,?)";
-	private static final String FINDAVAILABLESHOOTINGRANGES_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?)";
-	private static final String FINDAVAILABLEINSTRUCTORS_Q = "select instructor_Id from Instructor where instructor_Id NOT IN (select instructor_Id from Booking where date = ? and time = ?)";
-	private static final String FINDAVAILABLEWEAPONS_Q = "select weaponid from weapon where weaponid NOT IN (select weapon_id from Booking where date = ? and time = ?) and weaponid = ?";
+	private static final String FINDAVAILABLESHOOTINGRANGES_Q = "select shootingRange_Id from shootingRange where shootingRange_Id NOT IN (select shootingRange_Id from Booking where date = ? and time = ?) and status = 1";
+	private static final String FINDAVAILABLEINSTRUCTORS_Q = "select instructor_Id from Instructor where instructor_Id NOT IN (select instructor_Id from Booking where date = ? and time = ?) and status = 1";
+	private static final String FINDAVAILABLEWEAPONS_Q = "select weaponid from weapon where weaponid NOT IN (select weapon_id from Booking where date = ? and time = ?) and weaponid = ? and status = 1";
 	private static final String FIND_LAST_DATABASECHANGE_TIME_Q = "select max(datetime) as datetime from updatetime";
 	private static final String CHECK_FOR_DOUBLEBOOKING_Q = "select * from booking where (date = ? and time = ? and ShootingRange_Id = ?) OR (date = ? and time = ? and instructor_id = ?) OR (date = ? and time = ? and Weapon_Id = ?)";
 	private static final String INSERT_TIMESTAMP_Q = "insert into UpdateTime values(?)";

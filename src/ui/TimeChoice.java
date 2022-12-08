@@ -302,9 +302,7 @@ public class TimeChoice extends JPanel {
 		LocalDate buttonDate = button.getDate();
 		int buttonTime = button.getTime();
 		// adds lists of available ressources to the buttons
-		button.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(buttonDate, buttonTime));
-		button.setAvailableInstructors(bookingController.getAvailableInstructors(buttonDate, buttonTime));
-		button.setAvailableWeapons(bookingController.getAvailableWeapons(buttonDate, buttonTime, bookingController.getCurrentBooking().getWeapon().getWeaponId()));
+		addRessourcesToButttons(button);
 		// adds the button to the panel
 		panelCalendar.add(button);
 		// creates actionlisteners to the buttons
@@ -340,14 +338,18 @@ public class TimeChoice extends JPanel {
 		return after;
 	}
 
+	private void addRessourcesToButttons(CalendarButton button) throws DataAccessException {
+		button.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(button.getDate(), button.getTime()));
+		button.setAvailableInstructors(bookingController.getAvailableInstructors(button.getDate(), button.getTime()));
+		button.setAvailableWeapons(bookingController.getAvailableWeapons(button.getDate(), button.getTime(), bookingController.getCurrentBooking().getWeapon().getWeaponId()));
+	}
+	
 	// updates the status of the buttons
 	public void updateStatus() throws DataAccessException, SQLException {
 		for (CalendarButton cb : calendarButtons) {
 			if (!cb.getButtonType().equals("headerButton")) {
-				// adds new list of available ressources to the buttons
-				cb.setAvailableShootingRanges(bookingController.getAvailableShootingRanges(cb.getDate(), cb.getTime()));
-				cb.setAvailableInstructors(bookingController.getAvailableInstructors(cb.getDate(), cb.getTime()));
-				cb.setAvailableWeapons(bookingController.getAvailableWeapons(cb.getDate(), cb.getTime(), bookingController.getCurrentBooking().getWeapon().getWeaponId()));
+				// adds lists of available ressources to the buttons
+				addRessourcesToButttons(cb);
 			}
 		}
 		checkAvailability();

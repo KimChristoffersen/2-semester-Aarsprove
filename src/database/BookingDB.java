@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import model.Booking;
 import model.Customer;
@@ -151,7 +150,7 @@ public class BookingDB implements BookingDBIF {
 	}
 
 	public List<Integer> getAvailableShootingRangeIds(LocalDate date, int time) throws DataAccessException {
-		List<Integer> availShootingRanges = new LinkedList<>();
+		List<Integer> availShootingRanges = new ArrayList<>();
 		try {
 			Date sqlDate = Date.valueOf(date);
 			findAvailableShootingRanges.setDate(1, sqlDate);
@@ -167,7 +166,7 @@ public class BookingDB implements BookingDBIF {
 	}
 
 	public List<Integer> getAvailableInstructorIds(LocalDate date, int time) throws DataAccessException {
-		List<Integer> availableInstructors = new LinkedList<>();
+		List<Integer> availableInstructors = new ArrayList<>();
 		try {
 			Date sqlDate = Date.valueOf(date);
 			findAvailableInstructors.setDate(1, sqlDate);
@@ -183,7 +182,7 @@ public class BookingDB implements BookingDBIF {
 	}
 
 	public List<Integer> getAvailableWeaponIds(LocalDate date, int time, int weaponId) throws DataAccessException {
-		List<Integer> availableWeapons = new LinkedList<>();
+		List<Integer> availableWeapons = new ArrayList<>();
 		try {
 			Date sqlDate = Date.valueOf(date);
 			findAvailableWeapons.setDate(1, sqlDate);

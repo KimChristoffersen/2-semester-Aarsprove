@@ -2,7 +2,7 @@ package ui;
 
 import java.awt.Color;
 import java.time.LocalDate;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 /**
@@ -16,9 +16,9 @@ public class CalendarButton extends JButton {
 	private LocalDate date;
 	private int time;
 	private String buttonType;
-	private List<Integer> shootingRanges = new LinkedList<>();
-	private List<Integer> instructors = new LinkedList<>();
-	private List<Integer> weapons = new LinkedList<>();
+	private List<Integer> shootingRanges = new ArrayList<>();
+	private List<Integer> instructors = new ArrayList<>();
+	private List<Integer> weapons = new ArrayList<>();
 
 	public CalendarButton(String label, LocalDate date, String buttonType) { // WEEK NAMES
 		this.label = label;

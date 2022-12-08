@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import controller.BookingController;
+import controller.ShootingRangeController;
 import database.BookingDB;
 import database.BookingDBIF;
 import database.DataAccessException;
@@ -25,16 +28,15 @@ import model.Price;
 import model.ShootingRange;
 import model.Weapon;
 
-class SuccesfullBookingTest {
+class TestCases {
 
 	private static BookingController bookingController;
-	private static BookingDBIF bookingDB;
+	private static ShootingRangeController shootingRangeController;
 
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		bookingController = new BookingController();
-		bookingDB = new BookingDB();
 	}		
 
 	@AfterAll
@@ -52,7 +54,21 @@ class SuccesfullBookingTest {
 	}
 
 	@Test
-	void integrationTestSuccesfullBooking() throws DataAccessException {
+	void unitTestCancelBooking() throws DataAccessException, SQLException {
+		// ARRANGE
+		Booking booking = new Booking();
+		bookingController.setBooking(booking);
+	
+		// ACT
+		bookingController.cancelBooking();
+		
+		// ASSERT
+		assertTrue(bookingController.getCurrentBooking() == null);
+	}
+	
+	
+	@Test
+	void integrationsTestSuccesfullBooking() throws DataAccessException {
 		// ARRANGE
 		Price shootingRangePrice = new Price();
 		shootingRangePrice.setPrice(350.00);
@@ -80,17 +96,26 @@ class SuccesfullBookingTest {
 
 	}
 	
+	
 	@Test
-	void unitCancelBooking() throws DataAccessException, SQLException {
-		// ARRANGE
+	void unitTestDesiredWeaponUnavailable() throws DataAccessException, SQLException {
+		//ARRANGE
+		Weapon weapon = new Weapon(1,"Glock",null,null,false,null);
+		
+		
+		
 		Booking booking = new Booking();
 		bookingController.setBooking(booking);
 	
-		// ACT
-		bookingController.cancelBooking();
+		//ACT
+		bookingController.addWeapon(1);
 		
-		// ASSERT
-		assertTrue(bookingController.getCurrentBooking() == null);
+		//ASSERT
+		assertTrue(weapon.getStatus());
+		
 	}
+	
+	
+	
 	
 }

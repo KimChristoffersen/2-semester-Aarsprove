@@ -93,4 +93,9 @@ public class BookingController {
 	public LocalDateTime getLastDataBaseChangeTime() throws DataAccessException {
 		return bookingDB.getLastDatabaseChangeTime();
 	}
+	
+	public void setBooking(Booking booking) {
+		this.currentBooking = booking;
+		
+	}
 }

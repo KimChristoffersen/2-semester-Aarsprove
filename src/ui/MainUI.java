@@ -34,6 +34,7 @@ public class MainUI extends JFrame {
 	private JPanel panelCenterBooking;
 	private JPanel panelSouth;
 	private BookingController bookingController;
+	private static long startTime = System.currentTimeMillis();
 
 	/**
 	 * Launch the application.
@@ -125,6 +126,11 @@ public class MainUI extends JFrame {
 	}
 
 	public void backToStart() {
+		long elapsedTime = System.currentTimeMillis() - startTime;
+		long elapsedSeconds = elapsedTime / 1000;
+		long secondsDisplay = elapsedSeconds % 60;
+//		long elapsedMinutes = elapsedSeconds / 60;
+//		System.out.println(secondsDisplay);
 		panelCenterStart.show();
 		panelCenterBooking.hide();	
 	}

@@ -21,6 +21,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.BoxLayout;
 import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 /**
  * Class for WeaponChoice.
  *
@@ -71,7 +73,7 @@ public class WeaponChoice extends JPanel {
 		panelSouth.setBackground(Color.WHITE);
 		add(panelSouth, BorderLayout.SOUTH);
 
-		JButton btnChoose = new JButton("Ok");
+		JButton btnChoose = new JButton("V\u00E6lg v\u00E5ben");
 		btnChoose.addActionListener(e -> {
 			try {
 				selectWeapon();
@@ -83,6 +85,11 @@ public class WeaponChoice extends JPanel {
 				e1.printStackTrace();
 			}
 		});
+		
+		JButton btnAnnullerBooking = new JButton("Annuller booking");
+		btnAnnullerBooking.addActionListener(e -> backToStart());
+		btnAnnullerBooking.setFont(new Font("Tahoma", Font.BOLD, 14));
+		panelSouth.add(btnAnnullerBooking);
 		btnChoose.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panelSouth.add(btnChoose);
 
@@ -131,5 +138,9 @@ public class WeaponChoice extends JPanel {
 		table.getColumnModel().getColumn(1).setCellRenderer(leftRenderer);
 		table.getColumnModel().getColumn(2).setCellRenderer(leftRenderer);
 		table.getColumnModel().getColumn(3).setCellRenderer(leftRenderer);
+	}
+	
+	private void backToStart() {
+		mainUI.backToStart();
 	}
 }

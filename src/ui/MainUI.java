@@ -132,6 +132,8 @@ public class MainUI extends JFrame {
 //		long elapsedMinutes = elapsedSeconds / 60;
 //		System.out.println(secondsDisplay);
 		panelCenterStart.show();
-		panelCenterBooking.hide();	
+		if(panelCenterBooking != null) panelCenterBooking.hide();
+		if(panelCenterWeapon != null) panelCenterWeapon.hide();
+		if(panelCenterTime != null) panelCenterTime.hide();
 	}
 }

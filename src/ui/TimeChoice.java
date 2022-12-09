@@ -19,6 +19,8 @@ import java.util.List;
 import java.awt.BorderLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 /**
  * Class for TimeChoice.
  *
@@ -98,6 +100,12 @@ public class TimeChoice extends JPanel {
 		});
 		btnDateForward.setBounds(283, 10, 90, 30);
 		panelWeekChooser.add(btnDateForward);
+		
+		JButton btnAnnullerBooking = new JButton("Annuller booking");
+		btnAnnullerBooking.addActionListener(e -> backToStart());
+		btnAnnullerBooking.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnAnnullerBooking.setBounds(559, 10, 181, 30);
+		panelWeekChooser.add(btnAnnullerBooking);
 
 		panelCalendar = new JPanel();
 		panelCalendar.setBackground(Color.WHITE);
@@ -392,5 +400,9 @@ public class TimeChoice extends JPanel {
 		lblDateFromTo.setText(dayMontFormat.format(firstDayOfThisWeek.plusDays(0)) + " til "
 				+ dayMontFormat.format(firstDayOfThisWeek.plusDays(5)) + " " + yearFormat.format(firstDayOfThisWeek));
 		createCalendarButtons();
+	}
+	
+	private void backToStart() {
+		mainUI.backToStart();
 	}
 }

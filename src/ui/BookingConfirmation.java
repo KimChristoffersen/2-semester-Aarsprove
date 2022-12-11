@@ -475,15 +475,19 @@ public class BookingConfirmation extends JPanel {
 		add(panelSouth, BorderLayout.SOUTH);
 
 		JButton btnChoose = new JButton("Bekr\u00E6ft booking");
-		btnChoose.addActionListener(e -> {
+		btnChoose.addActionListener(e ->{
 			try {
-				confirmBooking();
-				JOptionPane.showMessageDialog(panelCenter, "Din booking er registreret med bookingnummer " + bookingController.getCurrentBooking().getBookingNumber() + " - kvitering er sendt pr. mail");
-				mainUI.backToStart();
+				if(confirmBooking()) {
+					JOptionPane.showMessageDialog(panelCenter, "Din booking er registreret med bookingnummer " + bookingController.getCurrentBooking().getBookingNumber() + " - kvitering er sendt pr. mail");
+					mainUI.backToStart();
+				}
+				else{
+					JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking har en allerede optaget ressource - pr\u00F8v igen");
+					mainUI.backToStart();
+				};
 			} catch (DataAccessException e1) {
-				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret - pr\u00F8v igen");
-				mainUI.backToStart();
-				//e1.printStackTrace();
+				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret - check din internetforbindelse og pr\u00F8v igen");
+				e1.printStackTrace();
 			}
 		});
 
@@ -532,7 +536,7 @@ public class BookingConfirmation extends JPanel {
 		textFieldTotalPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getPriceTotal()) + " kr.");
 	}
 
-	private void confirmBooking() throws DataAccessException {
-		bookingController.confirmBooking();
+	private boolean confirmBooking() throws DataAccessException {
+		return bookingController.confirmBooking();
 	}
 }

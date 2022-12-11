@@ -15,6 +15,7 @@ import model.Customer;
 import model.Instructor;
 import model.ShootingRange;
 import model.Weapon;
+
 /**
  * Class for BookingDB.
  *
@@ -46,7 +47,8 @@ public class BookingDB implements BookingDBIF {
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
-		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q,Statement.RETURN_GENERATED_KEYS);
+		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q,
+				Statement.RETURN_GENERATED_KEYS);
 		findAvailableShootingRanges = DBConnection.getInstance().getConnection()
 				.prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
 		findAvailableInstructors = DBConnection.getInstance().getConnection()
@@ -107,23 +109,23 @@ public class BookingDB implements BookingDBIF {
 	// Creates booking in database
 	public Booking confirmBooking(Booking booking) throws DataAccessException {
 		try {
-			checkForDoubleBookingOfRessource(booking);
+			if (!checkForDoubleBookingOfRessource(booking)) {
+				DBConnection.getInstance().startTransaction();
+				insertPS.setDate(1, Date.valueOf(LocalDate.now()));
+				insertPS.setDouble(2, booking.getPriceTotal());
+				insertPS.setInt(3, booking.getTime());
+				insertPS.setDate(4, Date.valueOf(booking.getDate()));
+				insertPS.setInt(5, booking.getCustomer().getCustomerId());
+				insertPS.setInt(6, booking.getInstructor().getInstructorId());
+				insertPS.setInt(7, booking.getShootingRange().getShootingRangeId());
+				insertPS.setInt(8, booking.getWeapon().getWeaponId());
 
-			DBConnection.getInstance().startTransaction();
-			insertPS.setDate(1, Date.valueOf(LocalDate.now()));
-			insertPS.setDouble(2, booking.getPriceTotal());
-			insertPS.setInt(3, booking.getTime());
-			insertPS.setDate(4, Date.valueOf(booking.getDate()));
-			insertPS.setInt(5, booking.getCustomer().getCustomerId());
-			insertPS.setInt(6, booking.getInstructor().getInstructorId());
-			insertPS.setInt(7, booking.getShootingRange().getShootingRangeId());
-			insertPS.setInt(8, booking.getWeapon().getWeaponId());
-			
-			int bookingNumber = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
-			booking.setBookingNumber(bookingNumber);
-			
-			insertTimestamp();
-			DBConnection.getInstance().commitTransaction();
+				int bookingNumber = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
+				booking.setBookingNumber(bookingNumber);
+
+				insertTimestamp();
+				DBConnection.getInstance().commitTransaction();
+			}
 		} catch (
 
 		SQLException e) {
@@ -133,7 +135,8 @@ public class BookingDB implements BookingDBIF {
 		return booking;
 	}
 
-	private void checkForDoubleBookingOfRessource(Booking booking) throws SQLException {
+	private boolean checkForDoubleBookingOfRessource(Booking booking) throws SQLException {
+		boolean hasDoubleBooking = false;
 		checkForDoubleBooking.setDate(1, Date.valueOf(booking.getDate()));
 		checkForDoubleBooking.setInt(2, booking.getTime());
 		checkForDoubleBooking.setInt(3, booking.getShootingRange().getShootingRangeId());
@@ -145,8 +148,9 @@ public class BookingDB implements BookingDBIF {
 		checkForDoubleBooking.setInt(9, booking.getWeapon().getWeaponId());
 		ResultSet rs = checkForDoubleBooking.executeQuery();
 		if (rs.next()) {
-			throw new SQLException("Ressource allready booked");
+			hasDoubleBooking = true;
 		}
+		return hasDoubleBooking;
 	}
 
 	public List<Integer> getAvailableShootingRangeIds(LocalDate date, int time) throws DataAccessException {
@@ -212,9 +216,9 @@ public class BookingDB implements BookingDBIF {
 	}
 
 	private void insertTimestamp() throws SQLException {
-        long now = System.currentTimeMillis();
-        Timestamp sqlTimestamp = new Timestamp(now);
-			insertTimestampPS.setTimestamp(1, sqlTimestamp);
-			insertTimestampPS.executeUpdate();
+		long now = System.currentTimeMillis();
+		Timestamp sqlTimestamp = new Timestamp(now);
+		insertTimestampPS.setTimestamp(1, sqlTimestamp);
+		insertTimestampPS.executeUpdate();
 	}
 }

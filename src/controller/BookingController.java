@@ -10,6 +10,7 @@ import database.BookingDBIF;
 import database.CustomerDBIF;
 import database.DataAccessException;
 import model.*;
+
 /**
  * Class for BookingController.
  *
@@ -56,8 +57,13 @@ public class BookingController {
 		currentBooking.setPriceTotal(calculateTotal(currentBooking));
 	}
 
-	public void confirmBooking() throws DataAccessException {
+	public boolean confirmBooking() throws DataAccessException {
+		boolean confirmBookingSuccess = false;
 		bookingDB.confirmBooking(currentBooking);
+		if (currentBooking.getBookingNumber() != 0) {
+			confirmBookingSuccess = true;
+		}
+		return confirmBookingSuccess;
 	}
 
 	public Booking getCurrentBooking() {
@@ -79,23 +85,22 @@ public class BookingController {
 	public List<Integer> getAvailableWeapons(LocalDate date, int time, int weaponId) throws DataAccessException {
 		return bookingDB.getAvailableWeaponIds(date, time, weaponId);
 	}
-	
+
 	public void cancelBooking() {
 		this.currentBooking = null;
 	}
 
 	public double calculateTotal(Booking booking) {
-		return booking.getShootingRange().getPrice().getPrice()
-				+ booking.getInstructor().getPrice().getPrice()
+		return booking.getShootingRange().getPrice().getPrice() + booking.getInstructor().getPrice().getPrice()
 				+ booking.getWeapon().getPrice().getPrice();
 	}
 
 	public LocalDateTime getLastDataBaseChangeTime() throws DataAccessException {
 		return bookingDB.getLastDatabaseChangeTime();
 	}
-	
+
 	public void setBooking(Booking booking) {
 		this.currentBooking = booking;
-		
+
 	}
 }

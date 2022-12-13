@@ -61,6 +61,7 @@ public class BookingDB implements BookingDBIF {
 		checkForDoubleBooking = DBConnection.getInstance().getConnection().prepareStatement(CHECK_FOR_DOUBLEBOOKING_Q);
 		insertTimestampPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_TIMESTAMP_Q);
 		con = DBConnection.getInstance().getConnection();
+		System.out.println(con .getTransactionIsolation());
 	}
 
 	// Finds booking in database
@@ -113,6 +114,7 @@ public class BookingDB implements BookingDBIF {
 	public Booking confirmBooking(Booking booking) throws DataAccessException {
 		try {
 			con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+			System.out.println(con .getTransactionIsolation());
 			DBConnection.getInstance().startTransaction();
 			if (!checkForDoubleBookingOfRessource(booking)) {
 				insertPS.setDate(1, Date.valueOf(LocalDate.now()));
@@ -129,6 +131,8 @@ public class BookingDB implements BookingDBIF {
 
 				insertTimestamp();
 				DBConnection.getInstance().commitTransaction();
+				con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+				System.out.println(con .getTransactionIsolation());
 			}
 		} catch (
 

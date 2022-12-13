@@ -1,5 +1,6 @@
 package database;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +27,7 @@ public class BookingDB implements BookingDBIF {
 	private CustomerDBIF customerDB;
 	private InstructorDBIF instructorDB;
 	private WeaponDBIF weaponDB;
+	private Connection con;
 
 	private static final String FIND_BY_ID_Q = "select * from booking where bookingnumber = ?";
 	private static final String INSERT_Q = "insert into booking values(?, ?, ?, ?, ?,?,?,?)";
@@ -58,6 +60,7 @@ public class BookingDB implements BookingDBIF {
 				.prepareStatement(FIND_LAST_DATABASECHANGE_TIME_Q);
 		checkForDoubleBooking = DBConnection.getInstance().getConnection().prepareStatement(CHECK_FOR_DOUBLEBOOKING_Q);
 		insertTimestampPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_TIMESTAMP_Q);
+		con = DBConnection.getInstance().getConnection();
 	}
 
 	// Finds booking in database
@@ -109,6 +112,7 @@ public class BookingDB implements BookingDBIF {
 	// Creates booking in database
 	public Booking confirmBooking(Booking booking) throws DataAccessException {
 		try {
+			con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 			DBConnection.getInstance().startTransaction();
 			if (!checkForDoubleBookingOfRessource(booking)) {
 				insertPS.setDate(1, Date.valueOf(LocalDate.now()));

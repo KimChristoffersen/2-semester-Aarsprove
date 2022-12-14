@@ -61,7 +61,6 @@ public class BookingDB implements BookingDBIF {
 		checkForDoubleBooking = DBConnection.getInstance().getConnection().prepareStatement(CHECK_FOR_DOUBLEBOOKING_Q);
 		insertTimestampPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_TIMESTAMP_Q);
 		con = DBConnection.getInstance().getConnection();
-		System.out.println(con .getTransactionIsolation());
 	}
 
 	// Finds booking in database
@@ -113,9 +112,7 @@ public class BookingDB implements BookingDBIF {
 	// Creates booking in database
 	public Booking confirmBooking(Booking booking) throws DataAccessException, SQLException {
 		try {
-			System.out.println("når vi her til 1?");
 			con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-			System.out.println("når vi her til 2?");	
 			DBConnection.getInstance().startTransaction();
 			if (!checkForDoubleBookingOfRessource(booking)) {
 				insertPS.setDate(1, Date.valueOf(LocalDate.now()));
@@ -126,21 +123,16 @@ public class BookingDB implements BookingDBIF {
 				insertPS.setInt(6, booking.getInstructor().getInstructorId());
 				insertPS.setInt(7, booking.getShootingRange().getShootingRangeId());
 				insertPS.setInt(8, booking.getWeapon().getWeaponId());
-
 				int bookingNumber = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
 				booking.setBookingNumber(bookingNumber);
-
 				insertTimestamp();
 				DBConnection.getInstance().commitTransaction();
-				
 			}
 		} catch (
-
 		SQLException e) {
 			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Booking could not be created", e);
 		}
-		
 		finally{con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);}		
 		return booking;
 	}

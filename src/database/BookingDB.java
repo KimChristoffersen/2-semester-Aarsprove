@@ -112,8 +112,8 @@ public class BookingDB implements BookingDBIF {
 	// Creates booking in database
 	public Booking confirmBooking(Booking booking) throws DataAccessException, SQLException {
 		try {
-			con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			DBConnection.getInstance().startTransaction();
+			con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			if (!checkForDoubleBookingOfRessource(booking)) {
 				insertPS.setDate(1, Date.valueOf(LocalDate.now()));
 				insertPS.setDouble(2, booking.getPriceTotal());

@@ -57,7 +57,7 @@ public class BookingController {
 		currentBooking.setPriceTotal(calculateTotal(currentBooking));
 	}
 
-	public boolean confirmBooking() throws DataAccessException {
+	public boolean confirmBooking() throws DataAccessException, SQLException {
 		boolean confirmBookingSuccess = false;
 		bookingDB.confirmBooking(currentBooking);
 		if (currentBooking.getBookingNumber() != 0) {

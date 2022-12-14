@@ -17,7 +17,9 @@ import javax.swing.border.LineBorder;
 import controller.BookingController;
 import database.DataAccessException;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.Rectangle;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.awt.BorderLayout;
@@ -488,6 +490,12 @@ public class BookingConfirmation extends JPanel {
 			} catch (DataAccessException e1) {
 				JOptionPane.showMessageDialog(panelCenter, "Fejl! Din booking er ikke registreret - check din internetforbindelse og pr\u00F8v igen");
 				e1.printStackTrace();
+			} catch (HeadlessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		});
 
@@ -536,7 +544,7 @@ public class BookingConfirmation extends JPanel {
 		textFieldTotalPrice.setText(twoDecimals.format(bookingController.getCurrentBooking().getPriceTotal()) + " kr.");
 	}
 
-	private boolean confirmBooking() throws DataAccessException {
+	private boolean confirmBooking() throws DataAccessException, SQLException {
 		return bookingController.confirmBooking();
 	}
 }

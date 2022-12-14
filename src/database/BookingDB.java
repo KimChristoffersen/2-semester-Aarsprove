@@ -141,8 +141,7 @@ public class BookingDB implements BookingDBIF {
 			throw new DataAccessException("Booking could not be created", e);
 		}
 		
-		finally{con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-		System.out.println("når vi her til 3?");}		
+		finally{con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);}		
 		return booking;
 	}
 

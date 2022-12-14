@@ -12,7 +12,7 @@ import model.Booking;
  * @author (DMA-CSD-V221-Gruppe 1)
  */
 public interface BookingDBIF {
-	Booking confirmBooking(Booking booking) throws DataAccessException;
+	Booking confirmBooking(Booking booking) throws DataAccessException, SQLException;
 	public Booking findBookingByNumber(int id) throws DataAccessException, SQLException;
 	List<Integer> getAvailableShootingRangeIds(LocalDate date, int time) throws DataAccessException;
 	List<Integer> getAvailableInstructorIds(LocalDate date, int time) throws DataAccessException;

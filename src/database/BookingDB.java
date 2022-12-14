@@ -111,10 +111,9 @@ public class BookingDB implements BookingDBIF {
 	}
 
 	// Creates booking in database
-	public Booking confirmBooking(Booking booking) throws DataAccessException {
+	public Booking confirmBooking(Booking booking) throws DataAccessException, SQLException {
 		try {
-			con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
-			System.out.println(con .getTransactionIsolation());
+			con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 			DBConnection.getInstance().startTransaction();
 			if (!checkForDoubleBookingOfRessource(booking)) {
 				insertPS.setDate(1, Date.valueOf(LocalDate.now()));
@@ -131,8 +130,7 @@ public class BookingDB implements BookingDBIF {
 
 				insertTimestamp();
 				DBConnection.getInstance().commitTransaction();
-				con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-				System.out.println(con .getTransactionIsolation());
+				
 			}
 		} catch (
 
@@ -140,6 +138,7 @@ public class BookingDB implements BookingDBIF {
 			DBConnection.getInstance().rollbackTransaction();
 			throw new DataAccessException("Booking could not be created", e);
 		}
+		finally{con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);}
 		return booking;
 	}
 

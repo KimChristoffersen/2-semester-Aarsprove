@@ -59,7 +59,7 @@ public class InstructorDB implements InstructorDBIF {
 		return res;
 	}
 
-	public Instructor buildObject(ResultSet rs) throws DataAccessException {
+	private Instructor buildObject(ResultSet rs) throws DataAccessException {
         Instructor currentInstructor = null;
         try {
             int instructorId = rs.getInt("instructor_Id");

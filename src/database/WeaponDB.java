@@ -20,11 +20,11 @@ public class WeaponDB implements WeaponDBIF {
 	private static final String FIND_ALL_Q = "select w.weaponid, w.weaponname, wt.weapontype, a.ammunitiontype, status from weapon w, weapontype wt, ammunitiontype a where w.weaponType_Id = wt.weaponTypeId and w.ammunitionType_Id = a.AmmunitionTypeId and w.status = 1";
 
 	private PreparedStatement findByIdPS;
-	private PreparedStatement findAll;
+	private PreparedStatement findAllPS;
 
 	public WeaponDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
-		findAll = DBConnection.getInstance().getConnection().prepareStatement(FIND_ALL_Q);
+		findAllPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_ALL_Q);
 		priceDB = new PriceDB();
 	}
 
@@ -32,7 +32,7 @@ public class WeaponDB implements WeaponDBIF {
 		ResultSet rs;
 		try {
 			DBConnection.getInstance().startTransaction();
-			rs = findAll.executeQuery();
+			rs = findAllPS.executeQuery();
 			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {
 			DBConnection.getInstance().rollbackTransaction();

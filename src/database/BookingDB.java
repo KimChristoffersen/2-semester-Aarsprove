@@ -40,25 +40,25 @@ public class BookingDB implements BookingDBIF {
 
 	private PreparedStatement findByIdPS;
 	private PreparedStatement insertPS;
-	private PreparedStatement findAvailableShootingRanges;
-	private PreparedStatement findAvailableInstructors;
-	private PreparedStatement findAvailableWeapons;
-	private PreparedStatement findLastDatabaseChangeTime;
-	private PreparedStatement checkForDoubleBooking;
+	private PreparedStatement findAvailableShootingRangesPS;
+	private PreparedStatement findAvailableInstructorsPS;
+	private PreparedStatement findAvailableWeaponsPS;
+	private PreparedStatement findLastDatabaseChangeTimePS;
+	private PreparedStatement checkForDoubleBookingPS;
 	private PreparedStatement insertTimestampPS;
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
 		insertPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_Q,
 				Statement.RETURN_GENERATED_KEYS);
-		findAvailableShootingRanges = DBConnection.getInstance().getConnection()
+		findAvailableShootingRangesPS = DBConnection.getInstance().getConnection()
 				.prepareStatement(FINDAVAILABLESHOOTINGRANGES_Q);
-		findAvailableInstructors = DBConnection.getInstance().getConnection()
+		findAvailableInstructorsPS = DBConnection.getInstance().getConnection()
 				.prepareStatement(FINDAVAILABLEINSTRUCTORS_Q);
-		findAvailableWeapons = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEWEAPONS_Q);
-		findLastDatabaseChangeTime = DBConnection.getInstance().getConnection()
+		findAvailableWeaponsPS = DBConnection.getInstance().getConnection().prepareStatement(FINDAVAILABLEWEAPONS_Q);
+		findLastDatabaseChangeTimePS = DBConnection.getInstance().getConnection()
 				.prepareStatement(FIND_LAST_DATABASECHANGE_TIME_Q);
-		checkForDoubleBooking = DBConnection.getInstance().getConnection().prepareStatement(CHECK_FOR_DOUBLEBOOKING_Q);
+		checkForDoubleBookingPS = DBConnection.getInstance().getConnection().prepareStatement(CHECK_FOR_DOUBLEBOOKING_Q);
 		insertTimestampPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_TIMESTAMP_Q);
 		con = DBConnection.getInstance().getConnection();
 	}
@@ -139,16 +139,16 @@ public class BookingDB implements BookingDBIF {
 
 	private boolean checkForDoubleBookingOfRessource(Booking booking) throws SQLException {
 		boolean hasDoubleBooking = false;
-		checkForDoubleBooking.setDate(1, Date.valueOf(booking.getDate()));
-		checkForDoubleBooking.setInt(2, booking.getTime());
-		checkForDoubleBooking.setInt(3, booking.getShootingRange().getShootingRangeId());
-		checkForDoubleBooking.setDate(4, Date.valueOf(booking.getDate()));
-		checkForDoubleBooking.setInt(5, booking.getTime());
-		checkForDoubleBooking.setInt(6, booking.getInstructor().getInstructorId());
-		checkForDoubleBooking.setDate(7, Date.valueOf(booking.getDate()));
-		checkForDoubleBooking.setInt(8, booking.getTime());
-		checkForDoubleBooking.setInt(9, booking.getWeapon().getWeaponId());
-		ResultSet rs = checkForDoubleBooking.executeQuery();
+		checkForDoubleBookingPS.setDate(1, Date.valueOf(booking.getDate()));
+		checkForDoubleBookingPS.setInt(2, booking.getTime());
+		checkForDoubleBookingPS.setInt(3, booking.getShootingRange().getShootingRangeId());
+		checkForDoubleBookingPS.setDate(4, Date.valueOf(booking.getDate()));
+		checkForDoubleBookingPS.setInt(5, booking.getTime());
+		checkForDoubleBookingPS.setInt(6, booking.getInstructor().getInstructorId());
+		checkForDoubleBookingPS.setDate(7, Date.valueOf(booking.getDate()));
+		checkForDoubleBookingPS.setInt(8, booking.getTime());
+		checkForDoubleBookingPS.setInt(9, booking.getWeapon().getWeaponId());
+		ResultSet rs = checkForDoubleBookingPS.executeQuery();
 		if (rs.next()) {
 			hasDoubleBooking = true;
 		}
@@ -159,9 +159,9 @@ public class BookingDB implements BookingDBIF {
 		List<Integer> availShootingRanges = new ArrayList<>();
 		try {
 			Date sqlDate = Date.valueOf(date);
-			findAvailableShootingRanges.setDate(1, sqlDate);
-			findAvailableShootingRanges.setInt(2, time);
-			ResultSet rs = findAvailableShootingRanges.executeQuery();
+			findAvailableShootingRangesPS.setDate(1, sqlDate);
+			findAvailableShootingRangesPS.setInt(2, time);
+			ResultSet rs = findAvailableShootingRangesPS.executeQuery();
 			while (rs.next()) {
 				availShootingRanges.add(rs.getInt("shootingRange_Id"));
 			}
@@ -175,9 +175,9 @@ public class BookingDB implements BookingDBIF {
 		List<Integer> availableInstructors = new ArrayList<>();
 		try {
 			Date sqlDate = Date.valueOf(date);
-			findAvailableInstructors.setDate(1, sqlDate);
-			findAvailableInstructors.setInt(2, time);
-			ResultSet rs = findAvailableInstructors.executeQuery();
+			findAvailableInstructorsPS.setDate(1, sqlDate);
+			findAvailableInstructorsPS.setInt(2, time);
+			ResultSet rs = findAvailableInstructorsPS.executeQuery();
 			while (rs.next()) {
 				availableInstructors.add(rs.getInt("instructor_Id"));
 			}
@@ -191,10 +191,10 @@ public class BookingDB implements BookingDBIF {
 		List<Integer> availableWeapons = new ArrayList<>();
 		try {
 			Date sqlDate = Date.valueOf(date);
-			findAvailableWeapons.setDate(1, sqlDate);
-			findAvailableWeapons.setInt(2, time);
-			findAvailableWeapons.setInt(3, weaponId);
-			ResultSet rs = findAvailableWeapons.executeQuery();
+			findAvailableWeaponsPS.setDate(1, sqlDate);
+			findAvailableWeaponsPS.setInt(2, time);
+			findAvailableWeaponsPS.setInt(3, weaponId);
+			ResultSet rs = findAvailableWeaponsPS.executeQuery();
 			while (rs.next()) {
 				availableWeapons.add(rs.getInt("weaponId"));
 			}
@@ -207,7 +207,7 @@ public class BookingDB implements BookingDBIF {
 	public LocalDateTime getLastDatabaseChangeTime() throws DataAccessException {
 		LocalDateTime localDateTime = null;
 		try {
-			ResultSet rs = findLastDatabaseChangeTime.executeQuery();
+			ResultSet rs = findLastDatabaseChangeTimePS.executeQuery();
 			if (rs.next()) {
 				localDateTime = rs.getTimestamp("DateTime").toLocalDateTime();
 			}

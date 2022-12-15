@@ -20,11 +20,11 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 	private static final String Find_All_Q = "select shootingRange_Id, status from shootingrange where status = 1";
 
 	private PreparedStatement findByIdPS;
-	private PreparedStatement findAll;
+	private PreparedStatement findAllPS;
 
 	public ShootingRangeDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
-		findAll = DBConnection.getInstance().getConnection().prepareStatement(Find_All_Q);
+		findAllPS = DBConnection.getInstance().getConnection().prepareStatement(Find_All_Q);
 		priceDB = new PriceDB();
 	}
 
@@ -32,7 +32,7 @@ public class ShootingRangeDB implements ShootingRangeDBIF {
 		ResultSet rs = null;
 		try {
 			DBConnection.getInstance().startTransaction();
-			rs = findAll.executeQuery();
+			rs = findAllPS.executeQuery();
 			DBConnection.getInstance().commitTransaction();
 		} catch (SQLException e) {
 			DBConnection.getInstance().rollbackTransaction();

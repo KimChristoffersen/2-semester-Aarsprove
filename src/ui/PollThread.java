@@ -13,8 +13,8 @@ import database.DataAccessException;
 public class PollThread extends Thread {
 	private TimeChoiceMonitor timeChoiceMonitor;
 	private BookingController bookingController;
-	private LocalDateTime lastDatabaseChangeTime;
 	
+	private LocalDateTime lastDatabaseChangeTime;
 	private boolean timeChoiceOpen;
 
 	public PollThread() throws SQLException, DataAccessException {
@@ -48,6 +48,6 @@ public class PollThread extends Thread {
 	}
 	
 	public void setTimeChoiceOpen(boolean open) {
-		timeChoiceOpen = false;
+		timeChoiceOpen = open;
 	}
 }

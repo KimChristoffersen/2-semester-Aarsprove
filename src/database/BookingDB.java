@@ -125,6 +125,7 @@ public class BookingDB implements BookingDBIF {
 				insertPS.setInt(8, booking.getWeapon().getWeaponId());
 				int bookingNumber = DBConnection.getInstance().executeInsertWithIdentity(insertPS);
 				booking.setBookingNumber(bookingNumber);
+				// Sets new timestamp for last database change which is used by the pollthread
 				insertTimestamp();
 				DBConnection.getInstance().commitTransaction();
 			}
@@ -155,6 +156,7 @@ public class BookingDB implements BookingDBIF {
 		return hasDoubleBooking;
 	}
 
+	// creates list with available shootingrange ids for calendarbuttons
 	public List<Integer> getAvailableShootingRangeIds(LocalDate date, int time) throws DataAccessException {
 		List<Integer> availShootingRanges = new ArrayList<>();
 		try {
@@ -171,6 +173,7 @@ public class BookingDB implements BookingDBIF {
 		return availShootingRanges;
 	}
 
+	// creates list with available instructor ids for calendarbuttons
 	public List<Integer> getAvailableInstructorIds(LocalDate date, int time) throws DataAccessException {
 		List<Integer> availableInstructors = new ArrayList<>();
 		try {
@@ -187,6 +190,7 @@ public class BookingDB implements BookingDBIF {
 		return availableInstructors;
 	}
 
+	// creates list with available weapon ids for calendarbuttons
 	public List<Integer> getAvailableWeaponIds(LocalDate date, int time, int weaponId) throws DataAccessException {
 		List<Integer> availableWeapons = new ArrayList<>();
 		try {
@@ -204,6 +208,7 @@ public class BookingDB implements BookingDBIF {
 		return availableWeapons;
 	}
 
+	// gets last database change for poll thread
 	public LocalDateTime getLastDatabaseChangeTime() throws DataAccessException {
 		LocalDateTime localDateTime = null;
 		try {

@@ -4,10 +4,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import database.BookingDB;
 import database.BookingDBIF;
-import database.CustomerDBIF;
 import database.DataAccessException;
 import model.*;
 

@@ -40,6 +40,7 @@ public class PollThread extends Thread {
 			}
 	}
 
+	// gets last database change - if changed notifies threads
 	public void pollAndGetLastDataBaseChangeTime() throws DataAccessException {
 		if (lastDatabaseChangeTime.isBefore(bookingController.getLastDataBaseChangeTime())) {
 			timeChoiceMonitor.notifyAllThreads();
@@ -47,6 +48,7 @@ public class PollThread extends Thread {
 		}
 	}
 	
+	// boolean to indicate if threads should run (threads should only run when calendar is open)
 	public void setTimeChoiceOpen(boolean open) {
 		timeChoiceOpen = open;
 	}

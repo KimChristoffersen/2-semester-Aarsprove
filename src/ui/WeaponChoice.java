@@ -8,21 +8,17 @@ import java.awt.Rectangle;
 import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 import controller.WeaponController;
 import database.DataAccessException;
 import model.Weapon;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.BoxLayout;
 import javax.swing.border.LineBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 /**
  * Class for WeaponChoice.
  *
@@ -38,8 +34,6 @@ public class WeaponChoice extends JPanel {
 	/**
 	 * Create the panel.
 	 * 
-	 * @throws DataAccessException
-	 * @throws SQLException
 	 */
 	public WeaponChoice(MainUI mainUI) throws SQLException, DataAccessException {
 		setBounds(new Rectangle(0, 0, 800, 500));
@@ -78,10 +72,8 @@ public class WeaponChoice extends JPanel {
 			try {
 				selectWeapon();
 			} catch (DataAccessException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});

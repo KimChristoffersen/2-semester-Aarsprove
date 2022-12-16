@@ -2,7 +2,6 @@ package controller;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import database.DataAccessException;
 import database.WeaponDB;
 import database.WeaponDBIF;

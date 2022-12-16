@@ -1,7 +1,6 @@
 package controller;
 
 import java.sql.SQLException;
-
 import database.CustomerDB;
 import database.CustomerDBIF;
 import database.DataAccessException;

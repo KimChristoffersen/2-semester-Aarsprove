@@ -1,11 +1,9 @@
 package ui;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import controller.BookingController;
 import database.DataAccessException;
 import java.awt.BorderLayout;
@@ -34,7 +32,6 @@ public class MainUI extends JFrame {
 	private JPanel panelCenterBooking;
 	private JPanel panelSouth;
 	private BookingController bookingController;
-//	private static long startTime = System.currentTimeMillis();
 
 	/**
 	 * Launch the application.
@@ -54,8 +51,6 @@ public class MainUI extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws DataAccessException 
-	 * @throws SQLException 
 	 */
 	public MainUI() throws SQLException, DataAccessException {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainUI.class.getResource("/images/programIcon.gif")));
@@ -96,7 +91,9 @@ public class MainUI extends JFrame {
 	}
 
 	public void createBookingWithWeaponAndInstructor() throws SQLException, DataAccessException {
-		bookingController.createBooking(2); // hardcoded customer	
+		// call to controller that creates booking
+		bookingController.createBooking(2); // hardcoded customer
+		// creates ui elements
 		panelCenterStart.hide();
 		panelCenterWeapon = new JPanel();
 		contentPane.add(panelCenterWeapon, BorderLayout.CENTER);
@@ -106,7 +103,9 @@ public class MainUI extends JFrame {
 	}
 
 	public void addWeapon(int weaponId) throws DataAccessException, SQLException {
+		// call to controller that adds weapon to current booking
 		bookingController.addWeapon(weaponId);
+		// creates ui elemets
 		panelCenterWeapon.hide();
 		panelCenterTime = new JPanel();
 		contentPane.add(panelCenterTime, BorderLayout.CENTER);
@@ -116,7 +115,9 @@ public class MainUI extends JFrame {
 	}
 
 	public void gotoBookingConfirmation(LocalDate date, int time, int shootingRange, int instructor) throws DataAccessException, SQLException {
+		// call to controller that sets date, time, instructor and shootingrange to current booking
 		bookingController.setTimeSlot(date, time, instructor, shootingRange);
+		// creates ui elements
 		panelCenterTime.hide();
 		panelCenterBooking = new JPanel();
 		contentPane.add(panelCenterBooking, BorderLayout.CENTER);
@@ -126,12 +127,9 @@ public class MainUI extends JFrame {
 	}
 
 	public void backToStart() {
-//		long elapsedTime = System.currentTimeMillis() - startTime;
-//		long elapsedSeconds = elapsedTime / 1000;
-//		long secondsDisplay = elapsedSeconds % 60;
-//		long elapsedMinutes = elapsedSeconds / 60;
-//		System.out.println(secondsDisplay);
+		// shows start
 		panelCenterStart.show();
+		// hides currently shown panels
 		if(panelCenterBooking != null) panelCenterBooking.hide();
 		if(panelCenterWeapon != null) panelCenterWeapon.hide();
 		if(panelCenterTime != null) panelCenterTime.hide();

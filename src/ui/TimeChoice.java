@@ -87,6 +87,7 @@ public class TimeChoice extends JPanel {
 		lblDateFromTo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDateFromTo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDateFromTo.setBounds(100, 10, 174, 30);
+		lblDateFromTo.setText(dayMontFormat.format(firstDayOfThisWeek.plusDays(0)) + " til " + dayMontFormat.format(firstDayOfThisWeek.plusDays(5)) + " " + yearFormat.format(firstDayOfThisWeek));
 		panelWeekChooser.add(lblDateFromTo);
 
 		btnDateForward = new JButton("Frem");

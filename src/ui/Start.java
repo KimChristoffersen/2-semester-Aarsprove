@@ -1,6 +1,4 @@
 package ui;
-import ui.MainUI;
-
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.GridLayout;
@@ -13,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
-
+import controller.BookingController;
 import database.DataAccessException;
 /**
  * Class for Start.
@@ -22,10 +20,11 @@ import database.DataAccessException;
  */
 public class Start extends JPanel {
 	private MainUI mainUI;
+	private ReadBookingsUI readBookingsUI;
 	/**
 	 * Create the panel.
 	 */
-	public Start(MainUI mainUI) {	
+	public Start(MainUI mainUI) throws DataAccessException {	
 		this.mainUI = mainUI;
 		setLayout(new BorderLayout(0, 0));
 		
@@ -99,6 +98,17 @@ public class Start extends JPanel {
 		panelCenter.add(btnBooking_BookingWithInstructorAndLentWeapon);
 		
 		JButton btnMyBookings = new JButton("<html><center><font size=\"4\"><b>MINE BOOKINGER<br /><br /><br /></b></font></center></html>");
+		btnMyBookings.addActionListener(e -> {
+			try {
+				readBookings();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (DataAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		btnMyBookings.setFocusable(false);
 		btnMyBookings.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnMyBookings.setForeground(Color.WHITE);
@@ -111,6 +121,12 @@ public class Start extends JPanel {
 		btnShop.setForeground(Color.WHITE);
 		btnShop.setBackground(new Color(0, 142, 138));
 		panelCenter.add(btnShop);
+	}
+
+	private void readBookings() throws SQLException, DataAccessException {
+		readBookingsUI = new ReadBookingsUI();
+		readBookingsUI.setVisible(true);
+		
 	}
 
 	private void bookingWithInstructorAndWeapon() throws SQLException, DataAccessException {

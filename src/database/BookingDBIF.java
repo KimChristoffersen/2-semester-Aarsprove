@@ -18,4 +18,5 @@ public interface BookingDBIF {
 	List<Integer> getAvailableInstructorIds(LocalDate date, int time) throws DataAccessException;
 	List<Integer> getAvailableWeaponIds(LocalDate date, int time, int weaponId) throws DataAccessException;
 	LocalDateTime getLastDatabaseChangeTime() throws DataAccessException;
+	List<Booking> readBookings(int customer_id) throws DataAccessException;
 }

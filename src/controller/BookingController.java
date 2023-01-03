@@ -101,4 +101,9 @@ public class BookingController {
 		this.currentBooking = booking;
 
 	}
+	
+	public List<Booking> readBookings(int customer_id) throws DataAccessException {
+		return bookingDB.readBookings(customer_id);
+		
+	}
 }

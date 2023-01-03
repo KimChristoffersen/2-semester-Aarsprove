@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import model.Booking;
 import model.Customer;
@@ -37,6 +38,7 @@ public class BookingDB implements BookingDBIF {
 	private static final String FIND_LAST_DATABASECHANGE_TIME_Q = "select max(datetime) as datetime from updatetime";
 	private static final String CHECK_FOR_DOUBLEBOOKING_Q = "select * from booking where (date = ? and time = ? and ShootingRange_Id = ?) OR (date = ? and time = ? and instructor_id = ?) OR (date = ? and time = ? and Weapon_Id = ?)";
 	private static final String INSERT_TIMESTAMP_Q = "insert into UpdateTime values(?)";
+	private static final String READ_BOOKINGS_Q = "select * from booking where customer_ID = ?";
 
 	private PreparedStatement findByIdPS;
 	private PreparedStatement insertPS;
@@ -46,6 +48,8 @@ public class BookingDB implements BookingDBIF {
 	private PreparedStatement findLastDatabaseChangeTimePS;
 	private PreparedStatement checkForDoubleBookingPS;
 	private PreparedStatement insertTimestampPS;
+	private PreparedStatement readBookingsPS;
+
 
 	public BookingDB() throws SQLException, DataAccessException {
 		findByIdPS = DBConnection.getInstance().getConnection().prepareStatement(FIND_BY_ID_Q);
@@ -60,7 +64,13 @@ public class BookingDB implements BookingDBIF {
 				.prepareStatement(FIND_LAST_DATABASECHANGE_TIME_Q);
 		checkForDoubleBookingPS = DBConnection.getInstance().getConnection().prepareStatement(CHECK_FOR_DOUBLEBOOKING_Q);
 		insertTimestampPS = DBConnection.getInstance().getConnection().prepareStatement(INSERT_TIMESTAMP_Q);
+		readBookingsPS = DBConnection.getInstance().getConnection().prepareStatement(READ_BOOKINGS_Q);
 		con = DBConnection.getInstance().getConnection();
+		customerDB = new CustomerDB();
+		shootingRangeDB = new ShootingRangeDB();
+		instructorDB = new InstructorDB();
+		weaponDB = new WeaponDB();
+		
 	}
 
 	// Finds booking in database
@@ -70,7 +80,7 @@ public class BookingDB implements BookingDBIF {
 			DBConnection.getInstance().startTransaction();
 			findByIdPS.setInt(1, id);
 			ResultSet rs = findByIdPS.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				booking = buildObject(rs);
 			}
 			DBConnection.getInstance().commitTransaction();
@@ -81,6 +91,21 @@ public class BookingDB implements BookingDBIF {
 		return booking;
 	}
 
+	public List<Booking> readBookings(int customer_id) throws DataAccessException{
+		List<Booking> customerBookings = new ArrayList<>();
+		try {
+			readBookingsPS.setInt(1, customer_id);
+			ResultSet rs = readBookingsPS.executeQuery();
+			while (rs.next()) {
+				customerBookings.add(buildObject(rs));
+			}
+		} catch (SQLException e) {
+			throw new DataAccessException("Could not retrieve any bookings", e);
+		}
+		return customerBookings;
+		
+	}
+	
 	private Booking buildObject(ResultSet rs) throws DataAccessException {
 		Booking currentBooking = null;
 		try {
@@ -100,6 +125,7 @@ public class BookingDB implements BookingDBIF {
 		}
 		return currentBooking;
 	}
+	
 
 	private List<Booking> buildObjects(ResultSet rs) throws SQLException, DataAccessException {
 		List<Booking> bookings = new ArrayList<>();
